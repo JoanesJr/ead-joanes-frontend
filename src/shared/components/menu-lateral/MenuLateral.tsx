@@ -62,8 +62,8 @@ export const MenuLateral: React.FC<IMenuLateral> = ({ children }) => {
           <Box flex={1}>
             <List component="nav">
               <List component="nav">
-              <ListItemLink label='Usuário' icon='person' to='/user' onClick={smDown ? toggleDrawerOpen: undefined} />
-              <ListItemLink label='Cursos' icon='tv' to='/course' onClick={smDown ? toggleDrawerOpen: undefined} />
+              <ListItemLink label='Usuário' icon='person' to='/usuario' onClick={smDown ? toggleDrawerOpen: undefined} />
+              <ListItemLink label='Cursos' icon='tv' to='/curso' onClick={smDown ? toggleDrawerOpen: undefined} />
             </List>
             </List>
           </Box>
