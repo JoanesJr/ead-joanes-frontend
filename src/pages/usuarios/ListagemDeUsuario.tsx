@@ -3,23 +3,25 @@ import { useSearchParams } from "react-router-dom";
 import { FerramentasDaListagem } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { useDebounce } from '../../shared/hooks';
-import { DataGridService, UserService } from "../../shared/services/api";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import {  UserService } from "../../shared/services/api";
+import {
+  DataGrid,
+  GridColDef,
+  GridValueGetterParams,
+  GridSelectionModel,
+} from "@mui/x-data-grid";
 import {
   Paper,
-  Table,
-  TableCell,
-  TableContainer,
-  TableFooter,
-  TableRow,
-  LinearProgress,
   useTheme,
   useMediaQuery,
+  Stack,
+  Alert,
+  Collapse,
+  IconButton
+  
 } from "@mui/material";
-import { IUser } from "../../shared/services/api/interfaces";
-import { Environment } from "../../shared/environment";
 import { Box } from "@mui/system";
-import { FerramentasDeDetalhe } from "../../shared/components/ferramentas-de-detalhe/FerramentasDeDetalhe";
+import CloseIcon from '@mui/icons-material/Close';
 
 
 export const ListagemDeUsuario  = () => {
@@ -33,6 +35,9 @@ export const ListagemDeUsuario  = () => {
     const xlDown = useMediaQuery(theme.breakpoints.down("xl"));
     const { debounce } = useDebounce();
     
+  const [selectionModel, setSelectionModel] = useState<string | number>('');
+  const [successAlertOpen, setSuccessAlertOpen] = useState(false);
+    
     const busca = useMemo(() => {
         return searchParams.get('busca') || '';
     }, [searchParams]);
@@ -42,14 +47,15 @@ export const ListagemDeUsuario  = () => {
         username: 'joanesdejesusjr@gmail.com',
         password: 'def75315901',
     }
-  const service = new UserService(objData);
+  const userService = new UserService(objData);
   
   useEffect(() => {
     setIsLoading(true);
     debounce(() => {
         const allUsers = async () => {
-        const data: any = await service.getAll(busca);
+        const data: any = await userService.getAll(busca);
           data.map((user: any) => {
+            setIsLoading(false);
             if (user.admin) {
               user.admin = (smDown || mdDown) ? 'S' : 'Admin';
             } else {
@@ -62,7 +68,7 @@ export const ListagemDeUsuario  = () => {
               user.active = smDown || mdDown ? "I" : "Inativo";
             }
           });
-            setIsLoading(false);
+            
             setUsers(data);
         };
 
@@ -71,28 +77,24 @@ export const ListagemDeUsuario  = () => {
         
     });
     
-  }, [users]);
+  }, [busca]);
 
 
   function convertThemeSpacing(value: number): number {
     if (xlDown) {
       value = value*80/100;
-      console.log('xl')
     }
 
     if (lgDown) {
-      value = value*55/100;
-       console.log("lg");
+      value = value*65/100;
     }
 
     if (mdDown) {
-      value = value*35/100;
-       console.log("md");
+      value = value*45/100;
     }
 
     if (smDown) {
-      value = value*1/100;
-       console.log("sm");
+      value = value*75/100;
     }
     let width: string | number = theme.spacing(value)
     width = parseInt(width.replace("px", ""));
@@ -119,44 +121,69 @@ export const ListagemDeUsuario  = () => {
 
   const rows = users
 
+  const handleDelete = () => {
+    if (window.confirm("Realmente deseja apagar?")) {
+      userService.deleteById(selectionModel.toString());
+      const newUsers = users.filter( (user: any) => user.id != selectionModel);
+      setUsers(newUsers)
+      setSearchParams(busca);
+      setSuccessAlertOpen(true);
+      setTimeout(() => {
+        setSuccessAlertOpen(false);
+      }, 1000);
+    }
+  }
+
 
     return (
       <LayoutBaseDePagina
         title="Listagem de Usuários"
         barraDeFerramentas={
-          <FerramentasDeDetalhe
+          <FerramentasDaListagem
+            idRow={selectionModel}
+            aoClicarEmExcluir={handleDelete}
           />
         }
       >
-        <Box component={Paper} variant="outlined" sx={{ m: 1, width: "auto", height: "100%" }}>
+        <Box sx={{ width: "100%", margin: 1}} >
+          <Collapse in={successAlertOpen}>
+            <Alert
+              severity="success"
+              variant="standard"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setSuccessAlertOpen(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              Operação realizada com sucesso!
+            </Alert>
+          </Collapse>
+        </Box>
+        <Box
+          component={Paper}
+          variant="outlined"
+          sx={{ m: 1, width: "auto", height: "90%" }}
+        >
           <DataGrid
             rows={rows}
             columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
+            pageSize={smDown ? 5 : mdDown ? 5 : lgDown ? 5 : xlDown ? 5 : 12}
+            
+            loading={isLoading}
+            onRowClick={(params) => {
+              setSelectionModel(params.id);
+            }}
           />
         </Box>
-        <TableContainer
-          component={Paper}
-          variant="outlined"
-          sx={{ m: 1, width: "auto" }}
-        >
-          <Table>
-            {users.length == 0 && !isLoading && (
-              <caption>{Environment.LISTAGEM_VAZIA}</caption>
-            )}
-            <TableFooter>
-              {isLoading && (
-                <TableRow>
-                  <TableCell colSpan={4}>
-                    <LinearProgress variant="indeterminate" />
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableFooter>
-          </Table>
-        </TableContainer>
       </LayoutBaseDePagina>
     );
 }
