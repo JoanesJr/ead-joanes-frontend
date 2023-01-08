@@ -8,26 +8,55 @@ import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
 import { IVFormErrors, VSelect, VTextField } from "../../shared/forms";
 import { Box } from "@mui/system";
-import { Paper, Grid, LinearProgress, Typography } from "@mui/material";
+import {
+  Paper,
+  Grid,
+  LinearProgress,
+  Typography,
+  Alert,
+  Collapse,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import * as yup from "yup";
 
-interface IFormData {
+interface IFormDataCreate {
   name: string;
   surname: string;
   email: string;
-  password?: string;
-  active?: boolean;
-  admin?: boolean;
+  password: string;
+  active: boolean;
+  admin: boolean;
 }
 
-const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
-  name: yup.string().required().min(3),
-  surname: yup.string().required().min(3),
-  email: yup.string().required().email(),
-  password: yup.string().required().min(3).max(12),
-  active: yup.boolean().required().default(true),
-  admin: yup.boolean().required().default(false)
-});
+interface IFormDataUpdate {
+  name: string;
+  surname: string;
+  email: string;
+  active: boolean;
+  admin: boolean;
+}
+
+const formValidationSchemaCreate: yup.SchemaOf<IFormDataCreate> = yup
+  .object()
+  .shape({
+    name: yup.string().required().min(3),
+    surname: yup.string().required().min(3),
+    email: yup.string().required().email(),
+    password: yup.string().required().min(3).max(12),
+    active: yup.boolean().required().default(true),
+    admin: yup.boolean().required().default(false),
+  });
+
+const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
+  .object()
+  .shape({
+    name: yup.string().required().min(3),
+    surname: yup.string().required().min(3),
+    email: yup.string().required().email(),
+    active: yup.boolean().required().default(true),
+    admin: yup.boolean().required().default(false),
+  });
 
 const statusOptions = [
   {
@@ -59,6 +88,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
+   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
    const objData = {
      username: "joanesdejesusjr@gmail.com",
      password: "def75315901",
@@ -92,35 +122,25 @@ export const DetalheDePessoasUsuario: React.FC = () => {
     }
   }, [id]);
 
-  const handleSave = (obj: IFormData) => {
-    formValidationSchema
+  const handleSave = (obj: IFormDataCreate | IFormDataUpdate) => {
+    if(id == 'novo') {
+      formValidationSchemaCreate
       .validate(obj, { abortEarly: false })
       .then((valideObj) => {
         setIsLoading(true);
-
-        if (id === "novo") {
           userService.create(valideObj).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
             } else {
-              navigate("/usuarios");
+               setSuccessAlertOpen(true);
+               setTimeout(() => {
+                 setSuccessAlertOpen(false);
+                 navigate("/usuarios");
+               }, 1000);
             }
-          });
-        } else {
-          userService.updateById(id, valideObj).then((result) => {
-            setIsLoading(false);
-
-            if (result instanceof Error) {
-              alert(result.message);
-            } else {
-              console.log("atualizado");
-              console.log(result);
-            }
-          });
-        }
-      })
-      .catch((errors: yup.ValidationError) => {
+          })
+      }).catch((errors: yup.ValidationError) => {
         const validationErrors: IVFormErrors = {}
 
         errors.inner.forEach(error => {
@@ -131,17 +151,48 @@ export const DetalheDePessoasUsuario: React.FC = () => {
 
         formRef.current?.setErrors(validationErrors);
       });
+    } else {
+      formValidationSchemaUpdate
+        .validate(obj, { abortEarly: false })
+        .then((valideObj) => {
+          setIsLoading(true);
 
+          userService.updateById(id, valideObj).then((result) => {
+            setIsLoading(false);
 
-   
+            if (result instanceof Error) {
+              alert(result.message);
+            } else {
+               setSuccessAlertOpen(true);
+               setTimeout(() => {
+                 setSuccessAlertOpen(false);
+               }, 1000);
+            }
+          });
+        })
+        .catch((errors: yup.ValidationError) => {
+          const validationErrors: IVFormErrors = {};
+
+          errors.inner.forEach((error) => {
+            if (!error.path) return;
+
+            validationErrors[error.path] = error.message;
+          });
+
+          formRef.current?.setErrors(validationErrors);
+        });
+    }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (window.confirm("Realmente deseja apagar?")) {
-      await userService.deleteById(id);
-      navigate('/usuarios');
+      userService.deleteById(id);
+      setSuccessAlertOpen(true);
+      setTimeout(() => {
+        setSuccessAlertOpen(false);
+      }, 1000);
     }
-  }
+  };
 
   return (
     <LayoutBaseDePagina
@@ -160,6 +211,30 @@ export const DetalheDePessoasUsuario: React.FC = () => {
         />
       }
     >
+      <Box sx={{ width: "100%", margin: 1 }}>
+        <Collapse in={successAlertOpen}>
+          <Alert
+            severity="success"
+            variant="standard"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setSuccessAlertOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            Operação realizada com sucesso!
+          </Alert>
+        </Collapse>
+      </Box>
+
       <Form ref={formRef} onSubmit={handleSave}>
         <Box
           margin={1}
