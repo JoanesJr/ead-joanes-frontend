@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FerramentasDaListagem } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { useDebounce } from '../../shared/hooks';
@@ -37,6 +37,7 @@ export const ListagemDeUsuario  = () => {
     
   const [selectionModel, setSelectionModel] = useState<string | number>('');
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
+  const navigate = useNavigate();
     
     const busca = useMemo(() => {
         return searchParams.get('busca') || '';
@@ -142,10 +143,12 @@ export const ListagemDeUsuario  = () => {
           <FerramentasDaListagem
             idRow={selectionModel}
             aoClicarEmExcluir={handleDelete}
+            aoClicarEmNovo={() => navigate("/usuarios/detalhe/novo")}
+            aoClicarEmEditar={ () => navigate(`/usuarios/detalhe/${selectionModel}`)}
           />
         }
       >
-        <Box sx={{ width: "100%", margin: 1}} >
+        <Box sx={{ width: "100%", margin: 1 }}>
           <Collapse in={successAlertOpen}>
             <Alert
               severity="success"
@@ -177,7 +180,6 @@ export const ListagemDeUsuario  = () => {
             rows={rows}
             columns={columns}
             pageSize={smDown ? 5 : mdDown ? 5 : lgDown ? 5 : xlDown ? 5 : 12}
-            
             loading={isLoading}
             onRowClick={(params) => {
               setSelectionModel(params.id);

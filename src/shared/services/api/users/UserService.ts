@@ -27,49 +27,57 @@ export class UserService extends ApiService {
   }
 
   async getAllActives(): Promise<any> {
-    const users = await Api.get("/user/active/all");
+    const { data } = await Api.get("/user/active/all");
+    const users = data;
 
     return users;
   }
 
   async getAllAdmins(): Promise<any> {
-    const users = await Api.get("/user/admin/all");
+    const { data } = await Api.get("/user/admin/all");
+    const users = data;
 
     return users;
   }
 
   async getAllAdminsActive(): Promise<any> {
-    const users = await Api.get("/user/active/admin");
+    const { data } = await Api.get("/user/active/admin");
+    const users = data;
 
     return users;
   }
 
   async getById(id: string): Promise<any> {
-    const user = await Api.get(`/user/${id}`);
+    const { data } = await Api.get(`/user/${id}`);
+    const user = data;
 
     return user;
   }
 
-  async create(data: object): Promise<any> {
-    const user = await Api.post("/user", data);
+  async create(obj: object): Promise<any> {
+    const { data } = await Api.post("/user", obj);
+    const user = data;
 
     return user;
   }
 
-  async updateById(data: object): Promise<any> {
-    const user = await Api.patch("/user", data);
+  async updateById(id: string, obj: object): Promise<any> {
+    const { data } = await Api.patch(`/user/${id}`, obj);
+    const user = data;
 
     return user;
   }
 
   async deleteById(id: string): Promise<any> {
-    const user = await Api.delete(`/user/${id}`);
+    const { data } = await Api.delete(`/user/${id}`);
+    const user = data;
 
     return user;
   }
 
-  async relationCourse(data: object): Promise<any> {
-    const userCourse = await Api.post("/user/course/add", data);
+  async relationCourse(obj: object): Promise<any> {
+    const { data } = await Api.post("/user/course/add", obj);
+    const userCourse = data;
 
     return userCourse;
   }

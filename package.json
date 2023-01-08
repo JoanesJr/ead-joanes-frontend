@@ -8,12 +8,15 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
     "@mui/x-data-grid": "^5.17.18",
+    "@unform/core": "^2.1.6",
+    "@unform/web": "^2.1.6",
     "axios": "^1.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
