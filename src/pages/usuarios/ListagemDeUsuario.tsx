@@ -145,6 +145,7 @@ export const ListagemDeUsuario  = () => {
             aoClicarEmExcluir={handleDelete}
             aoClicarEmNovo={() => navigate("/usuarios/detalhe/novo")}
             aoClicarEmEditar={ () => navigate(`/usuarios/detalhe/${selectionModel}`)}
+            aoClicarEmDetalhes={() => navigate(`/usuarios/detalhe/${selectionModel}?visualizar=true`)}
           />
         }
       >

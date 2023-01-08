@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import { FerramentasDeDetalhe } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
@@ -16,9 +16,14 @@ import {
   Alert,
   Collapse,
   IconButton,
+  ImageListItem,
+  useTheme
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import * as yup from "yup";
+import { Environment } from "../../shared/environment";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ImageList from "@mui/material/ImageList";
 
 interface IFormDataCreate {
   name: string;
@@ -82,17 +87,26 @@ const adminOptions = [
 
 
 export const DetalheDePessoasUsuario: React.FC = () => {
+  const objData = {
+    username: "joanesdejesusjr@gmail.com",
+    password: "def75315901",
+  };
   const { id = "novo" } = useParams<"id">();
   const navigate = useNavigate();
-   const formRef = useRef<FormHandles>(null);
+  const formRef = useRef<FormHandles>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
-   const objData = {
-     username: "joanesdejesusjr@gmail.com",
-     password: "def75315901",
-   };
+  const [successAlertOpen, setSuccessAlertOpen] = useState(false);
+  const [image, setImage] = useState("");
+  const [viewOnly, setViewOnly] = useState(
+    searchParams.get("visualizar") ? true : false
+  );
+   
+   const theme = useTheme();
+   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
+
    const userService = new UserService(objData);
 
   useEffect(() => {
@@ -107,7 +121,15 @@ export const DetalheDePessoasUsuario: React.FC = () => {
           navigate("/usuarios");
         } else {
           setName(`${result.name} ${result.surname}`);
+          if (result.file) {
+            const pathUrl = `${Environment.URL_BASE}/getFile${result.file.replace(".", "")}`
+            setImage(pathUrl);
+          }else {
+            setImage("https://www.w3schools.com/howto/img_avatar.png");
+          }
+          
           formRef.current?.setData(result);
+          
         }
       });
     } else {
@@ -249,69 +271,125 @@ export const DetalheDePessoasUsuario: React.FC = () => {
                 <LinearProgress variant="indeterminate" />
               </Grid>
             )}
-
-            <Grid item>
+            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
               <Typography variant="h6">Geral</Typography>
             </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <VTextField
-                  label="Nome"
-                  name="name"
-                  fullWidth
-                  disabled={isLoading}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <VTextField
-                  fullWidth
-                  name="surname"
-                  label="Sobrenome"
-                  disabled={isLoading}
-                />
-              </Grid>
-
-              <Grid container item direction="row" spacing={2}>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+            <Grid
+              container
+              item
+              direction="row"
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              xl={12}
+              spacing={2}
+            >
+              <Grid container item xs={12} sm={12} md={12} lg={6} xl={6}>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                   <VTextField
+                    label="Nome"
+                    name="name"
                     fullWidth
-                    label="Email"
-                    name="email"
-                    disabled={isLoading}
+                    disabled={isLoading || viewOnly}
                   />
                 </Grid>
               </Grid>
 
-              {id == "novo" && (
-                <Grid container item direction="row" spacing={2}>
-                  <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <VTextField
-                      fullWidth
-                      label="Senha"
-                      name="password"
-                      disabled={isLoading}
-                    />
+              {!lgDown && viewOnly && (
+                <Grid container item xs={12} sm={12} md={12} lg={6} xl={6}>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={12}
+                    display="flex"
+                    justifyContent="flex-end"
+                  >
+                    <ImageList
+                      sx={{ width: 800, height: 200, display: 'flex', justifyContent: 'center', alignContent: 'center' }}
+                      variant="woven"
+                      cols={4}
+                      rowHeight={121}
+                    >
+                      <ImageListItem
+                        key={image}
+                      >
+                        <img
+                          src={`${image}?w=164&h=60&fit=crop&auto=format`}
+                          srcSet={`${image}?w=164&h=60&fit=crop&auto=format&dpr=2 2x`}
+                          alt="imagem"
+                          loading="lazy"
+                        />
+                      </ImageListItem>
+                    </ImageList>
                   </Grid>
                 </Grid>
               )}
-              <Grid container item direction="row" spacing={2}>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <VSelect
-                    name="active"
-                    label="Status"
-                    options={statusOptions}
-                    disabled={isLoading}
-                  />
-                  <VSelect
-                    name="admin"
-                    label="Admin"
-                    options={adminOptions}
-                    disabled={isLoading}
-                  />
+            </Grid>
+
+            <Grid container item>
+              <Grid
+                container
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={6}
+                xl={6}
+                marginTop={!lgDown && viewOnly ? -22 : 0}
+              >
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <VTextField
+                      fullWidth
+                      name="surname"
+                      label="Sobrenome"
+                      disabled={isLoading || viewOnly}
+                    />
+                  </Grid>
+
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <VTextField
+                        fullWidth
+                        label="Email"
+                        name="email"
+                        disabled={isLoading || viewOnly}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  {id == "novo" && (
+                    <Grid container item direction="row" spacing={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                        <VTextField
+                          fullWidth
+                          label="Senha"
+                          name="password"
+                          disabled={isLoading || viewOnly}
+                        />
+                      </Grid>
+                    </Grid>
+                  )}
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <VSelect
+                        name="active"
+                        label="Status"
+                        options={statusOptions}
+                        disabled={isLoading || viewOnly}
+                      />
+                      <VSelect
+                        name="admin"
+                        label="Admin"
+                        options={adminOptions}
+                        disabled={isLoading || viewOnly}
+                      />
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
