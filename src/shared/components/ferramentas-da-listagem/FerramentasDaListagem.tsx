@@ -27,10 +27,12 @@ interface IFerramentasDaListagemProps {
   mostrarBotaoEditar?: boolean;
   idRow: number | string;
   mostrarBotaoDetalhes?: boolean;
+  mostrarBotaoSessoes?: boolean;
   aoClicarEmNovo?: () => void;
   aoClicarEmEditar?: () => void;
   aoClicarEmExcluir?: () => void;
   aoClicarEmDetalhes?: () => void;
+  aoClicaremSessoes?: () => void;
 }
 
 
@@ -41,19 +43,21 @@ const options = [
 ];
 
 export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
-  textoDaBusca = '',
+  textoDaBusca = "",
   aoMudarTextoDeBusca,
   mostrarInputBusca = false,
   aoClicarEmNovo,
   aoClicarEmDetalhes,
   aoClicarEmEditar,
   aoClicarEmExcluir,
-  textoBotaoNovo = 'Novo',
+  aoClicaremSessoes,
+  textoBotaoNovo = "Novo",
   mostrarBotaoNovo = true,
   mostrarBotaoEditar = true,
   mostrarBotaoExcluir = true,
   mostrarBotaoDetalhes = true,
-  idRow
+  mostrarBotaoSessoes = false,
+  idRow,
 }) => {
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -88,7 +92,6 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
 
     setOpen(false);
   };
-
 
   return (
     <Box
@@ -161,6 +164,17 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   startIcon={<Icon>info</Icon>}
                 >
                   Detalhes
+                </Button>
+              )}
+              {mostrarBotaoSessoes && (
+                <Button
+                  color="primary"
+                  disableElevation
+                  variant="contained"
+                  onClick={aoClicaremSessoes}
+                  startIcon={<Icon>notes</Icon>}
+                >
+                  Sessões
                 </Button>
               )}
             </>

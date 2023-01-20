@@ -6,6 +6,7 @@ import {
   ListagemDeCurso,
   ListagemDeUsuario
  } from '../pages';
+import { ListagemDeSessao } from '../pages/sessoes/ListagemDeSessao';
 
 
 export const AppRoutes = () => {
@@ -17,11 +18,16 @@ export const AppRoutes = () => {
         path="/usuarios/detalhe/:id"
         element={<DetalheDePessoasUsuario />}
       />
+
       <Route path="/cursos" element={<ListagemDeCurso />} />
+      <Route path="/cursos/detalhe/:id" element={<DetalheDeCurso />} />
+
+      <Route path="/cursos/sessoes/:id_course" element={<ListagemDeSessao />} />
       <Route
-        path="/cursos/detalhe/:id"
-        element={<DetalheDeCurso />}
+        path="/cursos/sessoes/:id_course/:id"
+        element={<ListagemDeSessao />}
       />
+
       <Route path="/dashboard" element={<Dashboard title="dashboards" />} />
 
       <Route path="*" element={<Navigate to="/usuarios" />} />
