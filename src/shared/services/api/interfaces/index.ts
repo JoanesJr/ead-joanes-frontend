@@ -4,3 +4,4 @@ export * from "./ColumnDataGrid";
 export * from "./RowDataGrid";
 export * from "./Course";
 export * from "./Section";
+export * from "./Class";

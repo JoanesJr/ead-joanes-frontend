@@ -10,6 +10,7 @@ import {
   MenuItem,
   MenuList,
   Grow,
+  Typography
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -28,11 +29,18 @@ interface IFerramentasDaListagemProps {
   idRow: number | string;
   mostrarBotaoDetalhes?: boolean;
   mostrarBotaoSessoes?: boolean;
+  mostrarBotaoVoltar?: boolean;
+  mostrarBotaoAula?: boolean;
+
+  mostrarBotaoVoltarCarregando?: boolean;
+
   aoClicarEmNovo?: () => void;
   aoClicarEmEditar?: () => void;
   aoClicarEmExcluir?: () => void;
   aoClicarEmDetalhes?: () => void;
   aoClicaremSessoes?: () => void;
+  aoClicarEmVoltar?: () => void;
+  aoClicarEmAula?: () => void;
 }
 
 
@@ -51,12 +59,17 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
   aoClicarEmEditar,
   aoClicarEmExcluir,
   aoClicaremSessoes,
+  aoClicarEmVoltar,
+  aoClicarEmAula,
   textoBotaoNovo = "Novo",
   mostrarBotaoNovo = true,
   mostrarBotaoEditar = true,
   mostrarBotaoExcluir = true,
   mostrarBotaoDetalhes = true,
   mostrarBotaoSessoes = false,
+  mostrarBotaoVoltar = false,
+  mostrarBotaoVoltarCarregando = false,
+  mostrarBotaoAula = false,
   idRow,
 }) => {
   const theme = useTheme();
@@ -168,7 +181,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
               )}
               {mostrarBotaoSessoes && (
                 <Button
-                  color="primary"
+                  color="success"
                   disableElevation
                   variant="contained"
                   onClick={aoClicaremSessoes}
@@ -177,7 +190,30 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   Sessões
                 </Button>
               )}
+              {mostrarBotaoAula && (
+                <Button
+                  color="success"
+                  disableElevation
+                  variant="contained"
+                  onClick={aoClicarEmAula}
+                  startIcon={<Icon>notes</Icon>}
+                >
+                  Aulas
+                </Button>
+              )}
             </>
+          )}
+
+          {mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando && (
+            <Button
+              color="primary"
+              disableElevation
+              variant="contained"
+              onClick={aoClicarEmVoltar}
+              startIcon={<Icon>arrow_back</Icon>}
+            >
+                Voltar
+            </Button>
           )}
 
           {mdDown && (

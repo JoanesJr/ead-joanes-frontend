@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import { FerramentasDeDetalhe } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
@@ -28,23 +28,27 @@ import ImageList from "@mui/material/ImageList";
 interface IFormDataCreate {
   title: string;
   active: boolean;
+  description: string;
 }
 
-interface IFormDataSection {
+interface IFormDataClass {
   title: string;
   active: boolean;
-  courseId?: number;
+  sectionId?: number;
+  description: string;
 }
 
 interface IFormDataUpdate {
   title: string;
   active: boolean;
+  description: string;
 }
 
 const formValidationSchemaCreate: yup.SchemaOf<IFormDataCreate> = yup
   .object()
   .shape({
     title: yup.string().required().min(3),
+    description: yup.string().required().min(5),
     active: yup.boolean().required().default(true),
   });
 
@@ -52,6 +56,7 @@ const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
   .object()
   .shape({
     title: yup.string().required().min(3),
+    description: yup.string().required().min(5),
     active: yup.boolean().required().default(true),
   });
 
@@ -66,7 +71,7 @@ const statusOptions = [
   }
 ];
 
-export const DetalheDeSessao: React.FC = () => {
+export const DetalheDeAula: React.FC = () => {
   const objData = {
     username: "joanesdejesusjr@gmail.com",
     password: "def75315901",
@@ -75,6 +80,8 @@ export const DetalheDeSessao: React.FC = () => {
   const navigate = useNavigate();
   const formRef = useRef<FormHandles>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { state } = useLocation();
+  
 
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
@@ -83,7 +90,7 @@ export const DetalheDeSessao: React.FC = () => {
   const [viewOnly, setViewOnly] = useState(
     searchParams.get("visualizar") ? true : false
   );
-  const { idCourse = 1 } = useParams<"idCourse">();
+  const { idClass = 1 } = useParams<"idClass">();
    
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
@@ -92,32 +99,23 @@ export const DetalheDeSessao: React.FC = () => {
 
   useEffect(() => {
     if (id !== "novo") {
-      setIsLoading(true);
+          setIsLoading(true);
+          setName(`${state.class[0].title}`);
+          formRef.current?.setData(state.class[0]);
+          setIsLoading(false);
 
-      sectionService.getById(id).then((result) => {
-        setIsLoading(false);
-
-        if (result instanceof Error) {
-          alert(result.message);
-          navigate(-1);
-        } else {
-          setName(`${result.name} ${result.surname}`);
-          
-          formRef.current?.setData(result);
-          
-        }
-      });
     } else {
         formRef.current?.setData({
           title: "",
-          active: true
+          active: true,
+          description: ""
         });
     }
   }, [id]);
 
-  const handleSave = (obj: IFormDataSection) => {
+  const handleSave = (obj: IFormDataClass) => {
     if (id == "novo") {
-      obj.courseId = +idCourse;
+      obj.sectionId = +idClass;
       formValidationSchemaCreate
         .validate(obj, { abortEarly: false })
         .then((valideObj) => {
@@ -191,7 +189,7 @@ export const DetalheDeSessao: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      title={id === "novo" ? "Nova Sessão" : name}
+      title={id === "novo" ? "Nova Aula" : name}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo="Nova"
@@ -202,7 +200,9 @@ export const DetalheDeSessao: React.FC = () => {
           aoClicarEmSalvarEFechar={() => formRef.current?.submitForm()}
           aoClicarEmVoltar={() => navigate(-1)}
           aoClicarEmApagar={handleDelete}
-          aoClicarEmNovo={() => navigate("/sessaos/detalhe/novo")}
+          aoClicarEmNovo={() =>
+            navigate(`/cursos/sessaos/aulas/detalhe/${idClass}/novo`)
+          }
         />
       }
     >
@@ -269,7 +269,6 @@ export const DetalheDeSessao: React.FC = () => {
                   />
                 </Grid>
               </Grid>
-
             </Grid>
 
             <Grid container item>
@@ -284,7 +283,6 @@ export const DetalheDeSessao: React.FC = () => {
                 marginTop={!lgDown && viewOnly ? -22 : 0}
               >
                 <Grid container item direction="row" spacing={2}>
-
                   <Grid container item direction="row" spacing={2}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <VSelect

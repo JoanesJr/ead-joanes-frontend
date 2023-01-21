@@ -1,9 +1,9 @@
 import { useMemo, useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { FerramentasDaListagem } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { useDebounce } from '../../shared/hooks';
-import {  CourseService } from "../../shared/services/api";
+import {  ClassService } from "../../shared/services/api";
 import {
   DataGrid,
   GridColDef,
@@ -23,10 +23,11 @@ import { Box } from "@mui/system";
 import CloseIcon from '@mui/icons-material/Close';
 
 
-export const ListagemDeCurso  = () => {
+export const ListagemDeAula  = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [courses, setCourses] = useState([]);
+    const [classyes, setClasses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const { state } = useLocation();
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down("sm"));
     const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -37,41 +38,37 @@ export const ListagemDeCurso  = () => {
   const [selectionModel, setSelectionModel] = useState<string | number>('');
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
   const navigate = useNavigate();
-    
-    const busca = useMemo(() => {
-        return searchParams.get('busca') || '';
-    }, [searchParams]);
+  const { idCourse = '1' } = useParams<"idCourse">();
 
 
     const objData = {
         username: 'joanesdejesusjr@gmail.com',
         password: 'def75315901',
     }
-  const courseService = new CourseService(objData);
+  const classyService = new ClassService(objData);
   
   useEffect(() => {
     setIsLoading(true);
     debounce(() => {
-        const allCourses = async () => {
-        const data: any = await courseService.getAll(busca);
-          data.map((course: any) => {
-            setIsLoading(false);
-            if(course.active) {
-              course.active = (smDown || mdDown) ? 'A' : 'Ativo'
+        const allClasss = async () => {  
+          const cloneStateClass = JSON.parse(JSON.stringify(state))
+          for (let item of cloneStateClass.class) {
+            if (item.active) {
+              item.active = smDown || mdDown ? "A" : "Ativo";
             } else {
-              course.active = smDown || mdDown ? "I" : "Inativo";
+              item.active = smDown || mdDown ? "I" : "Inativo";
             }
-          });
+          }
 
           setIsLoading(false);
-          setCourses(data);
+          setClasses(cloneStateClass.class);
         };
 
         
-        allCourses();
+        allClasss();
         
     });
-  }, [busca]);
+  }, [idCourse]);
 
 
   function convertThemeSpacing(value: number): number {
@@ -104,17 +101,17 @@ export const ListagemDeCurso  = () => {
     { field: "active", headerName: "Status", width: convertThemeSpacing(15) },
   ]; 
 
-  const rows = courses
+  const rows = classyes
 
   const handleDelete = () => {
     if (selectionModel) {
       if (window.confirm("Realmente deseja apagar?")) {
-        courseService.deleteById(selectionModel.toString());
-        const newCourses = courses.filter(
-          (course: any) => course.id != selectionModel
+        classyService.deleteById(selectionModel.toString());
+        const newClasss = classyes.filter(
+          (classy: any) => classy.id != selectionModel
         );
-        setCourses(newCourses);
-        setSearchParams(busca);
+        setClasses(newClasss);
+        setSearchParams(idCourse);
         setSuccessAlertOpen(true);
         setTimeout(() => {
           setSuccessAlertOpen(false);
@@ -123,48 +120,51 @@ export const ListagemDeCurso  = () => {
 
       return;
     }
-
+    
     alert("Nenhum item selecionado");
     
   }
 
-  const handleEdit = () => {
-    if (selectionModel) {
-      return navigate(`/cursos/detalhe/${selectionModel}`)
-    }
+   const handleEdit = () => {
+     if (selectionModel) {
+       return navigate(`/cursos/sessoes/aulas/detalhe/${selectionModel}/screen`, {state: {
+        class: state.class.filter((item: any) => item.id == selectionModel )
+       }});
+     }
 
-    alert("Nenhum item selecionado")
-  }
+     alert("Nenhum item selecionado");
+   };
 
   const handleView = () => {
     if (selectionModel) {
-      return navigate(`/cursos/detalhe/${selectionModel}?visualizar=true`)
+      return navigate(
+        `/cursos/sessoes/aulas/detalhe/${selectionModel}/screen?visualizar=true`,
+        {
+          state: {
+            class: state.class.filter((item: any) => item.id == selectionModel),
+          },
+        }
+      );
     }
 
-    alert("Nenhum item selecionado")
-  }
-
-  const handleSection = () => {
-    if (selectionModel) {
-      return navigate(`/cursos/sessoes/${selectionModel}`)
-    }
-
-    alert("Nenhum curso selecionado")
-  }
+    alert("Nenhum item selecionado");
+  };
 
 
     return (
       <LayoutBaseDePagina
-        title="Listagem de Cursos"
+        title="Listagem de Aulas"
         barraDeFerramentas={
           <FerramentasDaListagem
             idRow={selectionModel}
-            mostrarBotaoSessoes
+            mostrarBotaoVoltar
+            aoClicarEmVoltar={() => navigate(-1)}
             aoClicarEmExcluir={handleDelete}
-            aoClicarEmNovo={() => navigate("/cursos/detalhe/novo")}
+            aoClicarEmNovo={() =>
+              navigate(`/cursos/sessoes/aulas/detalhe/${idCourse}/novo`)
+            }
             aoClicarEmEditar={handleEdit}
             aoClicarEmDetalhes={handleView}
-            aoClicaremSessoes={handleSection}
           />
         }
       >

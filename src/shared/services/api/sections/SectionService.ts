@@ -27,13 +27,23 @@ export class SectionService extends ApiService {
   }
 
   async getAllActives(): Promise<any> {
+    await this.checkLogin();
     const { data } = await Api.get("/section/active/all");
     const sections = data;
 
     return sections;
   }
 
+  async getByCourse(id: string): Promise<any> {
+    await this.checkLogin();
+    const { data } = await Api.get(`/section/course/${id}`);
+    const sections = data;
+
+    return sections;
+  }
+
   async getById(id: string): Promise<any> {
+    await this.checkLogin();
     const { data } = await Api.get(`/section/${id}`);
     const section = data;
 
@@ -41,6 +51,7 @@ export class SectionService extends ApiService {
   }
 
   async create(obj: object): Promise<any> {
+    await this.checkLogin();
     const { data } = await Api.post("/section", obj);
     const section = data;
 
@@ -48,6 +59,7 @@ export class SectionService extends ApiService {
   }
 
   async updateById(id: string, obj: object): Promise<any> {
+    await this.checkLogin();
     const { data } = await Api.patch(`/section/${id}`, obj);
     const section = data;
 
@@ -55,6 +67,7 @@ export class SectionService extends ApiService {
   }
 
   async deleteById(id: string): Promise<any> {
+    await this.checkLogin();
     const { data } = await Api.delete(`/section/${id}`);
     const section = data;
 

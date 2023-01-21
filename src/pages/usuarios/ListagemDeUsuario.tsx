@@ -70,6 +70,7 @@ export const ListagemDeUsuario  = () => {
             }
           });
             
+          setIsLoading(false);
             setUsers(data);
         };
 
@@ -123,18 +124,43 @@ export const ListagemDeUsuario  = () => {
   const rows = users
 
   const handleDelete = () => {
-    if (window.confirm("Realmente deseja apagar?")) {
-      userService.deleteById(selectionModel.toString());
-      const newUsers = users.filter( (user: any) => user.id != selectionModel);
-      setUsers(newUsers)
-      setSearchParams(busca);
-      setSuccessAlertOpen(true);
-      setTimeout(() => {
-        setSuccessAlertOpen(false);
-      }, 1000);
+    if (selectionModel) {
+      if (window.confirm("Realmente deseja apagar?")) {
+        userService.deleteById(selectionModel.toString());
+        const newUsers = users.filter((user: any) => user.id != selectionModel);
+        setUsers(newUsers);
+        setSearchParams(busca);
+        setSuccessAlertOpen(true);
+        setTimeout(() => {
+          setSuccessAlertOpen(false);
+        }, 1000);
+
+
+        return;
+      }
+
+      return;
     }
+
+    alert("Nenhum item selecionado");
+    
   }
 
+  const handleEdit = () => {
+    if (selectionModel) {
+      return navigate(`/usuarios/detalhe/${selectionModel}`);
+    }
+
+    alert("Nenhum item selecionado");
+  };
+
+  const handleView = () => {
+    if (selectionModel) {
+      return navigate(`/usuarios/detalhe/${selectionModel}?visualizar=true`);
+    }
+
+    alert("Nenhum item selecionado");
+  };
 
     return (
       <LayoutBaseDePagina
@@ -144,8 +170,8 @@ export const ListagemDeUsuario  = () => {
             idRow={selectionModel}
             aoClicarEmExcluir={handleDelete}
             aoClicarEmNovo={() => navigate("/usuarios/detalhe/novo")}
-            aoClicarEmEditar={ () => navigate(`/usuarios/detalhe/${selectionModel}`)}
-            aoClicarEmDetalhes={() => navigate(`/usuarios/detalhe/${selectionModel}?visualizar=true`)}
+            aoClicarEmEditar={handleEdit}
+            aoClicarEmDetalhes={handleView}
           />
         }
       >

@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { FerramentasDaListagem } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { useDebounce } from '../../shared/hooks';
@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from '@mui/icons-material/Close';
+import { IClass } from "../../shared/services/api/interfaces";
 
 
 export const ListagemDeSessao  = () => {
@@ -37,10 +38,7 @@ export const ListagemDeSessao  = () => {
   const [selectionModel, setSelectionModel] = useState<string | number>('');
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
   const navigate = useNavigate();
-    
-    const busca = useMemo(() => {
-        return searchParams.get('busca') || '';
-    }, [searchParams]);
+  const { idCourse = '1' } = useParams<"idCourse">();
 
 
     const objData = {
@@ -53,7 +51,7 @@ export const ListagemDeSessao  = () => {
     setIsLoading(true);
     debounce(() => {
         const allSections = async () => {
-        const data: any = await sectionService.getAll(busca);
+        const data: any = await sectionService.getByCourse(idCourse);
           data.map((section: any) => {
             setIsLoading(false);
             if(section.active) {
@@ -63,6 +61,7 @@ export const ListagemDeSessao  = () => {
             }
           });
 
+          setIsLoading(false);
           setSections(data);
         };
 
@@ -70,7 +69,7 @@ export const ListagemDeSessao  = () => {
         allSections();
         
     });
-  }, [busca]);
+  }, [idCourse]);
 
 
   function convertThemeSpacing(value: number): number {
@@ -106,17 +105,57 @@ export const ListagemDeSessao  = () => {
   const rows = sections
 
   const handleDelete = () => {
-    if (window.confirm("Realmente deseja apagar?")) {
-      sectionService.deleteById(selectionModel.toString());
-      const newSections = sections.filter( (section: any) => section.id != selectionModel);
-      setSections(newSections)
-      setSearchParams(busca);
-      setSuccessAlertOpen(true);
-      setTimeout(() => {
-        setSuccessAlertOpen(false);
-      }, 1000);
+    if (selectionModel) {
+      if (window.confirm("Realmente deseja apagar?")) {
+        sectionService.deleteById(selectionModel.toString());
+        const newSections = sections.filter(
+          (section: any) => section.id != selectionModel
+        );
+        setSections(newSections);
+        setSearchParams(idCourse);
+        setSuccessAlertOpen(true);
+        setTimeout(() => {
+          setSuccessAlertOpen(false);
+        }, 1000);
+      }
+
+      return;
     }
+    
+    alert("Nenhum item selecionado");
+    
   }
+
+   const handleEdit = () => {
+     if (selectionModel) {
+       return navigate(`/cursos/sessoes/detalhe/${idCourse}/${selectionModel}`);
+     }
+
+     alert("Nenhum item selecionado");
+   };
+
+  const handleView = () => {
+    if (selectionModel) {
+      return  navigate(
+                `/cursos/sessoes/detalhe/${idCourse}/${selectionModel}?visualizar=true`
+              )
+    }
+
+    alert("Nenhum item selecionado");
+  };
+
+  const handleClass = () => {
+    if (selectionModel) {
+      const sectionClass: IClass[] = sections.filter((item: any) => item.id == selectionModel);
+      return navigate(`/cursos/sessoes/aulas/${idCourse}`, {
+        state: {
+          class: sectionClass[0].class,
+        },
+      });
+    }
+
+    alert("Nenhuma sessão selecionado");
+  };
 
 
     return (
@@ -125,18 +164,16 @@ export const ListagemDeSessao  = () => {
         barraDeFerramentas={
           <FerramentasDaListagem
             idRow={selectionModel}
-            mostrarBotaoSessoes
+            mostrarBotaoVoltar
+            mostrarBotaoAula
+            aoClicarEmVoltar={() => navigate(-1)}
             aoClicarEmExcluir={handleDelete}
-            aoClicarEmNovo={() => navigate("/sessoes/detalhe/novo")}
-            aoClicarEmEditar={() =>
-              navigate(`/sessoes/detalhe/${selectionModel}`)
+            aoClicarEmNovo={() =>
+              navigate(`/cursos/sessoes/detalhe/${idCourse}/novo`)
             }
-            aoClicarEmDetalhes={() =>
-              navigate(`/sessoes/detalhe/${selectionModel}?visualizar=true`)
-            }
-            aoClicaremSessoes={() =>
-              navigate(`/sessoes/sessoes/${selectionModel}`)
-            }
+            aoClicarEmEditar={handleEdit}
+            aoClicarEmDetalhes={handleView}
+            aoClicarEmAula={handleClass}
           />
         }
       >

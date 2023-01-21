@@ -3,3 +3,5 @@ export * from "./usuarios/ListagemDeUsuario";
 export * from "./usuarios/DetalheDeUsuario";
 export * from "./cursos/ListagemDeCurso";
 export * from "./cursos/DetalheDeCurso";
+export * from "./aulas/ListagemDeAula";
+export * from "./aulas/DetalheDeAula";
