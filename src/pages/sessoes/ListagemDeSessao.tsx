@@ -147,9 +147,9 @@ export const ListagemDeSessao  = () => {
   const handleClass = () => {
     if (selectionModel) {
       const sectionClass: IClass[] = sections.filter((item: any) => item.id == selectionModel);
-      return navigate(`/cursos/sessoes/aulas/${idCourse}`, {
+      return navigate(`/cursos/sessoes/aulas/${selectionModel}`, {
         state: {
-          class: sectionClass[0].class,
+          class: sectionClass[0].class
         },
       });
     }

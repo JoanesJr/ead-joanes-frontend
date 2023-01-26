@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-import { FerramentasDeDetalhe } from "../../shared/components";
+import { FerramentasDeDetalhe, MyDropzone, VideoPlayer } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
-import { SectionService } from "../../shared/services/api";
+import { ClassService } from "../../shared/services/api";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
 import { IVFormErrors, VSelect, VTextField } from "../../shared/forms";
@@ -87,15 +87,17 @@ export const DetalheDeAula: React.FC = () => {
   const [name, setName] = useState("");
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
   const [image, setImage] = useState("");
+  const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const [viewOnly, setViewOnly] = useState(
     searchParams.get("visualizar") ? true : false
   );
-  const { idClass = 1 } = useParams<"idClass">();
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const { idClass = '1' } = useParams<"idClass">();
    
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
-   const sectionService = new SectionService(objData);
+   const classService = new ClassService(objData);
 
   useEffect(() => {
     if (id !== "novo") {
@@ -103,7 +105,10 @@ export const DetalheDeAula: React.FC = () => {
           setName(`${state.class[0].title}`);
           formRef.current?.setData(state.class[0]);
           setIsLoading(false);
-
+          if (state.class[0].file) {
+            const pathUrl = `${Environment.URL_BASE}/getFile${state.class[0].file.replace(".", "")}`;
+            setSelectedFileUrl(pathUrl);
+          }
     } else {
         formRef.current?.setData({
           title: "",
@@ -115,19 +120,28 @@ export const DetalheDeAula: React.FC = () => {
 
   const handleSave = (obj: IFormDataClass) => {
     if (id == "novo") {
-      obj.sectionId = +idClass;
+      obj.sectionId = +state.sectionId;
       formValidationSchemaCreate
         .validate(obj, { abortEarly: false })
         .then((valideObj) => {
           setIsLoading(true);
-          sectionService.create(valideObj).then((result) => {
+          
+          classService.create(valideObj).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
             } else {
+              if (selectedFile) {
+                console.log("formdata")
+                const formData = new FormData();
+                formData.append("file", selectedFile);
+                console.log(formData.get('file'));
+                classService.updateImage(result.id, formData);
+              }
               setSuccessAlertOpen(true);
               setTimeout(() => {
                 setSuccessAlertOpen(false);
+
                 navigate(-1);
               }, 1000);
             }
@@ -135,6 +149,7 @@ export const DetalheDeAula: React.FC = () => {
         })
         .catch((errors: yup.ValidationError) => {
           const validationErrors: IVFormErrors = {};
+          console.log(errors)
 
           errors.inner.forEach((error) => {
             if (!error.path) return;
@@ -150,12 +165,17 @@ export const DetalheDeAula: React.FC = () => {
         .then((valideObj) => {
           setIsLoading(true);
 
-          sectionService.updateById(id, valideObj).then((result) => {
+          classService.updateById(idClass, valideObj).then((result) => {
             setIsLoading(false);
 
             if (result instanceof Error) {
               alert(result.message);
             } else {
+              if (selectedFile) {
+                const dataImage = new FormData();
+                dataImage.append("file", selectedFile);
+                classService.updateImage(idClass, dataImage);
+              }
               setSuccessAlertOpen(true);
               setTimeout(() => {
                 setSuccessAlertOpen(false);
@@ -164,6 +184,7 @@ export const DetalheDeAula: React.FC = () => {
           });
         })
         .catch((errors: yup.ValidationError) => {
+          console.log("errors")
           const validationErrors: IVFormErrors = {};
 
           errors.inner.forEach((error) => {
@@ -179,7 +200,7 @@ export const DetalheDeAula: React.FC = () => {
 
   const handleDelete = () => {
     if (window.confirm("Realmente deseja apagar?")) {
-      sectionService.deleteById(id);
+      classService.deleteById(idClass);
       setSuccessAlertOpen(true);
       setTimeout(() => {
         setSuccessAlertOpen(false);
@@ -285,6 +306,16 @@ export const DetalheDeAula: React.FC = () => {
                 <Grid container item direction="row" spacing={2}>
                   <Grid container item direction="row" spacing={2}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <VTextField
+                        label="Descrição"
+                        name="description"
+                        fullWidth
+                        disabled={isLoading || viewOnly}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <VSelect
                         name="active"
                         label="Status"
@@ -292,9 +323,47 @@ export const DetalheDeAula: React.FC = () => {
                         disabled={isLoading || viewOnly}
                       />
                     </Grid>
+
+                    {!viewOnly && (
+                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                        <MyDropzone
+                          type="video"
+                          onFileString={setSelectedFileUrl}
+                          onFileUploaded={setSelectedFile}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
+              {selectedFileUrl && (
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={6}
+                  xl={6}
+                  marginTop={!lgDown && viewOnly ? -22 : -5}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Box>
+                      <VideoPlayer
+                        width="100%"
+                        height="100%"
+                        srcVideo={selectedFileUrl}
+                      />
+                    </Box>
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Box>

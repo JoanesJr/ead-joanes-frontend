@@ -127,9 +127,16 @@ export const ListagemDeAula  = () => {
 
    const handleEdit = () => {
      if (selectionModel) {
-       return navigate(`/cursos/sessoes/aulas/detalhe/${selectionModel}/screen`, {state: {
-        class: state.class.filter((item: any) => item.id == selectionModel )
-       }});
+       return navigate(
+         `/cursos/sessoes/aulas/detalhe/${selectionModel}/screen`,
+         {
+           state: {
+             class: state.class.filter(
+               (item: any) => item.id == selectionModel
+             )
+           },
+         }
+       );
      }
 
      alert("Nenhum item selecionado");
@@ -141,7 +148,7 @@ export const ListagemDeAula  = () => {
         `/cursos/sessoes/aulas/detalhe/${selectionModel}/screen?visualizar=true`,
         {
           state: {
-            class: state.class.filter((item: any) => item.id == selectionModel),
+            class: state.class.filter((item: any) => item.id == selectionModel)
           },
         }
       );
@@ -161,7 +168,11 @@ export const ListagemDeAula  = () => {
             aoClicarEmVoltar={() => navigate(-1)}
             aoClicarEmExcluir={handleDelete}
             aoClicarEmNovo={() =>
-              navigate(`/cursos/sessoes/aulas/detalhe/${idCourse}/novo`)
+              navigate(`/cursos/sessoes/aulas/detalhe/${idCourse}/novo`, {
+                state: {
+                  sectionId: state.class[0].sectionId,
+                },
+              })
             }
             aoClicarEmEditar={handleEdit}
             aoClicarEmDetalhes={handleView}

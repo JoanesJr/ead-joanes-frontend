@@ -66,6 +66,14 @@ export class ClassService extends ApiService {
     return classy;
   }
 
+  async updateImage(id: string, obj: any): Promise<any> {
+    await this.checkLogin();
+    const { data } = await Api.patch(`/class/profile/image/${id}`, obj);
+    const classy = data;
+
+    return classy;
+  }
+
   async deleteById(id: string): Promise<any> {
     await this.checkLogin();
     const { data } = await Api.delete(`/class/${id}`);
