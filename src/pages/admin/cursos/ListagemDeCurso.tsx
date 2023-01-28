@@ -1,9 +1,9 @@
 import { useMemo, useState, useEffect } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { FerramentasDaListagem } from "../../shared/components";
-import { LayoutBaseDePagina } from "../../shared/layouts";
-import { useDebounce } from '../../shared/hooks';
-import {  SectionService } from "../../shared/services/api";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { FerramentasDaListagem } from "../../../shared/components";
+import { LayoutBaseDePagina } from "../../../shared/layouts";
+import { useDebounce } from '../../../shared/hooks';
+import {  CourseService } from "../../../shared/services/api";
 import {
   DataGrid,
   GridColDef,
@@ -21,12 +21,11 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from '@mui/icons-material/Close';
-import { IClass } from "../../shared/services/api/interfaces";
 
 
-export const ListagemDeSessao  = () => {
+export const ListagemDeCurso  = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [sections, setSections] = useState([]);
+    const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down("sm"));
@@ -38,38 +37,41 @@ export const ListagemDeSessao  = () => {
   const [selectionModel, setSelectionModel] = useState<string | number>('');
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
   const navigate = useNavigate();
-  const { idCourse = '1' } = useParams<"idCourse">();
+    
+    const busca = useMemo(() => {
+        return searchParams.get('busca') || '';
+    }, [searchParams]);
 
 
     const objData = {
         username: 'joanesdejesusjr@gmail.com',
         password: 'def75315901',
     }
-  const sectionService = new SectionService(objData);
+  const courseService = new CourseService(objData);
   
   useEffect(() => {
     setIsLoading(true);
     debounce(() => {
-        const allSections = async () => {
-        const data: any = await sectionService.getByCourse(idCourse);
-          data.map((section: any) => {
+        const allCourses = async () => {
+        const data: any = await courseService.getAll(busca);
+          data.map((course: any) => {
             setIsLoading(false);
-            if(section.active) {
-              section.active = (smDown || mdDown) ? 'A' : 'Ativo'
+            if(course.active) {
+              course.active = (smDown || mdDown) ? 'A' : 'Ativo'
             } else {
-              section.active = smDown || mdDown ? "I" : "Inativo";
+              course.active = smDown || mdDown ? "I" : "Inativo";
             }
           });
 
           setIsLoading(false);
-          setSections(data);
+          setCourses(data);
         };
 
         
-        allSections();
+        allCourses();
         
     });
-  }, [idCourse]);
+  }, [busca]);
 
 
   function convertThemeSpacing(value: number): number {
@@ -102,17 +104,17 @@ export const ListagemDeSessao  = () => {
     { field: "active", headerName: "Status", width: convertThemeSpacing(15) },
   ]; 
 
-  const rows = sections
+  const rows = courses
 
   const handleDelete = () => {
     if (selectionModel) {
       if (window.confirm("Realmente deseja apagar?")) {
-        sectionService.deleteById(selectionModel.toString());
-        const newSections = sections.filter(
-          (section: any) => section.id != selectionModel
+        courseService.deleteById(selectionModel.toString());
+        const newCourses = courses.filter(
+          (course: any) => course.id != selectionModel
         );
-        setSections(newSections);
-        setSearchParams(idCourse);
+        setCourses(newCourses);
+        setSearchParams(busca);
         setSuccessAlertOpen(true);
         setTimeout(() => {
           setSuccessAlertOpen(false);
@@ -121,59 +123,48 @@ export const ListagemDeSessao  = () => {
 
       return;
     }
-    
+
     alert("Nenhum item selecionado");
     
   }
 
-   const handleEdit = () => {
-     if (selectionModel) {
-       return navigate(`/cursos/sessoes/detalhe/${idCourse}/${selectionModel}`);
-     }
+  const handleEdit = () => {
+    if (selectionModel) {
+      return navigate(`/admin/cursos/detalhe/${selectionModel}`)
+    }
 
-     alert("Nenhum item selecionado");
-   };
+    alert("Nenhum item selecionado")
+  }
 
   const handleView = () => {
     if (selectionModel) {
-      return  navigate(
-                `/cursos/sessoes/detalhe/${idCourse}/${selectionModel}?visualizar=true`
-              )
+      return navigate(`/admin/cursos/detalhe/${selectionModel}?visualizar=true`)
     }
 
-    alert("Nenhum item selecionado");
-  };
+    alert("Nenhum item selecionado")
+  }
 
-  const handleClass = () => {
+  const handleSection = () => {
     if (selectionModel) {
-      const sectionClass: IClass[] = sections.filter((item: any) => item.id == selectionModel);
-      return navigate(`/cursos/sessoes/aulas/${selectionModel}`, {
-        state: {
-          class: sectionClass[0].class
-        },
-      });
+      return navigate(`/admin/cursos/sessoes/${selectionModel}`)
     }
 
-    alert("Nenhuma sessão selecionado");
-  };
+    alert("Nenhum curso selecionado")
+  }
 
 
     return (
       <LayoutBaseDePagina
-        title="Listagem de Sessões"
+        title="Listagem de Cursos"
         barraDeFerramentas={
           <FerramentasDaListagem
             idRow={selectionModel}
-            mostrarBotaoVoltar
-            mostrarBotaoAula
-            aoClicarEmVoltar={() => navigate(-1)}
+            mostrarBotaoSessoes
             aoClicarEmExcluir={handleDelete}
-            aoClicarEmNovo={() =>
-              navigate(`/cursos/sessoes/detalhe/${idCourse}/novo`)
-            }
+            aoClicarEmNovo={() => navigate("/admin/cursos/detalhe/novo")}
             aoClicarEmEditar={handleEdit}
             aoClicarEmDetalhes={handleView}
-            aoClicarEmAula={handleClass}
+            aoClicaremSessoes={handleSection}
           />
         }
       >

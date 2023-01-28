@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-import { FerramentasDeDetalhe } from "../../shared/components";
-import { LayoutBaseDePagina } from "../../shared/layouts";
-import { SectionService } from "../../shared/services/api";
+import { FerramentasDeDetalhe, MyDropzone, VideoPlayer } from "../../../shared/components";
+import { LayoutBaseDePagina } from "../../../shared/layouts";
+import { ClassService } from "../../../shared/services/api";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
-import { IVFormErrors, VSelect, VTextField } from "../../shared/forms";
+import { IVFormErrors, VSelect, VTextField } from "../../../shared/forms";
 import { Box } from "@mui/system";
 import {
   Paper,
@@ -21,30 +21,34 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import * as yup from "yup";
-import { Environment } from "../../shared/environment";
+import { Environment } from "../../../shared/environment";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ImageList from "@mui/material/ImageList";
 
 interface IFormDataCreate {
   title: string;
   active: boolean;
+  description: string;
 }
 
-interface IFormDataSection {
+interface IFormDataClass {
   title: string;
   active: boolean;
-  courseId?: number;
+  sectionId?: number;
+  description: string;
 }
 
 interface IFormDataUpdate {
   title: string;
   active: boolean;
+  description: string;
 }
 
 const formValidationSchemaCreate: yup.SchemaOf<IFormDataCreate> = yup
   .object()
   .shape({
     title: yup.string().required().min(3),
+    description: yup.string().required().min(5),
     active: yup.boolean().required().default(true),
   });
 
@@ -52,6 +56,7 @@ const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
   .object()
   .shape({
     title: yup.string().required().min(3),
+    description: yup.string().required().min(5),
     active: yup.boolean().required().default(true),
   });
 
@@ -66,7 +71,7 @@ const statusOptions = [
   }
 ];
 
-export const DetalheDeSessao: React.FC = () => {
+export const DetalheDeAula: React.FC = () => {
   const objData = {
     username: "joanesdejesusjr@gmail.com",
     password: "def75315901",
@@ -75,61 +80,66 @@ export const DetalheDeSessao: React.FC = () => {
   const navigate = useNavigate();
   const formRef = useRef<FormHandles>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { state } = useLocation();
+  
 
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
   const [image, setImage] = useState("");
+  const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const [viewOnly, setViewOnly] = useState(
     searchParams.get("visualizar") ? true : false
   );
-  const { idCourse = 1 } = useParams<"idCourse">();
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const { idClass = '1' } = useParams<"idClass">();
    
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
-   const sectionService = new SectionService(objData);
+   const classService = new ClassService(objData);
 
   useEffect(() => {
     if (id !== "novo") {
-      setIsLoading(true);
-
-      sectionService.getById(id).then((result) => {
-        setIsLoading(false);
-
-        if (result instanceof Error) {
-          alert(result.message);
-          navigate(-1);
-        } else {
-          setName(`${result.name} ${result.surname}`);
-          
-          formRef.current?.setData(result);
-          
-        }
-      });
+          setIsLoading(true);
+          setName(`${state.class[0].title}`);
+          formRef.current?.setData(state.class[0]);
+          setIsLoading(false);
+          if (state.class[0].file) {
+            const pathUrl = `${Environment.URL_BASE}/getFile${state.class[0].file.replace(".", "")}`;
+            setSelectedFileUrl(pathUrl);
+          }
     } else {
         formRef.current?.setData({
           title: "",
-          active: true
+          active: true,
+          description: ""
         });
     }
   }, [id]);
 
-  const handleSave = (obj: IFormDataSection) => {
+  const handleSave = (obj: IFormDataClass) => {
     if (id == "novo") {
-      obj.courseId = +idCourse;
+      obj.sectionId = +state.sectionId;
       formValidationSchemaCreate
         .validate(obj, { abortEarly: false })
         .then((valideObj) => {
           setIsLoading(true);
-          sectionService.create(valideObj).then((result) => {
+          
+          classService.create(valideObj).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
             } else {
+              if (selectedFile) {
+                const formData = new FormData();
+                formData.append("file", selectedFile);
+                classService.updateImage(result.id, formData);
+              }
               setSuccessAlertOpen(true);
               setTimeout(() => {
                 setSuccessAlertOpen(false);
+
                 navigate(-1);
               }, 1000);
             }
@@ -137,6 +147,7 @@ export const DetalheDeSessao: React.FC = () => {
         })
         .catch((errors: yup.ValidationError) => {
           const validationErrors: IVFormErrors = {};
+          console.log(errors)
 
           errors.inner.forEach((error) => {
             if (!error.path) return;
@@ -152,12 +163,17 @@ export const DetalheDeSessao: React.FC = () => {
         .then((valideObj) => {
           setIsLoading(true);
 
-          sectionService.updateById(id, valideObj).then((result) => {
+          classService.updateById(idClass, valideObj).then((result) => {
             setIsLoading(false);
 
             if (result instanceof Error) {
               alert(result.message);
             } else {
+              if (selectedFile) {
+                const dataImage = new FormData();
+                dataImage.append("file", selectedFile);
+                classService.updateImage(idClass, dataImage);
+              }
               setSuccessAlertOpen(true);
               setTimeout(() => {
                 setSuccessAlertOpen(false);
@@ -166,6 +182,7 @@ export const DetalheDeSessao: React.FC = () => {
           });
         })
         .catch((errors: yup.ValidationError) => {
+          console.log("errors")
           const validationErrors: IVFormErrors = {};
 
           errors.inner.forEach((error) => {
@@ -181,7 +198,7 @@ export const DetalheDeSessao: React.FC = () => {
 
   const handleDelete = () => {
     if (window.confirm("Realmente deseja apagar?")) {
-      sectionService.deleteById(id);
+      classService.deleteById(idClass);
       setSuccessAlertOpen(true);
       setTimeout(() => {
         setSuccessAlertOpen(false);
@@ -191,7 +208,7 @@ export const DetalheDeSessao: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      title={id === "novo" ? "Nova Sessão" : name}
+      title={id === "novo" ? "Nova Aula" : name}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo="Nova"
@@ -202,7 +219,9 @@ export const DetalheDeSessao: React.FC = () => {
           aoClicarEmSalvarEFechar={() => formRef.current?.submitForm()}
           aoClicarEmVoltar={() => navigate(-1)}
           aoClicarEmApagar={handleDelete}
-          aoClicarEmNovo={() => navigate("/sessaos/detalhe/novo")}
+          aoClicarEmNovo={() =>
+            navigate(`/admin/cursos/sessaos/aulas/detalhe/${idClass}/novo`)
+          }
         />
       }
     >
@@ -269,7 +288,6 @@ export const DetalheDeSessao: React.FC = () => {
                   />
                 </Grid>
               </Grid>
-
             </Grid>
 
             <Grid container item>
@@ -284,7 +302,16 @@ export const DetalheDeSessao: React.FC = () => {
                 marginTop={!lgDown && viewOnly ? -22 : 0}
               >
                 <Grid container item direction="row" spacing={2}>
-
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <VTextField
+                        label="Descrição"
+                        name="description"
+                        fullWidth
+                        disabled={isLoading || viewOnly}
+                      />
+                    </Grid>
+                  </Grid>
                   <Grid container item direction="row" spacing={2}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <VSelect
@@ -294,9 +321,47 @@ export const DetalheDeSessao: React.FC = () => {
                         disabled={isLoading || viewOnly}
                       />
                     </Grid>
+
+                    {!viewOnly && (
+                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                        <MyDropzone
+                          type="video"
+                          onFileString={setSelectedFileUrl}
+                          onFileUploaded={setSelectedFile}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
+              {selectedFileUrl && (
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={6}
+                  xl={6}
+                  marginTop={!lgDown && viewOnly ? -22 : -5}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Box>
+                      <VideoPlayer
+                        width="100%"
+                        height="100%"
+                        srcVideo={selectedFileUrl}
+                      />
+                    </Box>
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Box>

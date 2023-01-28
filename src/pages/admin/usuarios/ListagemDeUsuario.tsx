@@ -1,9 +1,9 @@
 import { useMemo, useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { FerramentasDaListagem } from "../../shared/components";
-import { LayoutBaseDePagina } from "../../shared/layouts";
-import { useDebounce } from '../../shared/hooks';
-import {  UserService } from "../../shared/services/api";
+import { FerramentasDaListagem } from "../../../shared/components";
+import { LayoutBaseDePagina } from "../../../shared/layouts";
+import { useDebounce } from '../../../shared/hooks';
+import {  UserService } from "../../../shared/services/api";
 import {
   DataGrid,
   GridColDef,
@@ -148,7 +148,7 @@ export const ListagemDeUsuario  = () => {
 
   const handleEdit = () => {
     if (selectionModel) {
-      return navigate(`/usuarios/detalhe/${selectionModel}`);
+      return navigate(`/admin/usuarios/detalhe/${selectionModel}`);
     }
 
     alert("Nenhum item selecionado");
@@ -156,7 +156,7 @@ export const ListagemDeUsuario  = () => {
 
   const handleView = () => {
     if (selectionModel) {
-      return navigate(`/usuarios/detalhe/${selectionModel}?visualizar=true`);
+      return navigate(`/admin/usuarios/detalhe/${selectionModel}?visualizar=true`);
     }
 
     alert("Nenhum item selecionado");
@@ -169,7 +169,7 @@ export const ListagemDeUsuario  = () => {
           <FerramentasDaListagem
             idRow={selectionModel}
             aoClicarEmExcluir={handleDelete}
-            aoClicarEmNovo={() => navigate("/usuarios/detalhe/novo")}
+            aoClicarEmNovo={() => navigate("/admin/usuarios/detalhe/novo")}
             aoClicarEmEditar={handleEdit}
             aoClicarEmDetalhes={handleView}
           />

@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-import { FerramentasDeDetalhe } from "../../shared/components";
-import { LayoutBaseDePagina } from "../../shared/layouts";
-import { UserService } from "../../shared/services/api";
+import { FerramentasDeDetalhe } from "../../../shared/components";
+import { LayoutBaseDePagina } from "../../../shared/layouts";
+import { CourseService } from "../../../shared/services/api";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
-import { IVFormErrors, VSelect, VTextField } from "../../shared/forms";
+import { IVFormErrors, VSelect, VTextField } from "../../../shared/forms";
 import { Box } from "@mui/system";
 import {
   Paper,
@@ -21,46 +21,32 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import * as yup from "yup";
-import { Environment } from "../../shared/environment";
+import { Environment } from "../../../shared/environment";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ImageList from "@mui/material/ImageList";
 
 interface IFormDataCreate {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
+  title: string;
   active: boolean;
-  admin: boolean;
 }
 
 interface IFormDataUpdate {
-  name: string;
-  surname: string;
-  email: string;
+  title: string;
   active: boolean;
-  admin: boolean;
 }
 
 const formValidationSchemaCreate: yup.SchemaOf<IFormDataCreate> = yup
   .object()
   .shape({
-    name: yup.string().required().min(3),
-    surname: yup.string().required().min(3),
-    email: yup.string().required().email(),
-    password: yup.string().required().min(3).max(12),
+    title: yup.string().required().min(3),
     active: yup.boolean().required().default(true),
-    admin: yup.boolean().required().default(false),
   });
 
 const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
   .object()
   .shape({
-    name: yup.string().required().min(3),
-    surname: yup.string().required().min(3),
-    email: yup.string().required().email(),
+    title: yup.string().required().min(3),
     active: yup.boolean().required().default(true),
-    admin: yup.boolean().required().default(false),
   });
 
 const statusOptions = [
@@ -74,19 +60,7 @@ const statusOptions = [
   }
 ];
 
-const adminOptions = [
-    {
-    title: 'Básico',
-    value: false
-  },
-  {
-    title: 'Admin',
-    value: true
-  }
-]
-
-
-export const DetalheDePessoasUsuario: React.FC = () => {
+export const DetalheDeCurso: React.FC = () => {
   const objData = {
     username: "joanesdejesusjr@gmail.com",
     password: "def75315901",
@@ -107,25 +81,27 @@ export const DetalheDePessoasUsuario: React.FC = () => {
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
-   const userService = new UserService(objData);
+   const courseService = new CourseService(objData);
 
   useEffect(() => {
     if (id !== "novo") {
       setIsLoading(true);
 
-      userService.getById(id).then((result) => {
+      courseService.getById(id).then((result) => {
         setIsLoading(false);
 
         if (result instanceof Error) {
           alert(result.message);
-          navigate("/usuarios");
+          navigate(-1);
         } else {
           setName(`${result.name} ${result.surname}`);
           if (result.file) {
             const pathUrl = `${Environment.URL_BASE}/getFile${result.file.replace(".", "")}`
             setImage(pathUrl);
           }else {
-            setImage("https://www.w3schools.com/howto/img_avatar.png");
+            setImage(
+              "https://images.tcdn.com.br/img/img_prod/852394/curso_online_meu_primeiro_huawei_iniciacao_para_roteador_de_borda_huawei_297_1_8178f580feb2beae96a9365e3ab6ff85.png"
+            );
           }
           
           formRef.current?.setData(result);
@@ -134,23 +110,21 @@ export const DetalheDePessoasUsuario: React.FC = () => {
       });
     } else {
         formRef.current?.setData({
-          name: "",
-          surname: "",
-          email: "",
-          password: "",
-          active: true,
-          admin: false
+          title: "",
+          active: true
         });
     }
   }, [id]);
 
   const handleSave = (obj: IFormDataCreate | IFormDataUpdate) => {
     if(id == 'novo') {
+      console.log("+=========");
+      console.log(obj);
       formValidationSchemaCreate
       .validate(obj, { abortEarly: false })
       .then((valideObj) => {
         setIsLoading(true);
-          userService.create(valideObj).then((result) => {
+          courseService.create(valideObj).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
@@ -158,7 +132,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
                setSuccessAlertOpen(true);
                setTimeout(() => {
                  setSuccessAlertOpen(false);
-                 navigate("/usuarios");
+                 navigate("//admin/cursos");
                }, 1000);
             }
           })
@@ -179,7 +153,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
         .then((valideObj) => {
           setIsLoading(true);
 
-          userService.updateById(id, valideObj).then((result) => {
+          courseService.updateById(id, valideObj).then((result) => {
             setIsLoading(false);
 
             if (result instanceof Error) {
@@ -208,7 +182,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
 
   const handleDelete = () => {
     if (window.confirm("Realmente deseja apagar?")) {
-      userService.deleteById(id);
+      courseService.deleteById(id);
       setSuccessAlertOpen(true);
       setTimeout(() => {
         setSuccessAlertOpen(false);
@@ -227,9 +201,9 @@ export const DetalheDePessoasUsuario: React.FC = () => {
           mostrarBotaoApagar={id !== "novo"}
           aoClicarEmSalvar={() => formRef.current?.submitForm()}
           aoClicarEmSalvarEFechar={() => formRef.current?.submitForm()}
-          aoClicarEmVoltar={() => navigate("/usuarios")}
+          aoClicarEmVoltar={() => navigate(-1)}
           aoClicarEmApagar={handleDelete}
-          aoClicarEmNovo={() => navigate("/usuarios/detalhe/novo")}
+          aoClicarEmNovo={() => navigate("/admin/cursos/detalhe/novo")}
         />
       }
     >
@@ -289,8 +263,8 @@ export const DetalheDePessoasUsuario: React.FC = () => {
               <Grid container item xs={12} sm={12} md={12} lg={6} xl={6}>
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                   <VTextField
-                    label="Nome"
-                    name="name"
+                    label="Título"
+                    name="title"
                     fullWidth
                     disabled={isLoading || viewOnly}
                   />
@@ -342,50 +316,13 @@ export const DetalheDePessoasUsuario: React.FC = () => {
                 marginTop={!lgDown && viewOnly ? -22 : 0}
               >
                 <Grid container item direction="row" spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                    <VTextField
-                      fullWidth
-                      name="surname"
-                      label="Sobrenome"
-                      disabled={isLoading || viewOnly}
-                    />
-                  </Grid>
 
-                  <Grid container item direction="row" spacing={2}>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <VTextField
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        disabled={isLoading || viewOnly}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  {id == "novo" && (
-                    <Grid container item direction="row" spacing={2}>
-                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <VTextField
-                          fullWidth
-                          label="Senha"
-                          name="password"
-                          disabled={isLoading || viewOnly}
-                        />
-                      </Grid>
-                    </Grid>
-                  )}
                   <Grid container item direction="row" spacing={2}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <VSelect
                         name="active"
                         label="Status"
                         options={statusOptions}
-                        disabled={isLoading || viewOnly}
-                      />
-                      <VSelect
-                        name="admin"
-                        label="Admin"
-                        options={adminOptions}
                         disabled={isLoading || viewOnly}
                       />
                     </Grid>

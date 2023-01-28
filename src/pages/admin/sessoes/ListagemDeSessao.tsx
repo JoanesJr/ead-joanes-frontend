@@ -1,9 +1,9 @@
 import { useMemo, useState, useEffect } from "react";
-import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { FerramentasDaListagem } from "../../shared/components";
-import { LayoutBaseDePagina } from "../../shared/layouts";
-import { useDebounce } from '../../shared/hooks';
-import {  ClassService } from "../../shared/services/api";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { FerramentasDaListagem } from "../../../shared/components";
+import { LayoutBaseDePagina } from "../../../shared/layouts";
+import { useDebounce } from '../../../shared/hooks';
+import {  SectionService } from "../../../shared/services/api";
 import {
   DataGrid,
   GridColDef,
@@ -21,13 +21,13 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from '@mui/icons-material/Close';
+import { IClass } from "../../../shared/services/api/interfaces";
 
 
-export const ListagemDeAula  = () => {
+export const ListagemDeSessao  = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [classyes, setClasses] = useState([]);
+    const [sections, setSections] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const { state } = useLocation();
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down("sm"));
     const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -45,27 +45,28 @@ export const ListagemDeAula  = () => {
         username: 'joanesdejesusjr@gmail.com',
         password: 'def75315901',
     }
-  const classyService = new ClassService(objData);
+  const sectionService = new SectionService(objData);
   
   useEffect(() => {
     setIsLoading(true);
     debounce(() => {
-        const allClasss = async () => {  
-          const cloneStateClass = JSON.parse(JSON.stringify(state))
-          for (let item of cloneStateClass.class) {
-            if (item.active) {
-              item.active = smDown || mdDown ? "A" : "Ativo";
+        const allSections = async () => {
+        const data: any = await sectionService.getByCourse(idCourse);
+          data.map((section: any) => {
+            setIsLoading(false);
+            if(section.active) {
+              section.active = (smDown || mdDown) ? 'A' : 'Ativo'
             } else {
-              item.active = smDown || mdDown ? "I" : "Inativo";
+              section.active = smDown || mdDown ? "I" : "Inativo";
             }
-          }
+          });
 
           setIsLoading(false);
-          setClasses(cloneStateClass.class);
+          setSections(data);
         };
 
         
-        allClasss();
+        allSections();
         
     });
   }, [idCourse]);
@@ -101,16 +102,16 @@ export const ListagemDeAula  = () => {
     { field: "active", headerName: "Status", width: convertThemeSpacing(15) },
   ]; 
 
-  const rows = classyes
+  const rows = sections
 
   const handleDelete = () => {
     if (selectionModel) {
       if (window.confirm("Realmente deseja apagar?")) {
-        classyService.deleteById(selectionModel.toString());
-        const newClasss = classyes.filter(
-          (classy: any) => classy.id != selectionModel
+        sectionService.deleteById(selectionModel.toString());
+        const newSections = sections.filter(
+          (section: any) => section.id != selectionModel
         );
-        setClasses(newClasss);
+        setSections(newSections);
         setSearchParams(idCourse);
         setSuccessAlertOpen(true);
         setTimeout(() => {
@@ -127,16 +128,7 @@ export const ListagemDeAula  = () => {
 
    const handleEdit = () => {
      if (selectionModel) {
-       return navigate(
-         `/cursos/sessoes/aulas/detalhe/${selectionModel}/screen`,
-         {
-           state: {
-             class: state.class.filter(
-               (item: any) => item.id == selectionModel
-             )
-           },
-         }
-       );
+       return navigate(`/admin/cursos/sessoes/detalhe/${idCourse}/${selectionModel}`);
      }
 
      alert("Nenhum item selecionado");
@@ -144,38 +136,44 @@ export const ListagemDeAula  = () => {
 
   const handleView = () => {
     if (selectionModel) {
-      return navigate(
-        `/cursos/sessoes/aulas/detalhe/${selectionModel}/screen?visualizar=true`,
-        {
-          state: {
-            class: state.class.filter((item: any) => item.id == selectionModel)
-          },
-        }
-      );
+      return  navigate(
+                `/admin/cursos/sessoes/detalhe/${idCourse}/${selectionModel}?visualizar=true`
+              )
     }
 
     alert("Nenhum item selecionado");
   };
 
+  const handleClass = () => {
+    if (selectionModel) {
+      const sectionClass: IClass[] = sections.filter((item: any) => item.id == selectionModel);
+      return navigate(`/admin/cursos/sessoes/aulas/${selectionModel}`, {
+        state: {
+          class: sectionClass[0].class
+        },
+      });
+    }
+
+    alert("Nenhuma sessão selecionado");
+  };
+
 
     return (
       <LayoutBaseDePagina
-        title="Listagem de Aulas"
+        title="Listagem de Sessões"
         barraDeFerramentas={
           <FerramentasDaListagem
             idRow={selectionModel}
             mostrarBotaoVoltar
+            mostrarBotaoAula
             aoClicarEmVoltar={() => navigate(-1)}
             aoClicarEmExcluir={handleDelete}
             aoClicarEmNovo={() =>
-              navigate(`/cursos/sessoes/aulas/detalhe/${idCourse}/novo`, {
-                state: {
-                  sectionId: state.class[0].sectionId,
-                },
-              })
+              navigate(`/admin/cursos/sessoes/detalhe/${idCourse}/novo`)
             }
             aoClicarEmEditar={handleEdit}
             aoClicarEmDetalhes={handleView}
+            aoClicarEmAula={handleClass}
           />
         }
       >

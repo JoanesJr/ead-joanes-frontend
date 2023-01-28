@@ -47,10 +47,24 @@ export const MenuLateral: React.FC<IMenuLateral> = ({ children }) => {
 
   return (
     <>
-      <Drawer open={isDrawerOpen} variant={smDown ? 'temporary' : 'permanent'} onClose={toggleDrawerOpen}>
-        <Box width={theme.spacing(28)} height="100%" display="flex" flexDirection="column">
-
-          <Box width="100%" height={theme.spacing(20)} display="flex" alignItems="center" justifyContent="center">
+      <Drawer
+        open={isDrawerOpen}
+        variant={smDown ? "temporary" : "permanent"}
+        onClose={toggleDrawerOpen}
+      >
+        <Box
+          width={theme.spacing(28)}
+          height="100%"
+          display="flex"
+          flexDirection="column"
+        >
+          <Box
+            width="100%"
+            height={theme.spacing(20)}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
             <Avatar
               sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI3vvVZ-pOGsyhaNEm9s-tm96lh7OGxJrpPQ&usqp=CAU"
@@ -62,25 +76,34 @@ export const MenuLateral: React.FC<IMenuLateral> = ({ children }) => {
           <Box flex={1}>
             <List component="nav">
               <List component="nav">
-              <ListItemLink label='Usuário' icon='person' to='/usuarios' onClick={smDown ? toggleDrawerOpen: undefined} />
-              <ListItemLink label='Cursos' icon='tv' to='/cursos' onClick={smDown ? toggleDrawerOpen: undefined} />
-            </List>
+                <ListItemLink
+                  label="Usuário"
+                  icon="person"
+                  to="/admin/usuarios"
+                  onClick={smDown ? toggleDrawerOpen : undefined}
+                />
+                <ListItemLink
+                  label="Cursos"
+                  icon="tv"
+                  to="/admin/cursos"
+                  onClick={smDown ? toggleDrawerOpen : undefined}
+                />
+              </List>
             </List>
           </Box>
 
           <Box>
             <List component="nav">
               <List component="nav">
-              <ListItemButton onClick={toggleTheme}>
-                <ListItemIcon>
-                  <Icon>dark_mode</Icon>
-                </ListItemIcon>
+                <ListItemButton onClick={toggleTheme}>
+                  <ListItemIcon>
+                    <Icon>dark_mode</Icon>
+                  </ListItemIcon>
                   <ListItemText primary="Alternar Tema" />
                 </ListItemButton>
-            </List>
+              </List>
             </List>
           </Box>
-
         </Box>
       </Drawer>
 

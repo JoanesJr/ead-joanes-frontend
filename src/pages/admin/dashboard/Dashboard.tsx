@@ -1,5 +1,5 @@
-import { FerramentasDeDetalhe } from '../../shared/components/ferramentas-de-detalhe/FerramentasDeDetalhe';
-import { LayoutBaseDePagina } from '../../shared/layouts';
+import { FerramentasDeDetalhe } from '../../../shared/components/ferramentas-de-detalhe/FerramentasDeDetalhe';
+import { LayoutBaseDePagina } from '../../../shared/layouts';
 
  interface ILayoutBasePagina {
         title: string;
