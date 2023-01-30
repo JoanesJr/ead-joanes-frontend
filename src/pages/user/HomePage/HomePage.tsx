@@ -19,7 +19,7 @@ export const HomePage = () => {
     useEffect( () => {
         const getCourses = () => {
 
-            userService.getById('204').then( data => {
+            userService.getById('6').then( data => {
                 setCourses(data.courses);
             }).catch(err => {
                 console.log(err);

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-import { FerramentasDeDetalhe } from "../../../shared/components";
+import { FerramentasDeDetalhe, MyDropzone, VideoPlayer } from "../../../shared/components";
 import { LayoutBaseDePagina } from "../../../shared/layouts";
 import { CourseService } from "../../../shared/services/api";
 import { FormHandles } from "@unform/core";
@@ -17,7 +17,7 @@ import {
   Collapse,
   IconButton,
   ImageListItem,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import * as yup from "yup";
@@ -80,6 +80,8 @@ export const DetalheDeCurso: React.FC = () => {
    
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
+   const [selectedFileUrl, setSelectedFileUrl] = useState("");
+   const [selectedFile, setSelectedFile] = useState<File>();
 
    const courseService = new CourseService(objData);
 
@@ -94,10 +96,11 @@ export const DetalheDeCurso: React.FC = () => {
           alert(result.message);
           navigate(-1);
         } else {
-          setName(`${result.name} ${result.surname}`);
+          setName(`${result.title}`);
           if (result.file) {
             const pathUrl = `${Environment.URL_BASE}/getFile${result.file.replace(".", "")}`
             setImage(pathUrl);
+            setSelectedFileUrl(pathUrl)
           }else {
             setImage(
               "https://images.tcdn.com.br/img/img_prod/852394/curso_online_meu_primeiro_huawei_iniciacao_para_roteador_de_borda_huawei_297_1_8178f580feb2beae96a9365e3ab6ff85.png"
@@ -118,8 +121,6 @@ export const DetalheDeCurso: React.FC = () => {
 
   const handleSave = (obj: IFormDataCreate | IFormDataUpdate) => {
     if(id == 'novo') {
-      console.log("+=========");
-      console.log(obj);
       formValidationSchemaCreate
       .validate(obj, { abortEarly: false })
       .then((valideObj) => {
@@ -129,10 +130,15 @@ export const DetalheDeCurso: React.FC = () => {
             if (result instanceof Error) {
               alert(result.message);
             } else {
+              if (selectedFile) {
+                const formData = new FormData();
+                formData.append("file", selectedFile);
+                courseService.updateImage(result.id, formData);
+              }
                setSuccessAlertOpen(true);
                setTimeout(() => {
                  setSuccessAlertOpen(false);
-                 navigate("//admin/cursos");
+                 navigate(Environment.ADMIN_CURSOS);
                }, 1000);
             }
           })
@@ -159,6 +165,11 @@ export const DetalheDeCurso: React.FC = () => {
             if (result instanceof Error) {
               alert(result.message);
             } else {
+              if (selectedFile) {
+                const formData = new FormData();
+                formData.append("file", selectedFile);
+                courseService.updateImage(result.id, formData);
+              }
                setSuccessAlertOpen(true);
                setTimeout(() => {
                  setSuccessAlertOpen(false);
@@ -196,7 +207,6 @@ export const DetalheDeCurso: React.FC = () => {
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo="Nova"
-          mostrarBotaoSalvarEFechar
           mostrarBotaoNovo={id !== "novo"}
           mostrarBotaoApagar={id !== "novo"}
           aoClicarEmSalvar={() => formRef.current?.submitForm()}
@@ -271,37 +281,6 @@ export const DetalheDeCurso: React.FC = () => {
                 </Grid>
               </Grid>
 
-              {!lgDown && viewOnly && (
-                <Grid container item xs={12} sm={12} md={12} lg={6} xl={6}>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    lg={12}
-                    display="flex"
-                    justifyContent="flex-end"
-                  >
-                    <ImageList
-                      sx={{ width: 800, height: 200, display: 'flex', justifyContent: 'center', alignContent: 'center' }}
-                      variant="woven"
-                      cols={4}
-                      rowHeight={121}
-                    >
-                      <ImageListItem
-                        key={image}
-                      >
-                        <img
-                          src={`${image}?w=164&h=60&fit=crop&auto=format`}
-                          srcSet={`${image}?w=164&h=60&fit=crop&auto=format&dpr=2 2x`}
-                          alt="imagem"
-                          loading="lazy"
-                        />
-                      </ImageListItem>
-                    </ImageList>
-                  </Grid>
-                </Grid>
-              )}
             </Grid>
 
             <Grid container item>
@@ -313,10 +292,9 @@ export const DetalheDeCurso: React.FC = () => {
                 md={12}
                 lg={6}
                 xl={6}
-                marginTop={!lgDown && viewOnly ? -22 : 0}
+                // marginTop={!lgDown && viewOnly ? -22 : 0}
               >
                 <Grid container item direction="row" spacing={2}>
-
                   <Grid container item direction="row" spacing={2}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <VSelect
@@ -326,9 +304,52 @@ export const DetalheDeCurso: React.FC = () => {
                         disabled={isLoading || viewOnly}
                       />
                     </Grid>
+
+                    {!viewOnly && (
+                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                        <MyDropzone
+                          type="image"
+                          onFileString={setSelectedFileUrl}
+                          onFileUploaded={setSelectedFile}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
+              {selectedFileUrl && (
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={6}
+                  xl={6}
+                  marginTop={!lgDown && viewOnly ? -22 : -5}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Box
+                      component="img"
+                      sx={{
+                        height: 300,
+                        width: 350,
+                        maxHeight: { xs: 233, md: 167, lg: 300, xl: 300 },
+                        maxWidth: { xs: 350, md: 250, lg: 350, xl: 350 },
+                        marginTop: {xs: 8, md: 8}
+                      }}
+                      alt="The house from the offer."
+                      src={selectedFileUrl}
+                    />
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Box>

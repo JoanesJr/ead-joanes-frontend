@@ -42,6 +42,14 @@ export class ClassService extends ApiService {
     return classys;
   }
 
+  async getBySection(id: string): Promise<any> {
+    await this.checkLogin();
+    const { data } = await Api.get(`/class/section/${id}`);
+    const classys = data;
+
+    return classys;
+  }
+
   async getById(id: string): Promise<any> {
     await this.checkLogin();
     const { data } = await Api.get(`/class/${id}`);

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import { FerramentasDeDetalhe } from "../../../shared/components";
 import { LayoutBaseDePagina } from "../../../shared/layouts";
@@ -83,7 +83,9 @@ export const DetalheDeSessao: React.FC = () => {
   const [viewOnly, setViewOnly] = useState(
     searchParams.get("visualizar") ? true : false
   );
-  const { idCourse = 1 } = useParams<"idCourse">();
+
+  const { state } = useLocation();
+  const { idCourse } = state;
    
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
@@ -101,7 +103,7 @@ export const DetalheDeSessao: React.FC = () => {
           alert(result.message);
           navigate(-1);
         } else {
-          setName(`${result.name} ${result.surname}`);
+          setName(`${result.title}`);
           
           formRef.current?.setData(result);
           
@@ -195,14 +197,19 @@ export const DetalheDeSessao: React.FC = () => {
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo="Nova"
-          mostrarBotaoSalvarEFechar
           mostrarBotaoNovo={id !== "novo"}
           mostrarBotaoApagar={id !== "novo"}
           aoClicarEmSalvar={() => formRef.current?.submitForm()}
           aoClicarEmSalvarEFechar={() => formRef.current?.submitForm()}
           aoClicarEmVoltar={() => navigate(-1)}
           aoClicarEmApagar={handleDelete}
-          aoClicarEmNovo={() => navigate("/admin/sessaos/detalhe/novo")}
+          aoClicarEmNovo={() =>
+            navigate(`/admin/cursos/sessoes/detalhe/novo`, {
+              state: {
+                idCourse,
+              },
+            })
+          }
         />
       }
     >
@@ -269,7 +276,6 @@ export const DetalheDeSessao: React.FC = () => {
                   />
                 </Grid>
               </Grid>
-
             </Grid>
 
             <Grid container item>
@@ -284,7 +290,6 @@ export const DetalheDeSessao: React.FC = () => {
                 marginTop={!lgDown && viewOnly ? -22 : 0}
               >
                 <Grid container item direction="row" spacing={2}>
-
                   <Grid container item direction="row" spacing={2}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <VSelect

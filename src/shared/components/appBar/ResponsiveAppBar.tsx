@@ -16,15 +16,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 
 import React from "react";
+import { Environment } from "../../environment";
 
-const pages = ["Cursos", "Favoritos", "Dashboard"];
+const pages = ["Cursos", "Dashboard"];
 const settings = ["Perfil", "Conta", "Dashboard", "Sair"];
 
 interface IAppBar {
   children: React.ReactNode;
+  navigate: any;
 }
 
-export const ResponsiveAppBar = ({children}: IAppBar) => {
+export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
       null
     );
@@ -39,7 +41,16 @@ export const ResponsiveAppBar = ({children}: IAppBar) => {
         setAnchorElUser(event.currentTarget);
       };
 
-      const handleCloseNavMenu = () => {
+      const handleCloseNavMenu = (event) => {
+        const menuOptionClicked = event.target.innerText.toLowerCase();
+        switch (menuOptionClicked) {
+          case "cursos":
+            navigate(Environment.USER_HOMEPAGE);
+            break;
+          // case "dashboard":
+          //   navigate("/");
+          //   break;
+        }
         setAnchorElNav(null);
       };
 
@@ -69,7 +80,7 @@ export const ResponsiveAppBar = ({children}: IAppBar) => {
                   variant="h6"
                   noWrap
                   component="a"
-                  href="/"
+                  href={Environment.USER_HOMEPAGE}
                   sx={{
                     mr: 2,
                     display: { xs: "none", md: "flex" },
@@ -124,7 +135,7 @@ export const ResponsiveAppBar = ({children}: IAppBar) => {
                   variant="h5"
                   noWrap
                   component="a"
-                  href=""
+                  href={Environment.USER_HOMEPAGE}
                   sx={{
                     mr: 2,
                     display: { xs: "flex", md: "none" },

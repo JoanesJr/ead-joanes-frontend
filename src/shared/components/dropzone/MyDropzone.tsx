@@ -8,9 +8,6 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import ReactPlayer from "react-player";
-import screenfull from "screenfull";
-import { VideoPlayer } from "../VideoPlayer/VideoPlayer";
 
 interface IMyDropzone {
   type?: "video" | "image";
@@ -64,10 +61,7 @@ export const MyDropzone = ({
       {type === "image" && (
         <>
           {selectedFileUrl ? (
-            <video width="320" height="240">
-              <source src={selectedFileUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <Typography variant="body1">Imagem selecionado</Typography>
           ) : (
             <Typography variant="body1">Arraste aqui</Typography>
           )}

@@ -34,6 +34,7 @@ export class UserService extends ApiService {
   }
 
   async getAllAdmins(): Promise<any> {
+     await this.checkLogin();
     const { data } = await Api.get("/user/admin/all");
     const users = data;
 
@@ -41,6 +42,7 @@ export class UserService extends ApiService {
   }
 
   async getAllAdminsActive(): Promise<any> {
+     await this.checkLogin();
     const { data } = await Api.get("/user/active/admin");
     const users = data;
 
@@ -48,6 +50,7 @@ export class UserService extends ApiService {
   }
 
   async getById(id: string): Promise<any> {
+     await this.checkLogin();
     const { data } = await Api.get(`/user/${id}`);
     const user = data;
 
@@ -55,6 +58,7 @@ export class UserService extends ApiService {
   }
 
   async create(obj: object): Promise<any> {
+     await this.checkLogin();
     const { data } = await Api.post("/user", obj);
     const user = data;
 
@@ -62,6 +66,7 @@ export class UserService extends ApiService {
   }
 
   async updateById(id: string, obj: object): Promise<any> {
+     await this.checkLogin();
     const { data } = await Api.patch(`/user/${id}`, obj);
     const user = data;
 
@@ -69,6 +74,7 @@ export class UserService extends ApiService {
   }
 
   async deleteById(id: string): Promise<any> {
+     await this.checkLogin();
     const { data } = await Api.delete(`/user/${id}`);
     const user = data;
 
@@ -76,6 +82,7 @@ export class UserService extends ApiService {
   }
 
   async relationCourse(obj: object): Promise<any> {
+     await this.checkLogin();
     const { data } = await Api.post("/user/course/add", obj);
     const userCourse = data;
 

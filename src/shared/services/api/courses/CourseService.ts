@@ -26,6 +26,14 @@ export class CourseService extends ApiService {
     }
   }
 
+  async updateImage(id: string, obj: any): Promise<any> {
+    await this.checkLogin();
+    const { data } = await Api.patch(`/course/profile/image/${id}`, obj);
+    const course = data;
+
+    return course;
+  }
+
   async getAllActives(): Promise<any> {
     await this.checkLogin();
     const { data } = await Api.get("/course/active/all");

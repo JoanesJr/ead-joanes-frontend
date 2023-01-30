@@ -26,7 +26,7 @@ import CloseIcon from '@mui/icons-material/Close';
 export const ListagemDeAula  = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [classyes, setClasses] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const { state } = useLocation();
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down("sm"));
@@ -38,7 +38,8 @@ export const ListagemDeAula  = () => {
   const [selectionModel, setSelectionModel] = useState<string | number>('');
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
   const navigate = useNavigate();
-  const { idCourse = '1' } = useParams<"idCourse">();
+  // const { idSection = '1' } = useParams<"idSection">();
+  const { idSection } = state;
 
 
     const objData = {
@@ -48,11 +49,12 @@ export const ListagemDeAula  = () => {
   const classyService = new ClassService(objData);
   
   useEffect(() => {
-    setIsLoading(true);
-    debounce(() => {
-        const allClasss = async () => {  
-          const cloneStateClass = JSON.parse(JSON.stringify(state))
-          for (let item of cloneStateClass.class) {
+    console.log(state);
+    const allClasss = async () => {
+      classyService
+        .getBySection(idSection)
+        .then((data) => {
+          for (let item of data) {
             if (item.active) {
               item.active = smDown || mdDown ? "A" : "Ativo";
             } else {
@@ -60,15 +62,15 @@ export const ListagemDeAula  = () => {
             }
           }
 
-          setIsLoading(false);
-          setClasses(cloneStateClass.class);
-        };
+          setClasses(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
-        
-        allClasss();
-        
-    });
-  }, [idCourse]);
+    allClasss();
+  }, [classyes]);
 
 
   function convertThemeSpacing(value: number): number {
@@ -111,7 +113,7 @@ export const ListagemDeAula  = () => {
           (classy: any) => classy.id != selectionModel
         );
         setClasses(newClasss);
-        setSearchParams(idCourse);
+        // setSearchParams(idSection);
         setSuccessAlertOpen(true);
         setTimeout(() => {
           setSuccessAlertOpen(false);
@@ -128,10 +130,10 @@ export const ListagemDeAula  = () => {
    const handleEdit = () => {
      if (selectionModel) {
        return navigate(
-         `/admin/cursos/sessoes/aulas/detalhe/${selectionModel}/screen`,
+         `/admin/cursos/sessoes/aulas/detalhe/screen`,
          {
            state: {
-             class: state.class.filter(
+             class: classyes.filter(
                (item: any) => item.id == selectionModel
              )
            },
@@ -145,10 +147,10 @@ export const ListagemDeAula  = () => {
   const handleView = () => {
     if (selectionModel) {
       return navigate(
-        `/admin/cursos/sessoes/aulas/detalhe/${selectionModel}/screen?visualizar=true`,
+        `/admin/cursos/sessoes/aulas/detalhe/screen?visualizar=true`,
         {
           state: {
-            class: state.class.filter((item: any) => item.id == selectionModel)
+            class: classyes.filter((item: any) => item.id == selectionModel),
           },
         }
       );
@@ -168,9 +170,9 @@ export const ListagemDeAula  = () => {
             aoClicarEmVoltar={() => navigate(-1)}
             aoClicarEmExcluir={handleDelete}
             aoClicarEmNovo={() =>
-              navigate(`/admin/cursos/sessoes/aulas/detalhe/${idCourse}/novo`, {
+              navigate(`/admin/cursos/sessoes/aulas/detalhe/novo`, {
                 state: {
-                  sectionId: state.class[0].sectionId,
+                  idSection,
                 },
               })
             }

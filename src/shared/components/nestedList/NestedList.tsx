@@ -93,10 +93,7 @@ const ListSection = ({ id, title, classes, idCourse }: IListSection) => {
 
 export const NestedList = ({ sections, children, idCourse }: INestedList) => {
   const theme = useTheme();
-  const { state } = useLocation();
   const [file, setFile] = React.useState("");
-  const [actualSection, setActualSection] = React.useState({});
-  const [actualClass, setActualClass] = React.useState({});
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
@@ -111,37 +108,6 @@ export const NestedList = ({ sections, children, idCourse }: INestedList) => {
   marginLeft = xsDown ? 200 : marginLeft;
 
 
-  const getActualClass = (classes) => {
-    if (classes.id == state.classId) {
-      return true;
-    } 
-
-    return false;
-  }
-
-  
-
-  React.useEffect( () => {
-    if(state) {
-    const actualSection = sections.filter( item => item.id == state.sectionId)[0];
-    setActualSection(actualSection);
-    const actualClass = actualSection.class.filter( item => item.id == state.classId )[0];
-    setActualClass(actualClass);
-  }
-
-  console.log(actualSection);
-  console.log(actualClass);
-  
-    if (actualClass?.file) {
-      const pathUrl = `${
-        Environment.URL_BASE
-      }/getFile${actualClass.file?.replace(".", "")}`;
-      setFile(pathUrl);
-    }
-
-    console.log(actualClass)
-  }, [actualClass]);
-  
 
   return (
     <Grid container display="flex" flexDirection="row">

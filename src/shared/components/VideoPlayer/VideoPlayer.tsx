@@ -19,7 +19,11 @@ function usePlayerState($videoPlayer: any): any {
 
   useEffect(() => {
     playerState.playing
-      ? $videoPlayer.current.play()
+      ? $videoPlayer.current.play().then( (data) => {
+        console.log("then")
+      }).catch( err => {
+        console.log(err)
+      })
       : $videoPlayer.current.pause();
   }, [$videoPlayer, playerState.playing]);
 

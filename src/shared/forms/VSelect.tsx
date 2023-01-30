@@ -17,13 +17,22 @@ type TVSelectProps = {
   label: string;
   options: optionsSelect[];
   disabled: boolean;
+  setValueControl?: any;
 };
 
-export const VSelect: React.FC<TVSelectProps> = ({ name, label, options, disabled = false, ...rest }) => {
+export const VSelect: React.FC<TVSelectProps> = ({ name, label, options, disabled = false, setValueControl, ...rest }) => {
   const { fieldName, registerField, defaultValue, error, clearError } =
     useField(name);
 
   const [value, setValue] = useState(defaultValue || "");
+
+  const handleChange = value => {
+    setValue(value);
+    if (setValueControl) {
+setValueControl(value);
+    }
+    
+  }
 
   useEffect(() => {
     registerField({
@@ -41,7 +50,7 @@ export const VSelect: React.FC<TVSelectProps> = ({ name, label, options, disable
         error={!!error}
         defaultValue={defaultValue}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => handleChange(e.target.value)}
         onKeyDown={() => (error ? clearError() : undefined)}
         disabled={disabled}
       >

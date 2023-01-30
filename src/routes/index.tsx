@@ -11,6 +11,7 @@ import {
 import { DetalheDeSessao } from '../pages/admin/sessoes/DetalheDeSessao';
 import { ListagemDeSessao } from '../pages/admin/sessoes/ListagemDeSessao';
 import { MenuLateral } from '../shared/components';
+import { Environment } from '../shared/environment';
 
 
 export const AppRoutes = () => {
@@ -18,7 +19,7 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route
-        path="/admin/usuarios"
+        path={Environment.ADMIN_USUARIOS}
         element={
           <MenuLateral>
             <ListagemDeUsuario />
@@ -26,7 +27,7 @@ export const AppRoutes = () => {
         }
       />
       <Route
-        path="/admin/usuarios/detalhe/:id"
+        path={Environment.ADMIN_USUARIOS_DETALHE}
         element={
           <MenuLateral>
             <DetalheDePessoasUsuario />
@@ -35,7 +36,7 @@ export const AppRoutes = () => {
       />
 
       <Route
-        path="/admin/cursos"
+        path={Environment.ADMIN_CURSOS}
         element={
           <MenuLateral>
             <ListagemDeCurso />
@@ -43,7 +44,7 @@ export const AppRoutes = () => {
         }
       />
       <Route
-        path="/admin/cursos/detalhe/:id"
+        path={Environment.ADMIN_CURSOS_DETALHE}
         element={
           <MenuLateral>
             <DetalheDeCurso />
@@ -52,7 +53,7 @@ export const AppRoutes = () => {
       />
 
       <Route
-        path="/admin/cursos/sessoes/:idCourse"
+        path={Environment.ADMIN_SESSOES}
         element={
           <MenuLateral>
             <ListagemDeSessao />
@@ -60,7 +61,7 @@ export const AppRoutes = () => {
         }
       />
       <Route
-        path="/admin/cursos/sessoes/detalhe/:idCourse/:id"
+        path={Environment.ADMIN_SESSOES_DETALHE}
         element={
           <MenuLateral>
             <DetalheDeSessao />
@@ -69,11 +70,15 @@ export const AppRoutes = () => {
       />
 
       <Route
-        path="/admin/cursos/sessoes/aulas/:idClass"
-        element={<ListagemDeAula />}
+        path={Environment.ADMIN_AULAS}
+        element={
+          <MenuLateral>
+            <ListagemDeAula />
+          </MenuLateral>
+        }
       />
       <Route
-        path="/admin/cursos/sessoes/aulas/detalhe/:idClass/:id"
+        path={Environment.ADMIN_AULAS_DETALHE}
         element={
           <MenuLateral>
             <DetalheDeAula />

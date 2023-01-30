@@ -1,31 +1,34 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { CoursePage, HomePage } from "../pages";
-import { NestedList, ResponsiveAppBar } from "../shared/components";
+import { ResponsiveAppBar } from "../shared/components";
+import { Environment } from "../shared/environment";
 export const UserAppRoutes = () => {
+  const navigate = useNavigate();
+
   return (
     <Routes>
       <Route
-        path="/cursos"
+        path={Environment.USER_HOMEPAGE}
         element={
-          <ResponsiveAppBar>
+          <ResponsiveAppBar navigate={navigate}>
             <HomePage />
           </ResponsiveAppBar>
         }
       />
       <Route
-        path="/cursos/:id"
+        path={Environment.USER_COURSE_PAGE}
         element={
-          <ResponsiveAppBar>
-              <CoursePage />
+          <ResponsiveAppBar navigate={navigate}>
+            <CoursePage />
           </ResponsiveAppBar>
         }
       />
 
       <Route
-        path="/cursos/:id/aula"
+        path={Environment.USER_CLASS}
         element={
-          <ResponsiveAppBar>
-              <CoursePage />
+          <ResponsiveAppBar navigate={navigate}>
+            <CoursePage />
           </ResponsiveAppBar>
         }
       />

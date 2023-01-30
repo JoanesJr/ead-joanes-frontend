@@ -1,5 +1,5 @@
 import { Box, Typography, Card, CardActions, CardContent, CardMedia, Button, Zoom, Fade, Grow } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Environment } from "../../environment";
 
@@ -12,18 +12,19 @@ interface ICardCourse {
 
 export const CardCourse = ({title, description, file, id} :ICardCourse) => {
   const navigate = useNavigate();
+  const [image, setImage] = useState( "https://images.tcdn.com.br/img/img_prod/852394/curso_online_meu_primeiro_huawei_iniciacao_para_roteador_de_borda_huawei_297_1_8178f580feb2beae96a9365e3ab6ff85.png")
 
-  let image =
-    "https://images.tcdn.com.br/img/img_prod/852394/curso_online_meu_primeiro_huawei_iniciacao_para_roteador_de_borda_huawei_297_1_8178f580feb2beae96a9365e3ab6ff85.png";
+  useEffect( () => {
+    if (file) {
+      const pathUrl = `${Environment.URL_BASE}/getFile${file.replace(".", "")}`;
+      setImage(pathUrl);
+      // image = pathUrl;
+    }
 
-   if (file) {
-     const pathUrl = `${Environment.URL_BASE}/getFile${file.replace(
-       ".",
-       ""
-     )}`;
-     image = pathUrl;
-   }
+    console.log(image)
+  }, [image, file]);
 
+  
 
      const cardSX = {
        boxShadow: 10,

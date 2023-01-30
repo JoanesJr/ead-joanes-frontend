@@ -118,7 +118,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
 
         if (result instanceof Error) {
           alert(result.message);
-          navigate("/admin/usuarios");
+          navigate(Environment.ADMIN_USUARIOS);
         } else {
           setName(`${result.name} ${result.surname}`);
           if (result.file) {
@@ -158,7 +158,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
                setSuccessAlertOpen(true);
                setTimeout(() => {
                  setSuccessAlertOpen(false);
-                 navigate("/admin/usuarios");
+                 navigate(Environment.ADMIN_USUARIOS);
                }, 1000);
             }
           })
@@ -218,16 +218,15 @@ export const DetalheDePessoasUsuario: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      title={id === "novo" ? "Novo usuário" : name}
+      title={id === "novo" ? "Novo Curso" : name}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo="Nova"
-          mostrarBotaoSalvarEFechar
           mostrarBotaoNovo={id !== "novo"}
           mostrarBotaoApagar={id !== "novo"}
           aoClicarEmSalvar={() => formRef.current?.submitForm()}
           aoClicarEmSalvarEFechar={() => formRef.current?.submitForm()}
-          aoClicarEmVoltar={() => navigate("/admin/usuarios")}
+          aoClicarEmVoltar={() => navigate(-1)}
           aoClicarEmApagar={handleDelete}
           aoClicarEmNovo={() => navigate("/admin/usuarios/detalhe/novo")}
         />

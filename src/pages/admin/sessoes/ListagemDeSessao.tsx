@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { FerramentasDaListagem } from "../../../shared/components";
 import { LayoutBaseDePagina } from "../../../shared/layouts";
 import { useDebounce } from '../../../shared/hooks';
@@ -27,7 +27,7 @@ import { IClass } from "../../../shared/services/api/interfaces";
 export const ListagemDeSessao  = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [sections, setSections] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down("sm"));
     const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -38,7 +38,9 @@ export const ListagemDeSessao  = () => {
   const [selectionModel, setSelectionModel] = useState<string | number>('');
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
   const navigate = useNavigate();
-  const { idCourse = '1' } = useParams<"idCourse">();
+  const { state } = useLocation();
+  const { idCourse } = state;
+  console.log(idCourse)
 
 
     const objData = {
@@ -48,12 +50,12 @@ export const ListagemDeSessao  = () => {
   const sectionService = new SectionService(objData);
   
   useEffect(() => {
-    setIsLoading(true);
+    // setIsLoading(true);
     debounce(() => {
         const allSections = async () => {
         const data: any = await sectionService.getByCourse(idCourse);
           data.map((section: any) => {
-            setIsLoading(false);
+            // setIsLoading(false);
             if(section.active) {
               section.active = (smDown || mdDown) ? 'A' : 'Ativo'
             } else {
@@ -61,7 +63,7 @@ export const ListagemDeSessao  = () => {
             }
           });
 
-          setIsLoading(false);
+          // setIsLoading(false);
           setSections(data);
         };
 
@@ -69,7 +71,7 @@ export const ListagemDeSessao  = () => {
         allSections();
         
     });
-  }, [idCourse]);
+  }, [sections]);
 
 
   function convertThemeSpacing(value: number): number {
@@ -128,7 +130,11 @@ export const ListagemDeSessao  = () => {
 
    const handleEdit = () => {
      if (selectionModel) {
-       return navigate(`/admin/cursos/sessoes/detalhe/${idCourse}/${selectionModel}`);
+       return navigate(`/admin/cursos/sessoes/detalhe/${selectionModel}`, {
+        state: {
+          idCourse
+        }
+       });
      }
 
      alert("Nenhum item selecionado");
@@ -137,7 +143,11 @@ export const ListagemDeSessao  = () => {
   const handleView = () => {
     if (selectionModel) {
       return  navigate(
-                `/admin/cursos/sessoes/detalhe/${idCourse}/${selectionModel}?visualizar=true`
+                `/admin/cursos/sessoes/detalhe/${selectionModel}?visualizar=true`, {
+                  state: {
+                    idCourse
+                  }
+                }
               )
     }
 
@@ -147,9 +157,9 @@ export const ListagemDeSessao  = () => {
   const handleClass = () => {
     if (selectionModel) {
       const sectionClass: IClass[] = sections.filter((item: any) => item.id == selectionModel);
-      return navigate(`/admin/cursos/sessoes/aulas/${selectionModel}`, {
+      return navigate(`/admin/cursos/sessoes/aulas`, {
         state: {
-          class: sectionClass[0].class
+          idSection: selectionModel,
         },
       });
     }
@@ -169,7 +179,11 @@ export const ListagemDeSessao  = () => {
             aoClicarEmVoltar={() => navigate(-1)}
             aoClicarEmExcluir={handleDelete}
             aoClicarEmNovo={() =>
-              navigate(`/admin/cursos/sessoes/detalhe/${idCourse}/novo`)
+              navigate(`/admin/cursos/sessoes/detalhe/novo`, {
+                state: {
+                  idCourse
+                }
+              })
             }
             aoClicarEmEditar={handleEdit}
             aoClicarEmDetalhes={handleView}

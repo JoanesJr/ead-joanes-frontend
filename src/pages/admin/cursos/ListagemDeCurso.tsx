@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from '@mui/icons-material/Close';
+import { Environment } from "../../../shared/environment";
 
 
 export const ListagemDeCurso  = () => {
@@ -146,7 +147,11 @@ export const ListagemDeCurso  = () => {
 
   const handleSection = () => {
     if (selectionModel) {
-      return navigate(`/admin/cursos/sessoes/${selectionModel}`)
+      return navigate(Environment.ADMIN_SESSOES, {
+        state: {
+          idCourse: selectionModel,
+        },
+      });
     }
 
     alert("Nenhum curso selecionado")
