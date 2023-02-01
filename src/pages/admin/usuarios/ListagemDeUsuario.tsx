@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from '@mui/icons-material/Close';
+import { Environment } from "../../../shared/environment";
 
 
 export const ListagemDeUsuario  = () => {
@@ -43,18 +44,12 @@ export const ListagemDeUsuario  = () => {
         return searchParams.get('busca') || '';
     }, [searchParams]);
 
-
-    const objData = {
-        username: 'joanesdejesusjr@gmail.com',
-        password: 'def75315901',
-    }
-  const userService = new UserService(objData);
   
   useEffect(() => {
     setIsLoading(true);
     debounce(() => {
         const allUsers = async () => {
-        const data: any = await userService.getAll(busca);
+        const data: any = await UserService.getAll(busca);
           data.map((user: any) => {
             setIsLoading(false);
             if (user.admin) {
@@ -126,7 +121,7 @@ export const ListagemDeUsuario  = () => {
   const handleDelete = () => {
     if (selectionModel) {
       if (window.confirm("Realmente deseja apagar?")) {
-        userService.deleteById(selectionModel.toString());
+        UserService.deleteById(selectionModel.toString());
         const newUsers = users.filter((user: any) => user.id != selectionModel);
         setUsers(newUsers);
         setSearchParams(busca);
@@ -167,6 +162,8 @@ export const ListagemDeUsuario  = () => {
         title="Listagem de Usuários"
         barraDeFerramentas={
           <FerramentasDaListagem
+            mostrarBotaoCursos
+            aoClicarEmCursos={() => navigate(Environment.ADMIN_USUARIOS_CURSOS)}
             idRow={selectionModel}
             aoClicarEmExcluir={handleDelete}
             aoClicarEmNovo={() => navigate("/admin/usuarios/detalhe/novo")}

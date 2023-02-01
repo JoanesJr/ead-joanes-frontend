@@ -31,6 +31,7 @@ interface IFerramentasDaListagemProps {
   mostrarBotaoSessoes?: boolean;
   mostrarBotaoVoltar?: boolean;
   mostrarBotaoAula?: boolean;
+  mostrarBotaoCursos?: boolean;
 
   mostrarBotaoVoltarCarregando?: boolean;
 
@@ -41,6 +42,7 @@ interface IFerramentasDaListagemProps {
   aoClicaremSessoes?: () => void;
   aoClicarEmVoltar?: () => void;
   aoClicarEmAula?: () => void;
+  aoClicarEmCursos?: () => void;
 }
 
 
@@ -61,6 +63,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
   aoClicaremSessoes,
   aoClicarEmVoltar,
   aoClicarEmAula,
+  aoClicarEmCursos,
   textoBotaoNovo = "Novo",
   mostrarBotaoNovo = true,
   mostrarBotaoEditar = true,
@@ -70,6 +73,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
   mostrarBotaoVoltar = false,
   mostrarBotaoVoltarCarregando = false,
   mostrarBotaoAula = false,
+  mostrarBotaoCursos = false,
   idRow,
 }) => {
   const theme = useTheme();
@@ -201,6 +205,17 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   Aulas
                 </Button>
               )}
+              {mostrarBotaoCursos && (
+                <Button
+                  color="success"
+                  disableElevation
+                  variant="contained"
+                  onClick={aoClicarEmCursos}
+                  startIcon={<Icon>assignmentIcon </Icon>}
+                >
+                  Cursos
+                </Button>
+              )}
             </>
           )}
 
@@ -212,7 +227,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
               onClick={aoClicarEmVoltar}
               startIcon={<Icon>arrow_back</Icon>}
             >
-                Voltar
+              Voltar
             </Button>
           )}
 

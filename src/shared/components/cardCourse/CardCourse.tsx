@@ -21,7 +21,6 @@ export const CardCourse = ({title, description, file, id} :ICardCourse) => {
       // image = pathUrl;
     }
 
-    console.log(image)
   }, [image, file]);
 
   

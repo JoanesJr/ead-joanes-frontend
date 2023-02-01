@@ -20,6 +20,7 @@ export const Environment = {
   // Routes - ADMIN
   ADMIN_USUARIOS: "/admin/usuarios",
   ADMIN_USUARIOS_DETALHE: "/admin/usuarios/detalhe/:id",
+  ADMIN_USUARIOS_CURSOS: "/admin/usuarios/cursos",
   ADMIN_CURSOS: "/admin/cursos",
   ADMIN_CURSOS_DETALHE: "/admin/cursos/detalhe/:id",
   ADMIN_SESSOES: "/admin/cursos/sessoes",
@@ -28,6 +29,7 @@ export const Environment = {
   ADMIN_AULAS_DETALHE: "/admin/cursos/sessoes/aulas/detalhe/:id",
 
   //ROUTES USER
+  USER_LOGIN: "/",
   USER_HOMEPAGE: "/cursos",
   USER_COURSE_PAGE: "/cursos/:id",
   USER_CLASS: "/cursos/:id/aula"

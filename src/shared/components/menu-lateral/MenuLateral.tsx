@@ -3,6 +3,7 @@ import { Box } from '@mui/system';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 
 import { useAppThemeContext, useDrawerContext } from '../../contexts';
+import { Environment } from '../../environment';
 
 interface IMenuLateral {
     children: React.ReactNode;
@@ -79,13 +80,13 @@ export const MenuLateral: React.FC<IMenuLateral> = ({ children }) => {
                 <ListItemLink
                   label="Usuário"
                   icon="person"
-                  to="/admin/usuarios"
+                  to={Environment.ADMIN_USUARIOS}
                   onClick={smDown ? toggleDrawerOpen : undefined}
                 />
                 <ListItemLink
                   label="Cursos"
                   icon="tv"
-                  to="/admin/cursos"
+                  to={Environment.ADMIN_CURSOS}
                   onClick={smDown ? toggleDrawerOpen : undefined}
                 />
               </List>

@@ -1,6 +1,7 @@
 import { Divider, Grid, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CardCourse } from "../../../shared/components";
+import { Environment } from "../../../shared/environment";
 import { UserService } from "../../../shared/services/api";
 
 
@@ -8,26 +9,43 @@ import { UserService } from "../../../shared/services/api";
 export const HomePage = () => {
     const theme = useTheme();
     const [courses, setCourses] = useState([]);
+    const [userId, setUserId] = useState<any>(null);
 
-    const objData = {
-      username: "joanesdejesusjr@gmail.com",
-      password: "def75315901",
-    };
-
-    const userService = new UserService(objData);
 
     useEffect( () => {
+
+
+      const getUserId = () => {
+        const username = localStorage.getItem("username");
+        const obj = {
+          email: username,
+        };
+        UserService.getByEmail(obj)
+          .then((data) => {
+            setUserId(data.id);
+          })
+          .catch((err) => {
+            console.log("deu ruim email")
+          });
+      }
+
         const getCourses = () => {
 
-            userService.getById('6').then( data => {
-                setCourses(data.courses);
-            }).catch(err => {
-                console.log(err);
-            })
+          if(userId) {
+             UserService.getById(userId)
+               .then((data) => {
+                 setCourses(data.courses);
+               })
+               .catch((err) => {
+                 console.log(err);
+               });
+          }
+           
         }
 
+        getUserId();
         getCourses();
-    }, [courses]);
+    }, [courses, userId]);
 
     return (
       <Grid container spacing={2} margin={5}>

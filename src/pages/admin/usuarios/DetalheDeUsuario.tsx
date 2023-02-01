@@ -87,10 +87,6 @@ const adminOptions = [
 
 
 export const DetalheDePessoasUsuario: React.FC = () => {
-  const objData = {
-    username: "joanesdejesusjr@gmail.com",
-    password: "def75315901",
-  };
   const { id = "novo" } = useParams<"id">();
   const navigate = useNavigate();
   const formRef = useRef<FormHandles>(null);
@@ -107,13 +103,11 @@ export const DetalheDePessoasUsuario: React.FC = () => {
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
-   const userService = new UserService(objData);
-
   useEffect(() => {
     if (id !== "novo") {
       setIsLoading(true);
 
-      userService.getById(id).then((result) => {
+      UserService.getById(id).then((result) => {
         setIsLoading(false);
 
         if (result instanceof Error) {
@@ -150,7 +144,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
       .validate(obj, { abortEarly: false })
       .then((valideObj) => {
         setIsLoading(true);
-          userService.create(valideObj).then((result) => {
+          UserService.create(valideObj).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
@@ -179,7 +173,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
         .then((valideObj) => {
           setIsLoading(true);
 
-          userService.updateById(id, valideObj).then((result) => {
+          UserService.updateById(id, valideObj).then((result) => {
             setIsLoading(false);
 
             if (result instanceof Error) {
@@ -208,7 +202,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
 
   const handleDelete = () => {
     if (window.confirm("Realmente deseja apagar?")) {
-      userService.deleteById(id);
+      UserService.deleteById(id);
       setSuccessAlertOpen(true);
       setTimeout(() => {
         setSuccessAlertOpen(false);

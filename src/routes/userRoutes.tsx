@@ -1,18 +1,22 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { CoursePage, HomePage } from "../pages";
-import { ResponsiveAppBar } from "../shared/components";
+import { CoursePage, HomePage, LoginPage } from "../pages";
+import { ResponsiveAppBar, ValideLogin } from "../shared/components";
 import { Environment } from "../shared/environment";
+
 export const UserAppRoutes = () => {
   const navigate = useNavigate();
 
   return (
     <Routes>
+      <Route path={Environment.USER_LOGIN} element={<LoginPage />} />
       <Route
         path={Environment.USER_HOMEPAGE}
         element={
-          <ResponsiveAppBar navigate={navigate}>
-            <HomePage />
-          </ResponsiveAppBar>
+          <ValideLogin>
+            <ResponsiveAppBar navigate={navigate}>
+              <HomePage />
+            </ResponsiveAppBar>
+          </ValideLogin>
         }
       />
       <Route
