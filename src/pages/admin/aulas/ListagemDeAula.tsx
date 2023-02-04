@@ -41,17 +41,11 @@ export const ListagemDeAula  = () => {
   // const { idSection = '1' } = useParams<"idSection">();
   const { idSection } = state;
 
-
-    const objData = {
-        username: 'joanesdejesusjr@gmail.com',
-        password: 'def75315901',
-    }
-  const classyService = new ClassService(objData);
   
   useEffect(() => {
     console.log(state);
     const allClasss = async () => {
-      classyService
+      ClassService
         .getBySection(idSection)
         .then((data) => {
           for (let item of data) {
@@ -108,7 +102,7 @@ export const ListagemDeAula  = () => {
   const handleDelete = () => {
     if (selectionModel) {
       if (window.confirm("Realmente deseja apagar?")) {
-        classyService.deleteById(selectionModel.toString());
+        ClassService.deleteById(selectionModel.toString());
         const newClasss = classyes.filter(
           (classy: any) => classy.id != selectionModel
         );

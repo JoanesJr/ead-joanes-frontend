@@ -19,7 +19,6 @@ export const CoursePage = () => {
     const [actualClass, setActualClass] = useState<any>();
     const [file, setFile] = useState("https://www.youtube.com/watch?v=fD0kN7SemRI");
     const { id = "1" } = useParams<"id">();
-    const courseService = new CourseService(objData);
     const { state } = useLocation();
     const theme = useTheme();
 
@@ -56,7 +55,7 @@ export const CoursePage = () => {
 
     useEffect( () => {
         const getData = () => {
-            courseService.getById(id).then( (data) => {
+            CourseService.getById(id).then( (data) => {
             setSections(data.sections)
 
             if (state) {

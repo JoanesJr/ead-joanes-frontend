@@ -162,8 +162,20 @@ export const ListagemDeUsuario  = () => {
         title="Listagem de Usuários"
         barraDeFerramentas={
           <FerramentasDaListagem
-            mostrarBotaoCursos
-            aoClicarEmCursos={() => navigate(Environment.ADMIN_USUARIOS_CURSOS)}
+            mostrarBotaoAddCourse
+            mostrarBotaoRemoveCourse
+            aoClicarEmAddCursos={() => navigate(Environment.ADMIN_USUARIOS_CURSOS, {
+              state: {
+                userId: selectionModel,
+                type: 'add'
+              }
+            })}
+            aoClicarEmARemoveCursos={() => navigate(Environment.ADMIN_USUARIOS_CURSOS, {
+              state: {
+                userId: selectionModel,
+                type: 'remove'
+              }
+            })}
             idRow={selectionModel}
             aoClicarEmExcluir={handleDelete}
             aoClicarEmNovo={() => navigate("/admin/usuarios/detalhe/novo")}

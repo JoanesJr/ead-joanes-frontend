@@ -13,7 +13,6 @@ interface IContext {
   password: string;
   authenticated: boolean;
   handleLogin: any;
-  validateLogin;
 }
 
 const Context = createContext<IContext>(null);
@@ -32,6 +31,7 @@ function AuthProvider({ children }: IAuthProvider) {
          setUsername(objLogin.username);
          setPassword(objLogin.password);
          navigate("/cursos");
+         console.log("aqui")
         }).catch( err => {
             setUsername("");
             setPassword("");
@@ -42,19 +42,10 @@ function AuthProvider({ children }: IAuthProvider) {
         
     };
 
-    const validateLogin = async () => {
-        LoginService.ValidateLogin().then( data => {
-            console.log("validado");
-        }).catch(err => {
-            console.log("n validado");
-            console.log(err);
-        })
-    }
-
 
   return (
     <Context.Provider
-      value={{ username, password, handleLogin, authenticated, validateLogin }}
+      value={{ username, password, handleLogin, authenticated }}
     >
       {children}
     </Context.Provider>

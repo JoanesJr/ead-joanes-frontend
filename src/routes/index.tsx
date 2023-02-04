@@ -7,6 +7,7 @@ import {
   ListagemDeCurso,
   ListagemDeUsuario,
   ListagemDeAula,
+  Cursos,
  } from '../pages';
 import { DetalheDeSessao } from '../pages/admin/sessoes/DetalheDeSessao';
 import { ListagemDeSessao } from '../pages/admin/sessoes/ListagemDeSessao';
@@ -23,6 +24,14 @@ export const AppRoutes = () => {
         element={
           <MenuLateral>
             <ListagemDeUsuario />
+          </MenuLateral>
+        }
+      />
+      <Route
+        path={Environment.ADMIN_USUARIOS_CURSOS}
+        element={
+          <MenuLateral>
+            <Cursos />
           </MenuLateral>
         }
       />

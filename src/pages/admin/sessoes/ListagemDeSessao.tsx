@@ -40,20 +40,14 @@ export const ListagemDeSessao  = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { idCourse } = state;
-  console.log(idCourse)
 
 
-    const objData = {
-        username: 'joanesdejesusjr@gmail.com',
-        password: 'def75315901',
-    }
-  const sectionService = new SectionService(objData);
   
   useEffect(() => {
     // setIsLoading(true);
     debounce(() => {
         const allSections = async () => {
-        const data: any = await sectionService.getByCourse(idCourse);
+        const data: any = await SectionService.getByCourse(idCourse);
           data.map((section: any) => {
             // setIsLoading(false);
             if(section.active) {
@@ -109,7 +103,7 @@ export const ListagemDeSessao  = () => {
   const handleDelete = () => {
     if (selectionModel) {
       if (window.confirm("Realmente deseja apagar?")) {
-        sectionService.deleteById(selectionModel.toString());
+        SectionService.deleteById(selectionModel.toString());
         const newSections = sections.filter(
           (section: any) => section.id != selectionModel
         );

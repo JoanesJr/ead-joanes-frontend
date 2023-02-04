@@ -90,10 +90,6 @@ const typesOptions = [
 ]
 
 export const DetalheDeAula: React.FC = () => {
-  const objData = {
-    username: "joanesdejesusjr@gmail.com",
-    password: "def75315901",
-  };
   const { id = "novo" } = useParams<"id">();
   const navigate = useNavigate();
   const formRef = useRef<FormHandles>(null);
@@ -121,7 +117,6 @@ export const DetalheDeAula: React.FC = () => {
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
-   const classService = new ClassService(objData);
 
    const [type, setType] = useState("");
 
@@ -170,7 +165,7 @@ export const DetalheDeAula: React.FC = () => {
           if (type == "url") {
             valideObj.file = obj.file;
           }
-            classService.create(valideObj).then((result) => {
+            ClassService.create(valideObj).then((result) => {
               setIsLoading(false);
               if (result instanceof Error) {
                 alert(result.message);
@@ -178,7 +173,7 @@ export const DetalheDeAula: React.FC = () => {
                 if (selectedFile && type == "file") {
                   const formData = new FormData();
                   formData.append("file", selectedFile);
-                  classService.updateImage(result.id, formData);
+                  ClassService.updateImage(result.id, formData);
                 }
                 setSuccessAlertOpen(true);
                 setTimeout(() => {
@@ -211,7 +206,7 @@ export const DetalheDeAula: React.FC = () => {
             valideObj.file = obj.file
           }
 
-          classService.updateById(idClass, valideObj).then((result) => {
+          ClassService.updateById(idClass, valideObj).then((result) => {
             setIsLoading(false);
 
             if (result instanceof Error) {
@@ -220,7 +215,7 @@ export const DetalheDeAula: React.FC = () => {
               if (selectedFile && type == "file") {
                 const dataImage = new FormData();
                 dataImage.append("file", selectedFile);
-                classService.updateImage(idClass, dataImage);
+                ClassService.updateImage(idClass, dataImage);
               }
               setSuccessAlertOpen(true);
               setTimeout(() => {
@@ -246,7 +241,7 @@ export const DetalheDeAula: React.FC = () => {
 
   const handleDelete = () => {
     if (window.confirm("Realmente deseja apagar?")) {
-      classService.deleteById(idClass);
+      ClassService.deleteById(idClass);
       setSuccessAlertOpen(true);
       setTimeout(() => {
         setSuccessAlertOpen(false);

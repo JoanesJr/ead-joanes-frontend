@@ -1,17 +1,12 @@
-import {ApiService} from "../ApiService";
 import { Api } from "../axios-config";
-import { IApiLogin, ICourse } from "../interfaces";
+import { ICourse } from "../interfaces";
 
-export class CourseService extends ApiService {
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor(courseLogin: IApiLogin) {
-    super(courseLogin);
-    this.Login(courseLogin);
-  }
+export class CourseService {
 
-  async getAll(busca: string): Promise<ICourse[] | Error> {
+
+  static async getAll(busca: string): Promise<ICourse[] | Error> {
     try {
-      await this.checkLogin();
+      Api.defaults.headers["Authorization"] = "Bearer " + localStorage.getItem("apiToken");
       const { data } = await Api.get(`/course?busca=${busca}`);
       const courses = data;
 
@@ -26,64 +21,80 @@ export class CourseService extends ApiService {
     }
   }
 
-  async updateImage(id: string, obj: any): Promise<any> {
-    await this.checkLogin();
+  static async updateImage(id: string, obj: any): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+   
     const { data } = await Api.patch(`/course/profile/image/${id}`, obj);
     const course = data;
 
     return course;
   }
 
-  async getAllActives(): Promise<any> {
-    await this.checkLogin();
+  static async getAllActives(): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+   
     const { data } = await Api.get("/course/active/all");
     const courses = data;
 
     return courses;
   }
 
-  async getAllAdmins(): Promise<any> {
-    await this.checkLogin();
+  static async getAllAdmins(): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+   
     const { data } = await Api.get("/course/admin/all");
     const courses = data;
 
     return courses;
   }
 
-  async getAllAdminsActive(): Promise<any> {
-    await this.checkLogin();
+  static async getAllAdminsActive(): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+   
     const { data } = await Api.get("/course/active/admin");
     const courses = data;
 
     return courses;
   }
 
-  async getById(id: string): Promise<any> {
-    await this.checkLogin();
+  static async getById(id: string): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+   
     const { data } = await Api.get(`/course/${id}`);
     const course = data;
 
     return course;
   }
 
-  async create(obj: object): Promise<any> {
-    await this.checkLogin();
+  static async create(obj: object): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+   
     const { data } = await Api.post("/course", obj);
     const course = data;
 
     return course;
   }
 
-  async updateById(id: string, obj: object): Promise<any> {
-    await this.checkLogin();
+  static async updateById(id: string, obj: object): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+   
     const { data } = await Api.patch(`/course/${id}`, obj);
     const course = data;
 
     return course;
   }
 
-  async deleteById(id: string): Promise<any> {
-    await this.checkLogin();
+  static async deleteById(id: string): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+   
     const { data } = await Api.delete(`/course/${id}`);
     const course = data;
 

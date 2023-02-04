@@ -43,18 +43,12 @@ export const ListagemDeCurso  = () => {
         return searchParams.get('busca') || '';
     }, [searchParams]);
 
-
-    const objData = {
-        username: 'joanesdejesusjr@gmail.com',
-        password: 'def75315901',
-    }
-  const courseService = new CourseService(objData);
   
   useEffect(() => {
     setIsLoading(true);
     debounce(() => {
         const allCourses = async () => {
-        const data: any = await courseService.getAll(busca);
+        const data: any = await CourseService.getAll(busca);
           data.map((course: any) => {
             setIsLoading(false);
             if(course.active) {
@@ -110,7 +104,7 @@ export const ListagemDeCurso  = () => {
   const handleDelete = () => {
     if (selectionModel) {
       if (window.confirm("Realmente deseja apagar?")) {
-        courseService.deleteById(selectionModel.toString());
+        CourseService.deleteById(selectionModel.toString());
         const newCourses = courses.filter(
           (course: any) => course.id != selectionModel
         );

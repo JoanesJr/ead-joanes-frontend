@@ -22,18 +22,22 @@ export const UserAppRoutes = () => {
       <Route
         path={Environment.USER_COURSE_PAGE}
         element={
-          <ResponsiveAppBar navigate={navigate}>
-            <CoursePage />
-          </ResponsiveAppBar>
+          <ValideLogin>
+            <ResponsiveAppBar navigate={navigate}>
+              <CoursePage />
+            </ResponsiveAppBar>
+          </ValideLogin>
         }
       />
 
       <Route
         path={Environment.USER_CLASS}
         element={
-          <ResponsiveAppBar navigate={navigate}>
-            <CoursePage />
-          </ResponsiveAppBar>
+          <ValideLogin>
+            <ResponsiveAppBar navigate={navigate}>
+              <CoursePage />
+            </ResponsiveAppBar>
+          </ValideLogin>
         }
       />
 

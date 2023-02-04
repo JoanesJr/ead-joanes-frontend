@@ -1,7 +1,7 @@
-import { useContext, useState, useEffect } from "react";
-import { Context } from "../../contexts";
+import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import { isExpired, decodeToken } from "react-jwt";
+import { LoginPage } from "../../../pages";
+import { UserService } from "../../services/api";
 
 interface IValideLogin {
   children: JSX.Element;
@@ -10,21 +10,45 @@ interface IValideLogin {
 export const ValideLogin = ({ children }: IValideLogin) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("apiToken"))
-  const auth = useContext(Context)
+  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [id, setId] = useState();
+
 
   useEffect(() => {
+
+    const getUser = async (data) => {
+      const user = await UserService.getByEmail(data);
+      console.log("=====user");
+      console.log(user)
+      if (user.id) {
+        setAuthenticated(true);
+        setId(user.id);
+      } else {
+        setAuthenticated(false);
+        localStorage.removeItem("apiToken");
+        localStorage.removeItem("username");
+      }
+    }
+
     const key = localStorage.getItem("apiToken");
+    const usernameControl = localStorage.getItem("username");
     setToken(key);
-    auth.validateLogin().then( data => {
-        console.log(data);
-    }).catch(err => {
-        console.log("deu ruim")
-    })
-  }, [token, localStorage.getItem("apiToken")]);
+    setUsername(usernameControl);
+    const obj = {
+      email: username
+    }
+
+
+    getUser(obj);
+
+    
+
+    
+    
+  }, [token, username, id]);
 
   return (
-    <Box>
-        {children}
-    </Box>
-  );
+  <>
+  {authenticated ? <Box>{children}</Box> : <LoginPage />}
+  </>);
 };

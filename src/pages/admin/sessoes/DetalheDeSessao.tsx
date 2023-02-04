@@ -67,10 +67,6 @@ const statusOptions = [
 ];
 
 export const DetalheDeSessao: React.FC = () => {
-  const objData = {
-    username: "joanesdejesusjr@gmail.com",
-    password: "def75315901",
-  };
   const { id = "novo" } = useParams<"id">();
   const navigate = useNavigate();
   const formRef = useRef<FormHandles>(null);
@@ -90,13 +86,12 @@ export const DetalheDeSessao: React.FC = () => {
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
-   const sectionService = new SectionService(objData);
 
   useEffect(() => {
     if (id !== "novo") {
       setIsLoading(true);
 
-      sectionService.getById(id).then((result) => {
+      SectionService.getById(id).then((result) => {
         setIsLoading(false);
 
         if (result instanceof Error) {
@@ -124,7 +119,7 @@ export const DetalheDeSessao: React.FC = () => {
         .validate(obj, { abortEarly: false })
         .then((valideObj) => {
           setIsLoading(true);
-          sectionService.create(valideObj).then((result) => {
+          SectionService.create(valideObj).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
@@ -154,7 +149,7 @@ export const DetalheDeSessao: React.FC = () => {
         .then((valideObj) => {
           setIsLoading(true);
 
-          sectionService.updateById(id, valideObj).then((result) => {
+          SectionService.updateById(id, valideObj).then((result) => {
             setIsLoading(false);
 
             if (result instanceof Error) {
@@ -183,7 +178,7 @@ export const DetalheDeSessao: React.FC = () => {
 
   const handleDelete = () => {
     if (window.confirm("Realmente deseja apagar?")) {
-      sectionService.deleteById(id);
+      SectionService.deleteById(id);
       setSuccessAlertOpen(true);
       setTimeout(() => {
         setSuccessAlertOpen(false);

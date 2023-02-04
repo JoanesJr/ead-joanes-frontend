@@ -15,19 +15,17 @@ export class LoginService {
       
   }
 
-  static async ValidateLogin(): Promise<Boolean> {
+   static async ValidateLogin(): Promise<any> {
     const access_token = localStorage.getItem("apiToken");
-    console.log("tokenValidate: " + access_token);
     Api.defaults.headers["Authorization"] = "Bearer " + access_token;
-    const { data } = await Api.post("/user/auth/login/validate");
-    console.log("validate");
-    console.log(data);
+    Api.post("/user/auth/login/validate").then(data => {
+      console.log("deu bom");
+      console.log(data);
+    }).catch(err => {
+      console.log("deu ruim");
+      console.log(err);
+    });
 
-    if (data.validate) {
-      return true;
-    }
-
-    return false;
   }
 
 }

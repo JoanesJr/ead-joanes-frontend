@@ -1,6 +1,7 @@
 export * from "./admin/dashboard/Dashboard";
 export * from "./admin/usuarios/ListagemDeUsuario";
 export * from "./admin/usuarios/DetalheDeUsuario";
+export * from "./admin/usuarios/Cursos";
 export * from "./admin/cursos/ListagemDeCurso";
 export * from "./admin/cursos/DetalheDeCurso";
 export * from "./admin/aulas/ListagemDeAula";

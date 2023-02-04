@@ -42,8 +42,6 @@ export const LoginPage = () => {
 
       await auth.handleLogin({username, password});
       
-
-
     };
 
 

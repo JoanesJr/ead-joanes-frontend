@@ -17,6 +17,7 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useRef, useState } from "react";
 import { Environment } from '../../environment';
+import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 
 interface IFerramentasDaListagemProps {
   textoDaBusca?: string;
@@ -26,12 +27,15 @@ interface IFerramentasDaListagemProps {
   mostrarBotaoNovo?: boolean;
   mostrarBotaoExcluir?: boolean;
   mostrarBotaoEditar?: boolean;
-  idRow: number | string;
+  idRow: any;
   mostrarBotaoDetalhes?: boolean;
   mostrarBotaoSessoes?: boolean;
   mostrarBotaoVoltar?: boolean;
   mostrarBotaoAula?: boolean;
-  mostrarBotaoCursos?: boolean;
+  mostrarBotaoAddCourse?: boolean;
+  mostrarBotaoRemoveCourse?: boolean;
+  mostrarBotaoVinculo?: boolean;
+  textoBotaoVinculo?: string;
 
   mostrarBotaoVoltarCarregando?: boolean;
 
@@ -42,7 +46,9 @@ interface IFerramentasDaListagemProps {
   aoClicaremSessoes?: () => void;
   aoClicarEmVoltar?: () => void;
   aoClicarEmAula?: () => void;
-  aoClicarEmCursos?: () => void;
+  aoClicarEmAddCursos?: () => void;
+  aoClicarEmARemoveCursos?: () => void;
+  aoClicarEmVinculo?: () => void;
 }
 
 
@@ -54,6 +60,7 @@ const options = [
 
 export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
   textoDaBusca = "",
+  textoBotaoVinculo = "",
   aoMudarTextoDeBusca,
   mostrarInputBusca = false,
   aoClicarEmNovo,
@@ -63,7 +70,10 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
   aoClicaremSessoes,
   aoClicarEmVoltar,
   aoClicarEmAula,
-  aoClicarEmCursos,
+  aoClicarEmAddCursos,
+  aoClicarEmARemoveCursos,
+  aoClicarEmVinculo,
+
   textoBotaoNovo = "Novo",
   mostrarBotaoNovo = true,
   mostrarBotaoEditar = true,
@@ -73,7 +83,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
   mostrarBotaoVoltar = false,
   mostrarBotaoVoltarCarregando = false,
   mostrarBotaoAula = false,
-  mostrarBotaoCursos = false,
+  mostrarBotaoAddCourse = false,
+  mostrarBotaoRemoveCourse = false,
+  mostrarBotaoVinculo = false,
   idRow,
 }) => {
   const theme = useTheme();
@@ -205,15 +217,38 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   Aulas
                 </Button>
               )}
-              {mostrarBotaoCursos && (
+              {mostrarBotaoAddCourse && (
                 <Button
                   color="success"
                   disableElevation
                   variant="contained"
-                  onClick={aoClicarEmCursos}
-                  startIcon={<Icon>assignmentIcon </Icon>}
+                  onClick={aoClicarEmAddCursos}
+                  startIcon={<Icon>addIcon </Icon>}
                 >
                   Cursos
+                </Button>
+              )}
+              {mostrarBotaoRemoveCourse && (
+                <Button
+                  color="success"
+                  disableElevation
+                  variant="contained"
+                  onClick={aoClicarEmARemoveCursos}
+                  startIcon={<Icon>removeCircleOutlineIcon </Icon>}
+                >
+                  Cursos
+                </Button>
+              )}
+
+              {mostrarBotaoVinculo && (
+                <Button
+                  color="success"
+                  disableElevation
+                  variant="contained"
+                  onClick={aoClicarEmVinculo}
+                  startIcon={<ChevronRightOutlinedIcon />}
+                >
+                  {textoBotaoVinculo}
                 </Button>
               )}
             </>

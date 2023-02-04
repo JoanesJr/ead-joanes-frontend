@@ -61,10 +61,6 @@ const statusOptions = [
 ];
 
 export const DetalheDeCurso: React.FC = () => {
-  const objData = {
-    username: "joanesdejesusjr@gmail.com",
-    password: "def75315901",
-  };
   const { id = "novo" } = useParams<"id">();
   const navigate = useNavigate();
   const formRef = useRef<FormHandles>(null);
@@ -83,13 +79,11 @@ export const DetalheDeCurso: React.FC = () => {
    const [selectedFileUrl, setSelectedFileUrl] = useState("");
    const [selectedFile, setSelectedFile] = useState<File>();
 
-   const courseService = new CourseService(objData);
-
   useEffect(() => {
     if (id !== "novo") {
       setIsLoading(true);
 
-      courseService.getById(id).then((result) => {
+      CourseService.getById(id).then((result) => {
         setIsLoading(false);
 
         if (result instanceof Error) {
@@ -125,7 +119,7 @@ export const DetalheDeCurso: React.FC = () => {
       .validate(obj, { abortEarly: false })
       .then((valideObj) => {
         setIsLoading(true);
-          courseService.create(valideObj).then((result) => {
+          CourseService.create(valideObj).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
@@ -133,7 +127,7 @@ export const DetalheDeCurso: React.FC = () => {
               if (selectedFile) {
                 const formData = new FormData();
                 formData.append("file", selectedFile);
-                courseService.updateImage(result.id, formData);
+                CourseService.updateImage(result.id, formData);
               }
                setSuccessAlertOpen(true);
                setTimeout(() => {
@@ -159,7 +153,7 @@ export const DetalheDeCurso: React.FC = () => {
         .then((valideObj) => {
           setIsLoading(true);
 
-          courseService.updateById(id, valideObj).then((result) => {
+          CourseService.updateById(id, valideObj).then((result) => {
             setIsLoading(false);
 
             if (result instanceof Error) {
@@ -168,7 +162,7 @@ export const DetalheDeCurso: React.FC = () => {
               if (selectedFile) {
                 const formData = new FormData();
                 formData.append("file", selectedFile);
-                courseService.updateImage(result.id, formData);
+                CourseService.updateImage(result.id, formData);
               }
                setSuccessAlertOpen(true);
                setTimeout(() => {
@@ -193,7 +187,7 @@ export const DetalheDeCurso: React.FC = () => {
 
   const handleDelete = () => {
     if (window.confirm("Realmente deseja apagar?")) {
-      courseService.deleteById(id);
+      CourseService.deleteById(id);
       setSuccessAlertOpen(true);
       setTimeout(() => {
         setSuccessAlertOpen(false);
