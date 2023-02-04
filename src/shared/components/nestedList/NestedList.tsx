@@ -12,6 +12,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Environment } from "../../environment";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 interface INestedList {
   sections: any[];
@@ -24,6 +26,7 @@ interface IListSection {
   title: string;
   classes: [];
   idCourse: number | string;
+  completed?: boolean;
 }
 
 interface IListSectionComponent {
@@ -31,6 +34,7 @@ interface IListSectionComponent {
   id: string | number;
   idCourse: number | string;
   idSection: number | string;
+  completed: boolean;
 }
 
 const ListSectionComponent = ({
@@ -38,6 +42,7 @@ const ListSectionComponent = ({
   title,
   idCourse,
   idSection,
+  completed
 }: IListSectionComponent) => {
   const navigate = useNavigate();
   const handleClick = () => {
@@ -49,6 +54,9 @@ const ListSectionComponent = ({
     });
   };
 
+  const [completedS, setCompletedS] = React.useState(completed);
+
+
   return (
     <List component="div" disablePadding onClick={handleClick}>
       <ListItemButton sx={{ pl: 4 }}>
@@ -56,6 +64,8 @@ const ListSectionComponent = ({
           <SchoolIcon />
         </ListItemIcon>
         <ListItemText primary={title} />
+        {!completed && <CheckCircleOutlineIcon />}
+        {completed && <CheckCircleIcon style={{ color: 'green' }} />}
       </ListItemButton>
     </List>
   );
@@ -84,6 +94,7 @@ const ListSection = ({ id, title, classes, idCourse }: IListSection) => {
             id={classy.id}
             idCourse={idCourse}
             idSection={id}
+            completed={classy.completed}
           />
         ))}
       </Collapse>

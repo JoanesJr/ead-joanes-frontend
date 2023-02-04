@@ -82,7 +82,6 @@ export const CoursePage = () => {
         }
 
         getData();
-        console.log(file)
     }, [sections, state, actualClass, actualSection]);
     return (
       <Box>
