@@ -149,7 +149,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
           component={Paper}
           elevation={24}
         >
-          {!mdDown && (
+          {/* {!mdDown && ( */}
             <>
               {mostrarBotaoNovo && (
                 <Button
@@ -252,7 +252,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                 </Button>
               )}
             </>
-          )}
+          {/* )} */}
 
           {mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando && (
             <Button
@@ -266,7 +266,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
             </Button>
           )}
 
-          {mdDown && (
+          {/* {mdDown && (
             <>
               <ButtonGroup
                 variant="contained"
@@ -324,7 +324,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                 )}
               </Popper>
             </>
-          )}
+          )} */}
         </ButtonGroup>
       </Box>
     </Box>

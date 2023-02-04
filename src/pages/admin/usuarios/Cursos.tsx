@@ -40,6 +40,7 @@ export const Cursos = () => {
   const [selectionModel, setSelectionModel] =
     useState<GridSelectionModel>([]);
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
   const navigate = useNavigate();
 
   const busca = useMemo(() => {
@@ -127,26 +128,54 @@ export const Cursos = () => {
 
   const rows = type == 'add' ? unassignCourses : userCourses ;
 
-  const handleDelete = () => {
-    if (selectionModel) {
-      if (window.confirm("Realmente deseja apagar?")) {
-        CourseService.deleteById(selectionModel.toString());
-        const newCourses = courses.filter(
-          (course: any) => course.id != selectionModel
-        );
-        setCourses(newCourses);
-        setSearchParams(busca);
-        setSuccessAlertOpen(true);
-        setTimeout(() => {
-          setSuccessAlertOpen(false);
-        }, 1000);
-      }
+  const handleExecute = () => {
+    selectionModel.map( id => {
+        const obj = {
+          id_user: userId,
+          id_course: id,
+        };
 
-      return;
-    }
+        if (type == "add") {
+            UserService.relationCourseAdd(obj)
+              .then((data) => {
+                setSuccessAlertOpen(true);
+                setAlertMessage("Operação realizada com sucesso!");
+                setTimeout(() => {
+                  setSuccessAlertOpen(false);
+                }, 1000);
+              })
+              .catch((err) => {
+                 setSuccessAlertOpen(true);
+                 setAlertMessage("Falha ao realizar operação!");
+                 setTimeout(() => {
+                   setSuccessAlertOpen(false);
+                 }, 1000);
+              });
 
-    alert("Nenhum item selecionado");
-  };
+            return;
+        }
+
+         UserService.relationCourseRemove(obj)
+           .then((data) => {
+             setSuccessAlertOpen(true);
+             setAlertMessage("Operação realizada com sucesso!");
+             setTimeout(() => {
+               setSuccessAlertOpen(false);
+             }, 1000);
+           })
+           .catch((err) => {
+             setSuccessAlertOpen(true);
+             setAlertMessage("Falha ao realizar operação!");
+             setTimeout(() => {
+               setSuccessAlertOpen(false);
+             }, 1000);
+           });
+
+         return;
+
+
+    });
+  }
 
 
   return (
@@ -155,7 +184,6 @@ export const Cursos = () => {
       barraDeFerramentas={
         <FerramentasDaListagem
           idRow={selectionModel}
-          aoClicarEmExcluir={handleDelete}
           mostrarBotaoVoltar
           aoClicarEmVoltar={() => navigate(-1)}
           mostrarBotaoNovo={false}
@@ -163,6 +191,7 @@ export const Cursos = () => {
           mostrarBotaoExcluir={false}
           mostrarBotaoDetalhes={false}
           mostrarBotaoVinculo
+          aoClicarEmVinculo={handleExecute}
           textoBotaoVinculo={type == "add" ? "Adicionar" : "Remover"}
         />
       }
@@ -186,7 +215,7 @@ export const Cursos = () => {
             }
             sx={{ mb: 2 }}
           >
-            Operação realizada com sucesso!
+            {alertMessage}
           </Alert>
         </Collapse>
       </Box>
@@ -203,7 +232,6 @@ export const Cursos = () => {
           loading={isLoading}
           onSelectionModelChange={(newSelectionModel) => {
             setSelectionModel(newSelectionModel);
-            console.log(selectionModel)
           }}
           selectionModel={selectionModel}
         />

@@ -2,7 +2,7 @@ import {ApiService} from "../ApiService";
 import { Api } from "../axios-config";
 import { IApiLogin, IUser } from "../interfaces";
 
-export class UserService  {
+export class UserService {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor
 
   static async getAll(busca: string): Promise<IUser[] | Error> {
@@ -59,7 +59,7 @@ export class UserService  {
     return user;
   }
 
-  static async getByEmail(obj: {email: string}): Promise<any> {
+  static async getByEmail(obj: { email: string }): Promise<any> {
     Api.defaults.headers["Authorization"] =
       "Bearer " + localStorage.getItem("apiToken");
     const { data } = await Api.post(`/user/email`, obj);
@@ -95,11 +95,21 @@ export class UserService  {
     return user;
   }
 
-  static async relationCourse(obj: object): Promise<any> {
+  static async relationCourseAdd(obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
       "Bearer " + localStorage.getItem("apiToken");
-    
+
     const { data } = await Api.post("/user/course/add", obj);
+    const userCourse = data;
+
+    return userCourse;
+  }
+
+  static async relationCourseRemove(obj: object): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+
+    const { data } = await Api.post("/user/course/remove", obj);
     const userCourse = data;
 
     return userCourse;
