@@ -34,7 +34,14 @@ export const HomePage = () => {
           if(userId) {
              UserService.getById(userId)
                .then((data) => {
-                 setCourses(data.courses);
+                let controll = [];
+                for (let c of data.courses) {
+                  if(c.active) {
+                    controll.push(c);
+                  }
+                }
+
+                 setCourses(controll);
                })
                .catch((err) => {
                  console.log(err);
