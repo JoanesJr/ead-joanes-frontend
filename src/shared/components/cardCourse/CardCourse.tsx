@@ -39,7 +39,7 @@ export const CardCourse = ({title, description, file, id} :ICardCourse) => {
       <Grow in={true}>
         <Card sx={cardSX} elevation={3} onClick={() => navigate(`/cursos/${id}`)}>
           <CardMedia sx={{ height: 300 }} image={image} title={title} />
-          <CardContent>
+          <CardContent sx={{ display: 'flex', justifyContent: 'center' }}>
             <Typography gutterBottom variant="h5" component="div">
               {title}
             </Typography>

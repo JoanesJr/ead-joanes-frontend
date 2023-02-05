@@ -75,7 +75,7 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
           <AppBar position="static">
             <Container maxWidth="xl">
               <Toolbar disableGutters>
-                <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+                {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
                 <Typography
                   variant="h6"
                   noWrap
@@ -91,7 +91,17 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                     textDecoration: "none",
                   }}
                 >
-                  LOGO
+                  <Box
+                    component="img"
+                    sx={{
+                      height: 40,
+                      width: 40,
+                      maxHeight: { xs: 40, md: 40 },
+                      maxWidth: { xs: 40, md: 40 },
+                    }}
+                    alt="The house from the offer."
+                    src="logo192.png"
+                  />
                 </Typography>
 
                 <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
