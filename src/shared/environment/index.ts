@@ -18,6 +18,7 @@ export const Environment = {
   // URL_BASE: "https://api-ead-joanes.herokuapp.com",
 
   // Routes - ADMIN
+  ADMIN_DASHBOARD: "/admin/dashboard",
   ADMIN_USUARIOS: "/admin/usuarios",
   ADMIN_USUARIOS_DETALHE: "/admin/usuarios/detalhe/:id",
   ADMIN_USUARIOS_CURSOS: "/admin/usuarios/cursos",

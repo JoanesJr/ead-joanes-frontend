@@ -54,7 +54,6 @@ const ListSectionComponent = ({
     });
   };
 
-  const [completedS, setCompletedS] = React.useState(completed);
 
 
   return (

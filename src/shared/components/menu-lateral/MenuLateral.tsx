@@ -78,6 +78,12 @@ export const MenuLateral: React.FC<IMenuLateral> = ({ children }) => {
             <List component="nav">
               <List component="nav">
                 <ListItemLink
+                  label="Dashboard"
+                  icon="dashboard"
+                  to={Environment.ADMIN_DASHBOARD}
+                  onClick={smDown ? toggleDrawerOpen : undefined}
+                />
+                <ListItemLink
                   label="Usuário"
                   icon="person"
                   to={Environment.ADMIN_USUARIOS}

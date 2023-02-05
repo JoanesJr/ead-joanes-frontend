@@ -96,10 +96,10 @@ export const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard"
+        path={Environment.ADMIN_DASHBOARD}
         element={
           <MenuLateral>
-            <Dashboard title="dashboards" />
+            <Dashboard title="Dashboard" />
           </MenuLateral>
         }
       />
