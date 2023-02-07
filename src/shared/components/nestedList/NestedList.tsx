@@ -14,6 +14,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Environment } from "../../environment";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { CompletedClassService } from "../../services/api/completedClass/CompletedClass";
+import { UserService } from "../../services/api";
 
 interface INestedList {
   sections: any[];
@@ -26,7 +28,6 @@ interface IListSection {
   title: string;
   classes: [];
   idCourse: number | string;
-  completed?: boolean;
 }
 
 interface IListSectionComponent {
@@ -34,7 +35,6 @@ interface IListSectionComponent {
   id: string | number;
   idCourse: number | string;
   idSection: number | string;
-  completed: boolean;
 }
 
 const ListSectionComponent = ({
@@ -42,7 +42,6 @@ const ListSectionComponent = ({
   title,
   idCourse,
   idSection,
-  completed
 }: IListSectionComponent) => {
   const navigate = useNavigate();
   const handleClick = () => {
@@ -54,6 +53,62 @@ const ListSectionComponent = ({
     });
   };
 
+  const [completed, setCompleted] = React.useState(false);
+  const [idUser, setIdUser] = React.useState("");
+
+  React.useEffect( () => {
+      const email = localStorage.getItem("username");
+      const obj = {
+        email
+      };
+
+      UserService.getByEmail(obj).then(data => {
+        setIdUser(data.id);
+          CompletedClassService.getToClass(data.id, id).then(data => {
+            if (data) {
+              setCompleted(true);
+            } else {
+              setCompleted(false);
+            }
+            
+          }).catch( err => {
+            // console.log(err);
+            setCompleted(false);
+          })
+        
+        
+      })
+
+     
+  }, [completed]);
+
+  const handleCompletedCourseAdd = () => {
+    const obj = {
+      id_user: Number(idUser),
+      id_class: Number(id)
+    }
+
+      CompletedClassService.create(obj).then(data => {
+        setCompleted(true)
+      }).catch(err => {
+        setCompleted(false);
+      })
+  }
+
+  const handleCompletedCourseRemove = () => {
+    const obj = {
+      id_user: Number(idUser),
+      id_class: Number(id)
+    }
+
+    CompletedClassService.delete(obj).then(data => {
+      setCompleted(false)
+    }).catch(err => {
+      setCompleted(false);
+    })
+
+      
+  }
 
 
   return (
@@ -63,12 +118,14 @@ const ListSectionComponent = ({
           <SchoolIcon />
         </ListItemIcon>
         <ListItemText primary={title} />
-        {!completed && <CheckCircleOutlineIcon />}
-        {completed && <CheckCircleIcon style={{ color: 'green' }} />}
+        {!completed && <CheckCircleOutlineIcon onClick={ handleCompletedCourseAdd} />}
+        {completed && <CheckCircleIcon style={{ color: 'green' }} onClick={ handleCompletedCourseRemove} />}
       </ListItemButton>
     </List>
   );
 };
+
+
 
 const ListSection = ({ id, title, classes, idCourse }: IListSection) => {
   const [open, setOpen] = React.useState(false);
@@ -93,7 +150,6 @@ const ListSection = ({ id, title, classes, idCourse }: IListSection) => {
             id={classy.id}
             idCourse={idCourse}
             idSection={id}
-            completed={classy.completed}
           />
         ))}
       </Collapse>

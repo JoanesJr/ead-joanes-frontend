@@ -25,7 +25,7 @@ export const HomePage = () => {
             setUserId(data.id);
           })
           .catch((err) => {
-            console.log("deu ruim email")
+            // console.log("deu ruim email")
           });
       }
 
@@ -44,7 +44,7 @@ export const HomePage = () => {
                  setCourses(controll);
                })
                .catch((err) => {
-                 console.log(err);
+                //  console.log(err);
                });
           }
            

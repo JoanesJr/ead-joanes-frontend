@@ -9,8 +9,8 @@ const Api = axios.create({
 });
 
 Api.interceptors.response.use(
-  (response) => responseInterceptor(response),
-  (error) => errorInterceptor(error),
+  // (response) => responseInterceptor(response),
+  // (error) => errorInterceptor(error),
 );
 
 export { Api };

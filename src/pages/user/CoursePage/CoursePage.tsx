@@ -77,7 +77,7 @@ export const CoursePage = () => {
                 setFile("https://www.youtube.com/watch?v=fD0kN7SemRI");
             }
         }).catch( err => {
-            console.log(err);
+            // console.log(err);
         })
         }
 
