@@ -33,17 +33,33 @@ export class CompletedClassService {
   static async create(obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
       "Bearer " + localStorage.getItem("apiToken");
+      console.log("creted");
+      console.log(obj)
     const { data } = await Api.post("/completed-class", obj);
+    console.log("res created");
+    console.log(data);
     const user = data;
 
     return user;
   }
 
-
   static async delete(obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
       "Bearer " + localStorage.getItem("apiToken");
-    const { data } = await Api.delete(`/completed-class`, obj);
+      console.log("delted")
+      console.log(obj)
+    const { data } = await Api.post(`/completed-class/cancel`, obj);
+    console.log("res");
+    console.log(data);
+    const classy = data;
+
+    return classy;
+  }
+
+  static async getCoursePercent(idCourse: string | number, idUser: string | number): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+    const { data } = await Api.get(`/completed-class/percent/${idCourse}/${idUser}`);
     const classy = data;
 
     return classy;

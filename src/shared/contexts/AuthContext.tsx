@@ -31,7 +31,7 @@ function AuthProvider({ children }: IAuthProvider) {
          setUsername(objLogin.username);
          setPassword(objLogin.password);
          navigate("/cursos");
-         console.log("aqui")
+        //  console.log("aqui")
         }).catch( err => {
             setUsername("");
             setPassword("");

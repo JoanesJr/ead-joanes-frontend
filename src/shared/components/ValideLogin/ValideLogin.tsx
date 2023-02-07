@@ -18,8 +18,8 @@ export const ValideLogin = ({ children }: IValideLogin) => {
 
     const getUser = async (data) => {
       const user = await UserService.getByEmail(data);
-      console.log("=====user");
-      console.log(user)
+      // console.log("=====user");
+      // console.log(user)
       if (user.id) {
         setAuthenticated(true);
         setId(user.id);
