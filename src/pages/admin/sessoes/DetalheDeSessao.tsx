@@ -282,7 +282,7 @@ export const DetalheDeSessao: React.FC = () => {
                 md={12}
                 lg={6}
                 xl={6}
-                marginTop={!lgDown && viewOnly ? -22 : 0}
+               
               >
                 <Grid container item direction="row" spacing={2}>
                   <Grid container item direction="row" spacing={2}>

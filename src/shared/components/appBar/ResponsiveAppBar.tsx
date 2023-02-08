@@ -47,9 +47,9 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
           case "cursos":
             navigate(Environment.USER_HOMEPAGE);
             break;
-          // case "dashboard":
-          //   navigate("/");
-          //   break;
+          case "dashboard":
+            navigate(Environment.USER_DASHBOARD);
+            break;
         }
         setAnchorElNav(null);
       };

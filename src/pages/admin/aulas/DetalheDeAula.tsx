@@ -47,14 +47,14 @@ interface IFormDataUpdate {
   file?: string;
 }
 
-const formValidationSchemaCreate: yup.SchemaOf<IFormDataCreate> = yup
+const formValidationSchemaCreate: yup.SchemaOf<IFormDataUpdate> = yup
   .object()
   .shape({
     title: yup.string().required().min(3),
     description: yup.string().required().min(5).max(194),
     active: yup.boolean().required().default(true),
     type: yup.string().required().default("url"),
-    file: yup.string()
+    file: yup.string().optional()
   });
 
 const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
@@ -64,7 +64,7 @@ const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
     description: yup.string().required().min(5).max(194),
     active: yup.boolean().required().default(true),
     type: yup.string().required().default("url"),
-    file: yup.string(),
+    file: yup.string().optional()
   });
 
 const statusOptions = [
@@ -162,10 +162,12 @@ export const DetalheDeAula: React.FC = () => {
         .validate(obj, { abortEarly: false })
         .then((valideObj) => {
           setIsLoading(true);
-          if (type == "url") {
-            valideObj.file = obj.file;
+          if(type === "url") {
+            valideObj.file = obj.file
           }
+
             ClassService.create(valideObj).then((result) => {
+              // console.log(result)
               setIsLoading(false);
               if (result instanceof Error) {
                 alert(result.message);
@@ -186,7 +188,7 @@ export const DetalheDeAula: React.FC = () => {
         })
         .catch((errors: yup.ValidationError) => {
           const validationErrors: IVFormErrors = {};
-          console.log(errors)
+          // console.log(errors)
 
           errors.inner.forEach((error) => {
             if (!error.path) return;
@@ -225,7 +227,8 @@ export const DetalheDeAula: React.FC = () => {
           });
         })
         .catch((errors: yup.ValidationError) => {
-          console.log("errors")
+          // console.log("errors")
+          // console.log(errors)
           const validationErrors: IVFormErrors = {};
 
           errors.inner.forEach((error) => {
@@ -262,7 +265,7 @@ export const DetalheDeAula: React.FC = () => {
           aoClicarEmVoltar={() => navigate(-1)}
           aoClicarEmApagar={handleDelete}
           aoClicarEmNovo={() =>
-            navigate(`/admin/cursos/sessaos/aulas/detalhe/novo`, {
+            navigate(`/admin/cursos/sessoes/aulas/detalhe/novo`, {
               state: {
                 idSection,
               },
@@ -345,7 +348,7 @@ export const DetalheDeAula: React.FC = () => {
                 md={12}
                 lg={6}
                 xl={6}
-                marginTop={!lgDown && viewOnly ? -22 : 0}
+                
               >
                 <Grid container item direction="row" spacing={2}>
                   <Grid container item direction="row" spacing={2}>

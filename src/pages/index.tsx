@@ -9,3 +9,4 @@ export * from "./admin/aulas/DetalheDeAula";
 export * from "./user/HomePage/HomePage";
 export * from "./user/CoursePage/CoursePage";
 export * from "./user/Login/LoginPage";
+export * from "./user/Dashboard/DashboardUser"

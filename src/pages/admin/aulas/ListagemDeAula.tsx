@@ -43,7 +43,7 @@ export const ListagemDeAula  = () => {
 
   
   useEffect(() => {
-    console.log(state);
+    // console.log(state);
     const allClasss = async () => {
       ClassService
         .getBySection(idSection)
@@ -59,7 +59,7 @@ export const ListagemDeAula  = () => {
           setClasses(data);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
 

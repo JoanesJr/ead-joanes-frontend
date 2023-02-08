@@ -64,4 +64,13 @@ export class CompletedClassService {
 
     return classy;
   }
+
+  static async findByUserCourse(idCourse: string | number, idUser: string | number): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("apiToken");
+    const { data } = await Api.get(`/completed-class/status/${idCourse}/${idUser}`);
+    const classy = data;
+
+    return classy;
+  }
 }

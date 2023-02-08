@@ -33,6 +33,7 @@ export const Environment = {
   USER_LOGIN: "/",
   USER_HOMEPAGE: "/cursos",
   USER_COURSE_PAGE: "/cursos/:id",
-  USER_CLASS: "/cursos/:id/aula"
+  USER_CLASS: "/cursos/:id/aula",
+  USER_DASHBOARD: "/dashboard"
 
 };
