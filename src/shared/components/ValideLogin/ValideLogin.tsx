@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Box } from "@mui/material";
 import { LoginPage } from "../../../pages";
-import { UserService } from "../../services/api";
+import { LoginService, UserService } from "../../services/api";
+import { Context } from "../../contexts";
 
 interface IValideLogin {
   children: JSX.Element;
@@ -12,9 +13,16 @@ export const ValideLogin = ({ children }: IValideLogin) => {
   const [token, setToken] = useState(localStorage.getItem("apiToken"))
   const [username, setUsername] = useState(localStorage.getItem("username"));
   const [id, setId] = useState();
+  const context = useContext(Context);
 
 
   useEffect(() => {
+
+
+    const validateToken = async () => {
+      // const token = localStorage.getItem("apiToken");
+      await LoginService.ValidateLogin()
+    }
 
     const getUser = async (data) => {
       const user = await UserService.getByEmail(data);
@@ -39,7 +47,9 @@ export const ValideLogin = ({ children }: IValideLogin) => {
     }
 
 
+    validateToken();
     getUser(obj);
+    
 
     
 

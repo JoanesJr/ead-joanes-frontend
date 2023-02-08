@@ -34,6 +34,12 @@ export const Environment = {
   USER_HOMEPAGE: "/cursos",
   USER_COURSE_PAGE: "/cursos/:id",
   USER_CLASS: "/cursos/:id/aula",
-  USER_DASHBOARD: "/dashboard"
+  USER_DASHBOARD: "/dashboard",
+
+  // CRYPTO
+  ALGORITMO: "aes256",
+  SEGREDO: "b5066a7795a65b555c652af8e164d1f2",
+  TIPO_CRYPTO: "hex",
+  CODIFICACAO_CRYPTO: "uft-8"
 
 };

@@ -15,8 +15,9 @@ from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 
-import React from "react";
+import React, { useContext } from "react";
 import { Environment } from "../../environment";
+import { Context } from "../../contexts";
 
 const pages = ["Cursos", "Dashboard"];
 const settings = ["Perfil", "Conta", "Dashboard", "Sair"];
@@ -27,6 +28,7 @@ interface IAppBar {
 }
 
 export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
+  const context = useContext(Context);
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
       null
     );
@@ -50,11 +52,18 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
           case "dashboard":
             navigate(Environment.USER_DASHBOARD);
             break;
+          
         }
         setAnchorElNav(null);
       };
 
-      const handleCloseUserMenu = () => {
+      const handleCloseUserMenu = (event) => {
+        const settingOption = event.target.innerText.toLowerCase();
+        switch (settingOption) {
+          case "sair":
+            context.loggout();
+            break;
+        }
         setAnchorElUser(null);
       };
 

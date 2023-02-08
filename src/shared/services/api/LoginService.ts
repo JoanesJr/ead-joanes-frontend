@@ -19,11 +19,13 @@ export class LoginService {
     const access_token = localStorage.getItem("apiToken");
     Api.defaults.headers["Authorization"] = "Bearer " + access_token;
     Api.post("/user/auth/login/validate").then(data => {
-      console.log("deu bom");
-      console.log(data);
+      // console.log("deu bom");
+      // console.log(data);
     }).catch(err => {
-      console.log("deu ruim");
-      console.log(err);
+      // console.log("deu ruim");
+      // console.log(err);
+      // localStorage.removeItem("apiToken");
+      // localStorage.removeItem("username");
     });
 
   }

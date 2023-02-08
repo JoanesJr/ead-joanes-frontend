@@ -23,7 +23,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" >
-        Plataforma EAD
+        Juntos Somos Fortes
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -32,7 +32,7 @@ function Copyright(props: any) {
 }
 
 
-export const LoginPage = () => {
+export const LoginPage = ({type: string = "comum"}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const auth = useContext(Context);
@@ -41,13 +41,9 @@ export const LoginPage = () => {
         event.preventDefault();
 
       await auth.handleLogin({username, password});
+
       
     };
-
-
-
-
-   
 
   return (
     <Container component="main" maxWidth="xs">
