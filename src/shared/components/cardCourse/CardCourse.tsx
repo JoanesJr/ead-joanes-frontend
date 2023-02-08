@@ -38,7 +38,7 @@ export const CardCourse = ({title, description, file, id} :ICardCourse) => {
           percentConcluided = (100 * data.viewedClass / data.totalClass )
         }
 
-        setPercent(percentConcluided);
+        setPercent(Math.floor(percentConcluided));
       }).catch(err => {
 
       })

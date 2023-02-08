@@ -27,28 +27,22 @@ export const CoursePage = () => {
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
   const xlDown = useMediaQuery(theme.breakpoints.down("xl"));
   const xsDown = useMediaQuery(theme.breakpoints.down("xs"));
-  let width = 1100;
-  let height = 500;
+  let percent = "70%"
 
   if (xlDown) {
-    width = 700;
-    height = 500;
+    percent = "70%";
   }
   if (lgDown) {
-    width = 600;
-    height = 500;
+    percent = "60%";
   }
   if (mdDown) {
-    width = 11000;
-    height = 500;
+    percent = "80%";
   }
   if (smDown) {
-    width = 900;
-    height = 500;
+    percent = "70%";
   }
   if (xsDown) {
-    width = 900;
-    height = 500;
+    percent = "90%";
   }
 
 
@@ -74,7 +68,7 @@ export const CoursePage = () => {
                 setFile(actualClass.file);
               }     
             } else {
-                setFile("https://www.youtube.com/watch?v=fD0kN7SemRI");
+                // setFile("https://www.youtube.com/watch?v=fD0kN7SemRI");
             }
         }).catch( err => {
             // console.log(err);
@@ -91,29 +85,29 @@ export const CoursePage = () => {
               <>
                 <Grid
                   container
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                  //   sx={{ height: "100vh" }}
+                    sx={{ height: "100vh", width: "100vw", display: "flex", justifyContent: "center", alignItems: "initial", flexDirection: "collumn" }}
                 >
                   <Grid item xs={12}>
                     <Typography variant="h4">{actualClass.title}</Typography>
+                    
                     <Typography variant="body1" sx={{marginTop: 2}}>
                       {actualClass.description}
                     </Typography>
+                    
                   </Grid>
 
                   <Grid
                     item
+
                     xs={12}
                     display="flex"
-                    justifyContent="space-around"
-                    alignItems="center"
-                    sx={{ height: "70vh", width: "70vw", marginTop: 3 }}
+                    justifyContent="space-beetwen"
+                    alignItems="flex-start"
+                    sx={{ height: "50%", width: "80%" }}
                   >
                     {actualClass && (
                       <>
-                      <IFrame title={actualClass.title} file={file} />
+                      <IFrame title={actualClass.title} file={file} percent={percent} />
                       
                       </>
                     )}

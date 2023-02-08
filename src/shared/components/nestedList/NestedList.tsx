@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect, ReactNode } from "react";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -16,10 +16,12 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { CompletedClassService } from "../../services/api/completedClass/CompletedClass";
 import { UserService } from "../../services/api";
+import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
+import Button from "@mui/material/Button";
 
 interface INestedList {
   sections: any[];
-  children: React.ReactNode;
+  children: ReactNode;
   idCourse: number | string;
 }
 
@@ -48,68 +50,66 @@ const ListSectionComponent = ({
     navigate(`/cursos/${idCourse}/aula`, {
       state: {
         classId: id,
-        sectionId: idSection
-      }
+        sectionId: idSection,
+      },
     });
   };
 
-  const [completed, setCompleted] = React.useState(false);
-  const [idUser, setIdUser] = React.useState("");
+  const [completed, setCompleted] = useState(false);
+  const [idUser, setIdUser] = useState("");
 
-  React.useEffect( () => {
-      const email = localStorage.getItem("username");
-      const obj = {
-        email
-      };
+  useEffect(() => {
+    const email = localStorage.getItem("username");
+    const obj = {
+      email,
+    };
 
-      UserService.getByEmail(obj).then(data => {
-        setIdUser(data.id);
-          CompletedClassService.getToClass(data.id, id).then(data => {
-            if (data) {
-              setCompleted(true);
-            } else {
-              setCompleted(false);
-            }
-            
-          }).catch( err => {
-            // console.log(err);
+    UserService.getByEmail(obj).then((data) => {
+      setIdUser(data.id);
+      CompletedClassService.getToClass(data.id, id)
+        .then((data) => {
+          if (data) {
+            setCompleted(true);
+          } else {
             setCompleted(false);
-          })
-        
-        
-      })
-
-     
+          }
+        })
+        .catch((err) => {
+          // console.log(err);
+          setCompleted(false);
+        });
+    });
   }, [completed]);
 
   const handleCompletedCourseAdd = () => {
     const obj = {
       id_user: Number(idUser),
-      id_class: Number(id)
-    }
+      id_class: Number(id),
+    };
 
-      CompletedClassService.create(obj).then(data => {
-        setCompleted(true)
-      }).catch(err => {
-        setCompleted(false);
+    CompletedClassService.create(obj)
+      .then((data) => {
+        setCompleted(true);
       })
-  }
+      .catch((err) => {
+        setCompleted(false);
+      });
+  };
 
   const handleCompletedCourseRemove = () => {
     const obj = {
       id_user: Number(idUser),
-      id_class: Number(id)
-    }
+      id_class: Number(id),
+    };
 
-    CompletedClassService.delete(obj).then(data => {
-      setCompleted(false)
-    }).catch(err => {
-      setCompleted(false);
-    })
-
-      
-  }
-
+    CompletedClassService.delete(obj)
+      .then((data) => {
+        setCompleted(false);
+      })
+      .catch((err) => {
+        setCompleted(false);
+      });
+  };
 
   return (
     <List component="div" disablePadding onClick={handleClick}>
@@ -118,17 +118,22 @@ const ListSectionComponent = ({
           <SchoolIcon />
         </ListItemIcon>
         <ListItemText primary={title} />
-        {!completed && <CheckCircleOutlineIcon onClick={ handleCompletedCourseAdd} />}
-        {completed && <CheckCircleIcon style={{ color: 'green' }} onClick={ handleCompletedCourseRemove} />}
+        {!completed && (
+          <CheckCircleOutlineIcon onClick={handleCompletedCourseAdd} />
+        )}
+        {completed && (
+          <CheckCircleIcon
+            style={{ color: "green" }}
+            onClick={handleCompletedCourseRemove}
+          />
+        )}
       </ListItemButton>
     </List>
   );
 };
 
-
-
 const ListSection = ({ id, title, classes, idCourse }: IListSection) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -159,52 +164,63 @@ const ListSection = ({ id, title, classes, idCourse }: IListSection) => {
 
 export const NestedList = ({ sections, children, idCourse }: INestedList) => {
   const theme = useTheme();
-  const [file, setFile] = React.useState("");
+  const [listOpen, setListOpen] = useState(true);
+  const [file, setFile] = useState("");
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
   const xlDown = useMediaQuery(theme.breakpoints.down("xl"));
   const xsDown = useMediaQuery(theme.breakpoints.down("xs"));
-  let marginLeft = 50;
 
-  marginLeft = xlDown ? 50 : marginLeft;
-  marginLeft = lgDown ? 50 : marginLeft;
-  marginLeft = mdDown ? 47 : marginLeft;
-  marginLeft = smDown ? 40 : marginLeft;
-  marginLeft = xsDown ? 200 : marginLeft;
+  const handleClickList = () => {
+    if (mdDown) {
+      setListOpen(false);
+    }
+  }
 
-
+  useEffect(() => {
+    setListOpen(!mdDown);
+  }, [mdDown]);
 
   return (
     <Grid container display="flex" flexDirection="row">
       <Grid container item>
-        <Grid item xs={4} sm={4} md={4} lg={3} xl={2}>
-          <List
-            sx={{
-              width: "100%",
-              maxWidth: 300,
-              bgcolor: "background.paper",
-              height: "100vh",
-            }}
-            component="nav"
-            aria-labelledby="nested-list-subheader"
-            subheader={
-              <ListSubheader component="div" id="nested-list-subheader">
-                Módulos
-              </ListSubheader>
-            }
-          >
-            {sections.map((section) => (
-              <ListSection
-                key={`section_${section.id}`}
-                title={section.title}
-                id={section.id}
-                classes={section.class}
-                idCourse={idCourse}
-              />
-            ))}
-          </List>
-        </Grid>
+        {!listOpen && (
+          <Box sx={{width: 2, height: 50}}>
+            <Button sx={{width: '100%', height: '100%'}} onClick={() => setListOpen(!listOpen)}>
+              <KeyboardDoubleArrowRightOutlinedIcon sx={{width: '100%', height: '100%'}} />
+            </Button>
+          </Box>
+        )}
+        {listOpen && (
+          <Grid item xs={4} sm={4} md={4} lg={3} xl={2}>
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 300,
+                bgcolor: "background.paper",
+                height: "100vh",
+              }}
+              component="nav"
+              aria-labelledby="nested-list-subheader"
+              subheader={
+                <ListSubheader component="div" id="nested-list-subheader">
+                  Módulos
+                </ListSubheader>
+              }
+            >
+              {sections.map((section) => (
+                <ListSection
+                  key={`section_${section.id}`}
+                  title={section.title}
+                  id={section.id}
+                  classes={section.class}
+                  idCourse={idCourse}
+                />
+              ))}
+            </List>
+          </Grid>
+        )}
 
         <Grid
           item
@@ -217,6 +233,7 @@ export const NestedList = ({ sections, children, idCourse }: INestedList) => {
           display="flex"
           alignItems="flex-start"
           justifyContent="flex-start"
+          onClick={handleClickList}
         >
           <Box>{children}</Box>
         </Grid>

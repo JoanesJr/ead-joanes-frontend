@@ -1,14 +1,15 @@
 interface IIFrameProps {
     file: string;
     title: string;
+    percent: string;
 }
 
 
-export const IFrame = ({title, file}: IIFrameProps) => {
+export const IFrame = ({title, file, percent}: IIFrameProps) => {
     return (
       <iframe
-        width="100%"
-        height="100%"
+        width={percent}
+        height={percent}
         src={file}
         allowFullScreen
         title={title}
