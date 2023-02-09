@@ -31,6 +31,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({ childre
           whiteSpace="nowrap"
           textOverflow="ellipses"
           variant={smDown ? 'h5' : mdDown ? 'h4' : 'h3'}
+          sx={{fontWeight: 'bolder'}}
         >
           {title}
         </Typography>

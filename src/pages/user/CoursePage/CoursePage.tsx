@@ -28,6 +28,7 @@ export const CoursePage = () => {
   const xlDown = useMediaQuery(theme.breakpoints.down("xl"));
   const xsDown = useMediaQuery(theme.breakpoints.down("xs"));
   let percent = "70%"
+  let percent2 = "100%"
 
   if (xlDown) {
     percent = "70%";
@@ -107,7 +108,7 @@ export const CoursePage = () => {
                   >
                     {actualClass && (
                       <>
-                      <IFrame title={actualClass.title} file={file} percent={percent} />
+                      <IFrame title={actualClass.title} file={file} percentWidth={percent} percentHeight={percent2} />
                       
                       </>
                     )}

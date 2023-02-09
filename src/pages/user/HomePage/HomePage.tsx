@@ -58,8 +58,8 @@ export const HomePage = () => {
       <Grid container spacing={2} margin={5}>
         <Grid container item>
           <Grid item xs={6} sm={6} md={4} lg={3} xl={3}>
-            <Typography variant="h5">Cursos</Typography>
-            <Divider color={theme.palette.primary.light} />
+            <Typography variant="h4" sx={{color: 'secondary.main'}}>Cursos</Typography>
+            <Divider color="text.main" />
           </Grid>
         </Grid>
 

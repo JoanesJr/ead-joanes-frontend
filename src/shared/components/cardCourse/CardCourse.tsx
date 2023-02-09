@@ -59,24 +59,24 @@ export const CardCourse = ({title, description, file, id} :ICardCourse) => {
 
 
     return (
-      <Grow in={true}>
+      <Grow in={true} >
         <Card sx={cardSX} elevation={3} onClick={() => navigate(`/cursos/${id}`)}>
           <CardMedia sx={{ height: 300 }} image={image} title={title} />
           <CardContent sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography gutterBottom variant="h5" component="div" sx={{color: 'secondary.main'}}>
               {title}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{color: 'secondary.main'}}>
               {description}
             </Typography>
             <Box>
-            <LinearProgress variant="determinate" value={percent} />
+            <LinearProgress variant="determinate" value={percent}  />
                {percent} %
             </Box>
           </CardContent>
           <Box display="flex" alignItems="center" justifyContent="center">
             <CardActions>
-              <Button size="medium">Abrir Curso</Button>
+              <Button size="medium" sx={{fontWeight: 'bolder', color: 'secondary.main'}}>Abrir Curso</Button>
             </CardActions>
           </Box>
         </Card>

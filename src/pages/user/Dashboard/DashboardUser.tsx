@@ -71,7 +71,7 @@ export const DashboardUser = () => {
         <Grid item xs={12} sx={{display: "flex",
         alignContent: "center",
         justifyContent: "center"}}>
-            <Typography variant="h4" color="text.main" sx={{pt: 5}}>Informações sobre Cursos</Typography>
+            <Typography variant="h4" color="text.main" sx={{pt: 5, fontWeight: 'bolder'}}>Informações sobre Cursos</Typography>
         </Grid>
     </Grid>
 
@@ -85,7 +85,7 @@ export const DashboardUser = () => {
         alignContent: "center",
         justifyContent: "space-around",
         m: 1,
-        mt: -7
+        mt: -10
       }}
       
     >
@@ -106,7 +106,7 @@ export const DashboardUser = () => {
               alignItems: "center",
               flexDirection: "column",
             }}
-            color="text.primary"
+            color="text.main"
             gutterBottom
           >
             Total de Cursos
@@ -119,7 +119,7 @@ export const DashboardUser = () => {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h3" component="div" color="text.primary">
+            <Typography variant="h3" component="div" color="text.main">
               {countActiveCourse}
             </Typography>
           </CardContent>
@@ -142,7 +142,7 @@ export const DashboardUser = () => {
               alignItems: "center",
               flexDirection: "column",
             }}
-            color="text.primary"
+            color="text.main"
             gutterBottom
           >
             Cursos Concluídos
@@ -155,7 +155,7 @@ export const DashboardUser = () => {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h3" component="div" color="text.primary">
+            <Typography variant="h3" component="div" color="text.main">
               {countCompletedCourse}
             </Typography>
           </CardContent>
@@ -178,7 +178,7 @@ export const DashboardUser = () => {
               alignItems: "center",
               flexDirection: "column",
             }}
-            color="text.primary"
+            color="text.main"
             gutterBottom
           >
             Cursos Iniciados
@@ -191,7 +191,7 @@ export const DashboardUser = () => {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h3" component="div" color="text.primary">
+            <Typography variant="h3" component="div" color="text.main">
               {countStartedCourse}
             </Typography>
           </CardContent>
@@ -214,7 +214,7 @@ export const DashboardUser = () => {
               alignItems: "center",
               flexDirection: "column",
             }}
-            color="text.primary"
+            color="text.main"
             gutterBottom
           >
             Cursos Não Iniciados
@@ -227,7 +227,7 @@ export const DashboardUser = () => {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h3" component="div" color="text.primary">
+            <Typography variant="h3" component="div" color="text.main">
               {countNotStartedCourse}
             </Typography>
           </CardContent>

@@ -17,7 +17,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 
 import React, { useContext } from "react";
 import { Environment } from "../../environment";
-import { Context } from "../../contexts";
+import { Context, useAppThemeContext } from "../../contexts";
 
 const pages = ["Cursos", "Dashboard"];
 const settings = ["Perfil", "Conta", "Dashboard", "Sair"];
@@ -43,6 +43,8 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
         setAnchorElUser(event.currentTarget);
       };
 
+      const {toggleTheme} = useAppThemeContext();
+
       const handleCloseNavMenu = (event) => {
         const menuOptionClicked = event.target.innerText.toLowerCase();
         switch (menuOptionClicked) {
@@ -51,6 +53,9 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
             break;
           case "dashboard":
             navigate(Environment.USER_DASHBOARD);
+            break;
+          case "trocar tema":
+            toggleTheme();
             break;
           
         }
@@ -168,16 +173,30 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                 >
                   LOGO
                 </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }} justifyContent="space-between">
+                  <Box display="flex"> 
                   {pages.map((page) => (
                     <Button
                       key={page}
                       onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: "white", display: "block" }}
+                      color="secondary"
+                      sx={{ my: 2, display: "block", fontWeight: 'bolder' }}
                     >
                       {page}
                     </Button>
                   ))}
+                  </Box>
+                 
+                 <Box>
+                 <Button
+                      onClick={handleCloseNavMenu}
+                      color="secondary"
+                      sx={{ my: 2, display: "block", fontWeight: 'bolder', mr: 3 }}
+                    >
+                      Trocar Tema
+                    </Button>
+                 </Box>
+                  
                 </Box>
 
                 <Box sx={{ flexGrow: 0 }}>
@@ -207,7 +226,7 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                   >
                     {settings.map((setting) => (
                       <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
+                        <Typography textAlign="center" sx={{color: "secondary.main"}}>{setting}</Typography>
                       </MenuItem>
                     ))}
                   </Menu>

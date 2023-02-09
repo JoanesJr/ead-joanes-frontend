@@ -5,25 +5,26 @@ export const DarkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: yellow[700],
-      dark: yellow[800],
-      light: yellow[500],
+      main: "#c92f34",
+      dark: "#8B0000",
+      light: "B22222",
       contrastText: "#ffffff",
     },
     secondary: {
-      main: cyan[500],
-      dark: cyan[400],
-      light: cyan[300],
+      main: "#78b6e6",
+      dark: "#000080",
+      light: "#87CEEB",
       contrastText: "#ffffff",
     },
     background: {
-        default: '#202124',
-        paper: '#303134',
+        default: "#DCDCDC",
+        paper: '#c92f34', 
     },
   },
   typography: {
     allVariants: {
-      color: 'white'
+      color: "#78b6e6",
+      fontWeight: 'bold'
     }
   }
 });

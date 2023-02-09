@@ -17,7 +17,7 @@ function Copyright(props: any) {
   return (
     <Typography
       variant="body2"
-      color="text.secondary"
+      color="primary"
       align="center"
       {...props}
     >
@@ -56,10 +56,10 @@ export const LoginPage = ({type: string = "comum"}) => {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" color="primary.main">
           Login
         </Typography>
         <Box component="form"  noValidate sx={{ mt: 1 }}>
@@ -74,6 +74,11 @@ export const LoginPage = ({type: string = "comum"}) => {
             autoFocus
             onChange={(event) => setUsername(event.target.value)}
             value={username}
+            sx={{ bgcolor: 'secondary.main', color: 'primary.main'}}
+            InputLabelProps={{
+              style: {color: '#c92f34'},
+            }}
+            
           />
           <TextField
             margin="normal"
@@ -86,13 +91,17 @@ export const LoginPage = ({type: string = "comum"}) => {
             autoComplete="current-password"
             onChange={(event) => setPassword(event.target.value)}
             value={password}
+            sx={{ bgcolor: 'secondary.main'}}
+            InputLabelProps={{
+              style: {color: '#c92f34'},
+            }}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             onClick={handleSubmit}
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, bgcolor: 'primary.main' }}
           >
             Entrar
           </Button>
