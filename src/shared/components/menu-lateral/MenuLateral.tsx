@@ -1,3 +1,4 @@
+
 import { Avatar, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
@@ -93,6 +94,12 @@ export const MenuLateral: React.FC<IMenuLateral> = ({ children }) => {
                   label="Cursos"
                   icon="tv"
                   to={Environment.ADMIN_CURSOS}
+                  onClick={smDown ? toggleDrawerOpen : undefined}
+                />
+                <ListItemLink
+                  label="Plataforma"
+                  icon="home"
+                  to={Environment.USER_HOMEPAGE}
                   onClick={smDown ? toggleDrawerOpen : undefined}
                 />
               </List>

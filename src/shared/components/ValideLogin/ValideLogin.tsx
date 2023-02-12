@@ -7,9 +7,10 @@ import { LocalStorage } from "../../services/localStorage";
 
 interface IValideLogin {
   children: JSX.Element;
+  type?: string;
 }
 
-export const ValideLogin = ({ children }: IValideLogin) => {
+export const ValideLogin = ({ children, type = 'comum' }: IValideLogin) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [token, setToken] = useState(LocalStorage.getItem("JSF_TK_A_U_L"))
   const [username, setUsername] = useState(LocalStorage.getItem("JSF_U_N_I"));
@@ -29,14 +30,27 @@ export const ValideLogin = ({ children }: IValideLogin) => {
       const user = await UserService.getByEmail(data);
       // console.log("=====user");
       // console.log(user)
-      if (user.id) {
-        setAuthenticated(true);
-        setId(user.id);
+      if (type == 'admin') {
+        if (user.id && user.admin) {
+          setAuthenticated(true);
+          setId(user.id);
+        } else {
+          setAuthenticated(false);
+          LocalStorage.removeItem("JSF_TK_A_U_L");
+          LocalStorage.removeItem("JSF_U_N_I");
+        }
       } else {
-        setAuthenticated(false);
-        LocalStorage.removeItem("JSF_TK_A_U_L");
-        LocalStorage.removeItem("JSF_U_N_I");
+        if (user.id) {
+          setAuthenticated(true);
+          setId(user.id);
+        } else {
+          setAuthenticated(false);
+          LocalStorage.removeItem("JSF_TK_A_U_L");
+          LocalStorage.removeItem("JSF_U_N_I");
+        }
       }
+
+      
     }
 
     const key = LocalStorage.getItem("JSF_TK_A_U_L");

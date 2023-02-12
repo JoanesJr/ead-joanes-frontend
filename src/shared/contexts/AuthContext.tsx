@@ -14,7 +14,7 @@ interface IContext {
   password: string;
   authenticated: boolean;
   handleLogin: any;
-  loggout: () => any;
+  loggout: (type?: string) => any;
 }
 
 const Context = createContext<IContext>(null);
@@ -46,10 +46,15 @@ function AuthProvider({ children }: IAuthProvider) {
         
     };
 
-    const loggout = () => {
+    const loggout = (type: string = "comum") => {
       LocalStorage.removeItem("JSF_TK_A_U_L");
       LocalStorage.removeItem("JSF_U_N_I");
-      navigate('/');
+      if (type === "admin") {
+        navigate('/admin/login');
+      } else {
+        navigate('/');
+      }
+      
     }
 
   return (

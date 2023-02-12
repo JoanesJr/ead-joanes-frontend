@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { 
 Box, 
 Typography, 
@@ -10,14 +12,15 @@ Button,
 Tooltip, 
 MenuItem,
 AppBar, 
-Grid}
+}
 from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import AdbIcon from "@mui/icons-material/Adb";
 
 import React, { useContext } from "react";
 import { Environment } from "../../environment";
 import { Context, useAppThemeContext } from "../../contexts";
+import { LocalStorage } from "../../services/localStorage";
+import { UserService } from "../../services/api";
 
 const pages = ["Cursos", "Dashboard"];
 const settings = ["Perfil", "Conta", "Trocar Tema", "Sair"];
@@ -54,6 +57,9 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
           case "dashboard":
             navigate(Environment.USER_DASHBOARD);
             break;
+          case "administrador":
+            navigate(Environment.ADMIN_CURSOS);
+            break;
           
         }
         setAnchorElNav(null);
@@ -72,6 +78,24 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
         setAnchorElUser(null);
       };
 
+      const [isAdmin, setIsAdmin] = useState(false);
+
+      useEffect( () => {
+        const email = LocalStorage.getItem("JSF_U_N_I");
+        const obj = {
+          email
+        };
+
+        UserService.getByEmail(obj).then (dt => {
+          if (dt.admin) {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
+        }).catch(err => {
+          setIsAdmin(false);
+        })
+      }, [isAdmin]);
 
     return (
       <Box
@@ -194,6 +218,16 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                       {page}
                     </Button>
                   ))}
+                  {isAdmin && (
+                    <Button
+                      onClick={handleCloseNavMenu}
+                      color="secondary"
+                      sx={{ my: 2, display: "block", fontWeight: 'bolder' }}
+                    >
+                      Administrador
+                    </Button>
+                  )}
+                  
                   </Box>
                   
                 </Box>
