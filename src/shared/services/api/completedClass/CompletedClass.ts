@@ -34,11 +34,11 @@ export class CompletedClassService {
   static async create(obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
       "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
-      console.log("creted");
-      console.log(obj)
+      // // console.log("creted");
+      // // console.log(obj)
     const { data } = await Api.post("/completed-class", obj);
-    console.log("res created");
-    console.log(data);
+    // // console.log("res created");
+    // // console.log(data);
     const user = data;
 
     return user;
@@ -47,11 +47,11 @@ export class CompletedClassService {
   static async delete(obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
       "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
-      console.log("delted")
-      console.log(obj)
+      // console.log("delted")
+      // console.log(obj)
     const { data } = await Api.post(`/completed-class/cancel`, obj);
-    console.log("res");
-    console.log(data);
+    // console.log("res");
+    // console.log(data);
     const classy = data;
 
     return classy;

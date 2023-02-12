@@ -16,8 +16,8 @@ export class LocalStorage {
 
     static setItem(name: string, value: string): void {
         const valueEncrypted = Cryptograpy.encrypted(value);
-        console.log(valueEncrypted);
-        console.log(name);
+        // console.log(valueEncrypted);
+        // console.log(name);
         localStorage.setItem(name, valueEncrypted);
     }
 

@@ -22,8 +22,8 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" >
-        Juntos Somos Fortes
+      <Link color="inherit" href="https://planovidaoficial.com.br/" target="_blank">
+        Plano Vida
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -35,12 +35,35 @@ function Copyright(props: any) {
 export const LoginPage = ({type: string = "comum"}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
     const auth = useContext(Context);
 
     const handleSubmit = async event => {
         event.preventDefault();
 
-      await auth.handleLogin({username, password});
+        if (username.length < 3 || !username.includes("@")) {
+          setEmailError(true);
+
+        }
+
+        if (password.length < 5 || password.length > 12) {
+          setPasswordError(true);
+        }
+
+        if (emailError || passwordError) {
+          return;
+        }
+
+      const loginRes = await auth.handleLogin({username, password});
+      if (loginRes == undefined) {
+        setEmailError(true);
+        setPasswordError(true);
+        return;
+      } 
+
+      setEmailError(false);
+      setPasswordError(false);
 
       
     };
@@ -50,10 +73,12 @@ export const LoginPage = ({type: string = "comum"}) => {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          // marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: 'center',
+          height: '100vh'
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
@@ -71,6 +96,7 @@ export const LoginPage = ({type: string = "comum"}) => {
             label="Email"
             name="email"
             autoComplete="email"
+            error={emailError}
             autoFocus
             onChange={(event) => setUsername(event.target.value)}
             value={username}
@@ -80,6 +106,7 @@ export const LoginPage = ({type: string = "comum"}) => {
             }}
             
           />
+
           <TextField
             margin="normal"
             required
@@ -89,6 +116,7 @@ export const LoginPage = ({type: string = "comum"}) => {
             type="password"
             id="password"
             autoComplete="current-password"
+            error={passwordError}
             onChange={(event) => setPassword(event.target.value)}
             value={password}
             sx={{ bgcolor: 'secondary.main'}}
@@ -96,6 +124,11 @@ export const LoginPage = ({type: string = "comum"}) => {
               style: {color: '#c92f34'},
             }}
           />
+
+          {(emailError || passwordError ) && (
+            <Typography variant="caption" color="primary.dark"> - E-mail ou senha incorretos!</Typography>
+          )}
+          
           <Button
             type="submit"
             fullWidth
@@ -108,7 +141,7 @@ export const LoginPage = ({type: string = "comum"}) => {
           <Grid container></Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
+      <Copyright sx={{ mt: -8 }} />
     </Container>
   );
 }
