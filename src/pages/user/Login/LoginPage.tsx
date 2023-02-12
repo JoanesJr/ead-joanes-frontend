@@ -69,7 +69,12 @@ export const LoginPage = ({type: string = "comum"}) => {
     };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Box sx={{
+      backgroundImage: `url('https://img.wallpapic-br.com/i2491-537-811/medium/terra-planeta-mundo-espaco-imagem-de-fundo.jpg')`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover"
+    }}>
+ <Container component="main" maxWidth="xs" >
       <CssBaseline />
       <Box
         sx={{
@@ -143,5 +148,7 @@ export const LoginPage = ({type: string = "comum"}) => {
       </Box>
       <Copyright sx={{ mt: -8 }} />
     </Container>
+    </Box>
+   
   );
 }

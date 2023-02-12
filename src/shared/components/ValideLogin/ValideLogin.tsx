@@ -74,6 +74,6 @@ export const ValideLogin = ({ children, type = 'comum' }: IValideLogin) => {
 
   return (
   <>
-  {authenticated ? <Box>{children}</Box> : <LoginPage />}
+  {authenticated ? <Box>{children}</Box> : <LoginPage  />}
   </>);
 };
