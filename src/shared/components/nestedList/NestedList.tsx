@@ -18,6 +18,7 @@ import { CompletedClassService } from "../../services/api/completedClass/Complet
 import { UserService } from "../../services/api";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 import Button from "@mui/material/Button";
+import { LocalStorage } from "../../services/localStorage";
 
 interface INestedList {
   sections: any[];
@@ -59,7 +60,7 @@ const ListSectionComponent = ({
   const [idUser, setIdUser] = useState("");
 
   useEffect(() => {
-    const email = localStorage.getItem("username");
+    const email = LocalStorage.getItem("JSF_U_N_I");
     const obj = {
       email,
     };

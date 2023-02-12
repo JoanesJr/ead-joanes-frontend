@@ -1,3 +1,4 @@
+import { LocalStorage } from "../../localStorage";
 import { Api } from "../axios-config";
 
 export class CompletedClassService {
@@ -6,7 +7,7 @@ export class CompletedClassService {
   static async getAll(): Promise<any | Error> {
     try {
       Api.defaults.headers["Authorization"] =
-        "Bearer " + localStorage.getItem("apiToken");
+        "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
       const { data } = await Api.get(`/completed-class`);
       const classys = data;
 
@@ -23,7 +24,7 @@ export class CompletedClassService {
 
   static async getToClass(id_user: string, id_class: string | number): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
     const { data } = await Api.get(`/completed-class/${id_user}/${id_class}`);
     const classy = data;
 
@@ -32,7 +33,7 @@ export class CompletedClassService {
 
   static async create(obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
       console.log("creted");
       console.log(obj)
     const { data } = await Api.post("/completed-class", obj);
@@ -45,7 +46,7 @@ export class CompletedClassService {
 
   static async delete(obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
       console.log("delted")
       console.log(obj)
     const { data } = await Api.post(`/completed-class/cancel`, obj);
@@ -58,7 +59,7 @@ export class CompletedClassService {
 
   static async getCoursePercent(idCourse: string | number, idUser: string | number): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
     const { data } = await Api.get(`/completed-class/percent/${idCourse}/${idUser}`);
     const classy = data;
 
@@ -67,7 +68,7 @@ export class CompletedClassService {
 
   static async findByUserCourse(idCourse: string | number, idUser: string | number): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
     const { data } = await Api.get(`/completed-class/status/${idCourse}/${idUser}`);
     const classy = data;
 

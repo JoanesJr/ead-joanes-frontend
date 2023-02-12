@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { LoginPage } from "../../../pages";
 import { LoginService, UserService } from "../../services/api";
 import { Context } from "../../contexts";
+import { LocalStorage } from "../../services/localStorage";
 
 interface IValideLogin {
   children: JSX.Element;
@@ -10,8 +11,8 @@ interface IValideLogin {
 
 export const ValideLogin = ({ children }: IValideLogin) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [token, setToken] = useState(localStorage.getItem("apiToken"))
-  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [token, setToken] = useState(LocalStorage.getItem("JSF_TK_A_U_L"))
+  const [username, setUsername] = useState(LocalStorage.getItem("JSF_U_N_I"));
   const [id, setId] = useState();
   const context = useContext(Context);
 
@@ -20,7 +21,7 @@ export const ValideLogin = ({ children }: IValideLogin) => {
 
 
     const validateToken = async () => {
-      // const token = localStorage.getItem("apiToken");
+      // const token = LocalStorage.getItem("JSF_TK_A_U_L");
       await LoginService.ValidateLogin()
     }
 
@@ -33,13 +34,13 @@ export const ValideLogin = ({ children }: IValideLogin) => {
         setId(user.id);
       } else {
         setAuthenticated(false);
-        localStorage.removeItem("apiToken");
-        localStorage.removeItem("username");
+        LocalStorage.removeItem("JSF_TK_A_U_L");
+        LocalStorage.removeItem("JSF_U_N_I");
       }
     }
 
-    const key = localStorage.getItem("apiToken");
-    const usernameControl = localStorage.getItem("username");
+    const key = LocalStorage.getItem("JSF_TK_A_U_L");
+    const usernameControl = LocalStorage.getItem("JSF_U_N_I");
     setToken(key);
     setUsername(usernameControl);
     const obj = {

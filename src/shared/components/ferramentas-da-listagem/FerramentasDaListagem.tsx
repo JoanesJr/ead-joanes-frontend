@@ -10,13 +10,13 @@ import {
   MenuItem,
   MenuList,
   Grow,
-  Typography
+  Typography,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useRef, useState } from "react";
-import { Environment } from '../../environment';
+import { Environment } from "../../environment";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 
 interface IFerramentasDaListagemProps {
@@ -51,12 +51,7 @@ interface IFerramentasDaListagemProps {
   aoClicarEmVinculo?: () => void;
 }
 
-
-const options = [
-  "Editar",
-  "Excluir",
-  "Detalhes",
-];
+const options = ["Editar", "Excluir", "Detalhes"];
 
 export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
   textoDaBusca = "",
@@ -149,7 +144,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
           component={Paper}
           elevation={24}
         >
-          {/* {!mdDown && ( */}
+          {!mdDown && (
             <>
               {mostrarBotaoNovo && (
                 <Button
@@ -164,7 +159,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
               )}
               {mostrarBotaoEditar && (
                 <Button
-                  color="primary"
+                  color="warning"
                   disableElevation
                   variant="contained"
                   onClick={aoClicarEmEditar}
@@ -252,7 +247,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                 </Button>
               )}
             </>
-          {/* )} */}
+          )}
 
           {mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando && (
             <Button
@@ -265,8 +260,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
               Voltar
             </Button>
           )}
-
-          {/* {mdDown && (
+          {mdDown && (
             <>
               <ButtonGroup
                 variant="contained"
@@ -306,17 +300,123 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                     <Paper>
                       <ClickAwayListener onClickAway={handleClose}>
                         <MenuList id="split-button-menu" autoFocusItem>
-                          {options.map((option, index) => (
-                            <MenuItem
-                              key={option}
-                              selected={index === selectedIndex}
-                              onClick={(event) =>
-                                handleMenuItemClick(event, index)
-                              }
+                          <MenuItem>
+                            {mostrarBotaoNovo && (
+                              <Button
+                                color="success"
+                                disableElevation
+                                variant="contained"
+                                onClick={aoClicarEmNovo}
+                                startIcon={<Icon>add</Icon>}
+                              >
+                                {textoBotaoNovo}
+                              </Button>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                          {mostrarBotaoEditar && (
+                              <Button
+                                color="warning"
+                                disableElevation
+                                variant="contained"
+                                onClick={aoClicarEmEditar}
+                                startIcon={<Icon>edit</Icon>}
+                              >
+                                Editar
+                              </Button>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                          {mostrarBotaoExcluir && (
+                              <Button
+                                color="error"
+                                disableElevation
+                                variant="contained"
+                                onClick={aoClicarEmExcluir}
+                                startIcon={<Icon>delete_forever</Icon>}
+                              >
+                                Excluir
+                              </Button>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                          {mostrarBotaoDetalhes && (
+                              <Button
+                                color="secondary"
+                                disableElevation
+                                variant="contained"
+                                onClick={aoClicarEmDetalhes}
+                                startIcon={<Icon>info</Icon>}
+                              >
+                                Detalhes
+                              </Button>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                          {mostrarBotaoSessoes && (
+                            <Button
+                              color="success"
+                              disableElevation
+                              variant="contained"
+                              onClick={aoClicaremSessoes}
+                              startIcon={<Icon>notes</Icon>}
                             >
-                              {option}
-                            </MenuItem>
-                          ))}
+                              Sessões
+                            </Button>
+                          )}
+                          </MenuItem>
+                          <MenuItem>
+                          {mostrarBotaoAula && (
+                              <Button
+                                color="success"
+                                disableElevation
+                                variant="contained"
+                                onClick={aoClicarEmAula}
+                                startIcon={<Icon>notes</Icon>}
+                              >
+                                Aulas
+                              </Button>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                          {mostrarBotaoAddCourse && (
+                              <Button
+                                color="success"
+                                disableElevation
+                                variant="contained"
+                                onClick={aoClicarEmAddCursos}
+                                startIcon={<Icon>addIcon </Icon>}
+                              >
+                                Cursos
+                              </Button>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                          {mostrarBotaoRemoveCourse && (
+                              <Button
+                                color="success"
+                                disableElevation
+                                variant="contained"
+                                onClick={aoClicarEmARemoveCursos}
+                                startIcon={<Icon>removeCircleOutlineIcon </Icon>}
+                              >
+                                Cursos
+                              </Button>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                          {mostrarBotaoVinculo && (
+                            <Button
+                              color="success"
+                              disableElevation
+                              variant="contained"
+                              onClick={aoClicarEmVinculo}
+                              startIcon={<ChevronRightOutlinedIcon />}
+                            >
+                              {textoBotaoVinculo}
+                            </Button>
+                          )}
+                          </MenuItem>
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>
@@ -324,7 +424,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                 )}
               </Popper>
             </>
-          )} */}
+          )}
         </ButtonGroup>
       </Box>
     </Box>

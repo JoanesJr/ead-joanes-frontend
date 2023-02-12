@@ -1,4 +1,5 @@
 
+import { LocalStorage } from "../../localStorage";
 import { Api } from "../axios-config";
 import { IApiLogin, ISection } from "../interfaces";
 
@@ -7,7 +8,7 @@ export class SectionService {
   static async getAll(busca: string): Promise<ISection[] | Error> {
     try {
      Api.defaults.headers["Authorization"] =
-       "Bearer " + localStorage.getItem("apiToken");
+       "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
       const { data } = await Api.get(`/section?busca=${busca}`);
       const sections = data;
 
@@ -24,7 +25,7 @@ export class SectionService {
 
   static async getAllActives(): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.get("/section/active/all");
     const sections = data;
@@ -34,7 +35,7 @@ export class SectionService {
 
   static async getByCourse(id: string): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.get(`/section/course/${id}`);
     const sections = data;
@@ -44,7 +45,7 @@ export class SectionService {
 
   static async getById(id: string): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.get(`/section/${id}`);
     const section = data;
@@ -54,7 +55,7 @@ export class SectionService {
 
   static async create(obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.post("/section", obj);
     const section = data;
@@ -64,7 +65,7 @@ export class SectionService {
 
   static async updateById(id: string, obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.patch(`/section/${id}`, obj);
     const section = data;
@@ -74,7 +75,7 @@ export class SectionService {
 
   static async deleteById(id: string): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.delete(`/section/${id}`);
     const section = data;

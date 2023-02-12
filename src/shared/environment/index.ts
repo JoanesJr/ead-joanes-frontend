@@ -37,7 +37,7 @@ export const Environment = {
   USER_DASHBOARD: "/dashboard",
 
   // CRYPTO
-  ALGORITMO: "aes256",
+  ALGORITMO: "aes-256-ctr",
   SEGREDO: "b5066a7795a65b555c652af8e164d1f2",
   TIPO_CRYPTO: "hex",
   CODIFICACAO_CRYPTO: "uft-8"

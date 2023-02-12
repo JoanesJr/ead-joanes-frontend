@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { CardCourse } from "../../../shared/components";
 import { Environment } from "../../../shared/environment";
 import { UserService } from "../../../shared/services/api";
+import { LocalStorage } from "../../../shared/services/localStorage";
 
 
 
@@ -16,7 +17,7 @@ export const HomePage = () => {
 
 
       const getUserId = () => {
-        const username = localStorage.getItem("username");
+        const username = LocalStorage.getItem("JSF_U_N_I");
         const obj = {
           email: username,
         };

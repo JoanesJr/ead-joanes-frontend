@@ -12,7 +12,7 @@ export class ApiService {
   async Login(userLogin: IApiLogin): Promise<IApiLoginResponse> {
     const { data } = await Api.post("/user/auth/login", userLogin);
     // Api.defaults.headers["Authorization"] = "Bearer " + data.access_token;
-    // localStorage.setItem("apiToken", data.access_token);
+    // LocalStorage.setItem("JSF_TK_A_U_L", data.access_token);
 
     return data;
   }

@@ -3,6 +3,7 @@ import { LoginService } from "../services/api";
 import { IApiLogin } from "../services/api/interfaces";
 import { Api } from "../services/api/axios-config";
 import { useNavigate } from "react-router-dom";
+import { LocalStorage } from "../services/localStorage";
 
 interface IAuthProvider {
     children: React.ReactNode;
@@ -38,16 +39,16 @@ function AuthProvider({ children }: IAuthProvider) {
             setUsername("");
             setPassword("");
             setAuthenticated(false);
-            localStorage.removeItem("apiToken");
-            localStorage.removeItem("username");
+            LocalStorage.removeItem("JSF_TK_A_U_L");
+            LocalStorage.removeItem("JSF_U_N_I");
             navigate("/");
         })
         
     };
 
     const loggout = () => {
-      localStorage.removeItem("apiToken");
-      localStorage.removeItem("username");
+      LocalStorage.removeItem("JSF_TK_A_U_L");
+      LocalStorage.removeItem("JSF_U_N_I");
       navigate('/');
     }
 

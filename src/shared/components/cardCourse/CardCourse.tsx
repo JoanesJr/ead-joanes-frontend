@@ -5,6 +5,7 @@ import { Environment } from "../../environment";
 import { CompletedClassService } from "../../services/api/completedClass/CompletedClass";
 import { UserService } from "../../services/api";
 import LinearProgress from '@mui/material/LinearProgress';
+import { LocalStorage } from "../../services/localStorage";
 
 interface ICardCourse {
     title: string,
@@ -26,7 +27,7 @@ export const CardCourse = ({title, description, file, id} :ICardCourse) => {
       // image = pathUrl;
     }
 
-    const email = localStorage.getItem("username");
+    const email = LocalStorage.getItem("JSF_U_N_I");
     const obj = {
       email
     }
@@ -51,7 +52,7 @@ export const CardCourse = ({title, description, file, id} :ICardCourse) => {
      const cardSX = {
        boxShadow: 10,
        borderRadious: 55,
-       maxWidth: 345,
+       maxWidth: {xs: 250, md: 325},
        "&:hover": {
          boxShadow: 55
        },
@@ -61,7 +62,7 @@ export const CardCourse = ({title, description, file, id} :ICardCourse) => {
     return (
       <Grow in={true} >
         <Card sx={cardSX} elevation={3} onClick={() => navigate(`/cursos/${id}`)}>
-          <CardMedia sx={{ height: 300 }} image={image} title={title} />
+          <CardMedia sx={{ height: 300, maxWidth: {xs: 250, md: 325} }} image={image} title={title} />
           <CardContent sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
             <Typography gutterBottom variant="h5" component="div" sx={{color: 'secondary.main'}}>
               {title}

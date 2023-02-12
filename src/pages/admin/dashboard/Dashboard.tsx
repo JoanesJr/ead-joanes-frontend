@@ -84,8 +84,8 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   justifyContent: "center",
                   alignItems: "center",
                   flexDirection: "column",
+                  color: 'secondary.main'
                 }}
-                color="text.main"
                 gutterBottom
               >
                 Total de Cursos
@@ -98,7 +98,7 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   flexDirection: "column",
                 }}
               >
-                <Typography variant="h3" component="div" color="text.main">
+                <Typography variant="h3" component="div" sx={{color: 'secondary.main'}}>
                   {allCourses}
                 </Typography>
               </CardContent>
@@ -128,8 +128,8 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   justifyContent: "center",
                   alignItems: "center",
                   flexDirection: "column",
+                  color: 'secondary.main'
                 }}
-                color="text.main"
                 gutterBottom
               >
                 Total de Usuários
@@ -142,7 +142,7 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   flexDirection: "column",
                 }}
               >
-                <Typography variant="h3" component="div" color="text.main">
+                <Typography variant="h3" component="div" sx={{color: 'secondary.main'}}>
                   {allUsers}
                 </Typography>
               </CardContent>
@@ -172,8 +172,8 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   justifyContent: "center",
                   alignItems: "center",
                   flexDirection: "column",
+                  color: 'secondary.main'
                 }}
-                color="text.main"
                 gutterBottom
               >
                 Total de Cursos Ativos
@@ -186,7 +186,7 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   flexDirection: "column",
                 }}
               >
-                <Typography variant="h3" component="div" color="text.main">
+                <Typography variant="h3" component="div" sx={{color: 'secondary.main'}}>
                   {activeCourses}
                 </Typography>
               </CardContent>
@@ -217,8 +217,8 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   justifyContent: "center",
                   alignItems: "center",
                   flexDirection: "column",
+                  color: 'secondary.main'
                 }}
-                color="text.main"
                 gutterBottom
               >
                 Total de Usuário Ativos
@@ -231,7 +231,7 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   flexDirection: "column",
                 }}
               >
-                <Typography variant="h3" component="div" color="text.main">
+                <Typography variant="h3" component="div" sx={{color: 'secondary.main'}}>
                   {activeUsers}
                 </Typography>
               </CardContent>
@@ -261,8 +261,8 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   justifyContent: "center",
                   alignItems: "center",
                   flexDirection: "column",
+                  color: 'secondary.main'
                 }}
-                color="text.main"
                 gutterBottom
               >
                 Total de Cursos Inativos
@@ -275,7 +275,7 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   flexDirection: "column",
                 }}
               >
-                <Typography variant="h3" component="div" color="text.main">
+                <Typography variant="h3" component="div" sx={{color: 'secondary.main'}}>
                   {Number(allCourses) - Number(activeCourses)}
                 </Typography>
               </CardContent>
@@ -305,8 +305,8 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   justifyContent: "center",
                   alignItems: "center",
                   flexDirection: "column",
+                  color: 'secondary.main'
                 }}
-                color="text.main"
                 gutterBottom
               >
                 Total de Usuário Inativos
@@ -319,7 +319,7 @@ export const Dashboard = ({title}: ILayoutBasePagina) => {
                   flexDirection: "column",
                 }}
               >
-                <Typography variant="h3" component="div" color="text.main">
+                <Typography variant="h3" component="div" sx={{color: 'secondary.main'}}>
                   {allUsers - activeUsers}
                 </Typography>
               </CardContent>

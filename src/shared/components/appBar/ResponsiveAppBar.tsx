@@ -20,7 +20,7 @@ import { Environment } from "../../environment";
 import { Context, useAppThemeContext } from "../../contexts";
 
 const pages = ["Cursos", "Dashboard"];
-const settings = ["Perfil", "Conta", "Dashboard", "Sair"];
+const settings = ["Perfil", "Conta", "Trocar Tema", "Sair"];
 
 interface IAppBar {
   children: React.ReactNode;
@@ -54,9 +54,6 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
           case "dashboard":
             navigate(Environment.USER_DASHBOARD);
             break;
-          case "trocar tema":
-            toggleTheme();
-            break;
           
         }
         setAnchorElNav(null);
@@ -67,6 +64,9 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
         switch (settingOption) {
           case "sair":
             context.loggout();
+            break;
+          case "trocar tema":
+            toggleTheme();
             break;
         }
         setAnchorElUser(null);
@@ -154,7 +154,6 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                     ))}
                   </Menu>
                 </Box>
-                <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
                 <Typography
                   variant="h5"
                   noWrap
@@ -171,9 +170,19 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                     textDecoration: "none",
                   }}
                 >
-                  LOGO
+                  <Box
+                    component="img"
+                    sx={{
+                      height: 40,
+                      width: 40,
+                      maxHeight: { xs: 40, md: 40 },
+                      maxWidth: { xs: 40, md: 40 },
+                    }}
+                    alt="The house from the offer."
+                    src="logo192.png"
+                  />
                 </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }} justifyContent="space-between">
+                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>
                   <Box display="flex"> 
                   {pages.map((page) => (
                     <Button
@@ -186,16 +195,6 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                     </Button>
                   ))}
                   </Box>
-                 
-                 <Box>
-                 <Button
-                      onClick={handleCloseNavMenu}
-                      color="secondary"
-                      sx={{ my: 2, display: "block", fontWeight: 'bolder', mr: 3 }}
-                    >
-                      Trocar Tema
-                    </Button>
-                 </Box>
                   
                 </Box>
 

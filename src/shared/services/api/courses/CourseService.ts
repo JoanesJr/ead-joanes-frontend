@@ -1,3 +1,4 @@
+import { LocalStorage } from "../../localStorage";
 import { Api } from "../axios-config";
 import { ICourse } from "../interfaces";
 
@@ -6,7 +7,7 @@ export class CourseService {
 
   static async getAll(busca: string): Promise<ICourse[] | Error> {
     try {
-      Api.defaults.headers["Authorization"] = "Bearer " + localStorage.getItem("apiToken");
+      Api.defaults.headers["Authorization"] = "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
       const { data } = await Api.get(`/course?busca=${busca}`);
       const courses = data;
 
@@ -23,7 +24,7 @@ export class CourseService {
 
   static async updateImage(id: string, obj: any): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.patch(`/course/profile/image/${id}`, obj);
     const course = data;
@@ -33,7 +34,7 @@ export class CourseService {
 
   static async getAllActives(): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.get("/course/active/all");
     const courses = data;
@@ -43,7 +44,7 @@ export class CourseService {
 
   static async getAllAdmins(): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.get("/course/admin/all");
     const courses = data;
@@ -53,7 +54,7 @@ export class CourseService {
 
   static async getAllAdminsActive(): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.get("/course/active/admin");
     const courses = data;
@@ -63,7 +64,7 @@ export class CourseService {
 
   static async getById(id: string): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.get(`/course/${id}`);
     const course = data;
@@ -73,7 +74,7 @@ export class CourseService {
 
   static async create(obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.post("/course", obj);
     const course = data;
@@ -83,7 +84,7 @@ export class CourseService {
 
   static async updateById(id: string, obj: object): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.patch(`/course/${id}`, obj);
     const course = data;
@@ -93,7 +94,7 @@ export class CourseService {
 
   static async deleteById(id: string): Promise<any> {
     Api.defaults.headers["Authorization"] =
-      "Bearer " + localStorage.getItem("apiToken");
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
    
     const { data } = await Api.delete(`/course/${id}`);
     const course = data;

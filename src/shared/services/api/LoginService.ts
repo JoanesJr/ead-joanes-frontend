@@ -1,3 +1,4 @@
+import { LocalStorage } from "../localStorage";
 import { Api } from "./axios-config";
 import { IApiLogin, IApiLoginResponse } from "./interfaces";
 
@@ -7,8 +8,8 @@ export class LoginService {
     const { data } = await Api.post("/user/auth/login", userLogin);
     if (data.access_token) {
       Api.defaults.headers["Authorization"] = "Bearer " + data.access_token;
-      localStorage.setItem("apiToken", data.access_token);
-      localStorage.setItem("username", userLogin.username);
+      LocalStorage.setItem("JSF_TK_A_U_L", data.access_token);
+      LocalStorage.setItem("JSF_U_N_I", userLogin.username);
 
       return data;
     }
@@ -16,7 +17,7 @@ export class LoginService {
   }
 
    static async ValidateLogin(): Promise<any> {
-    const access_token = localStorage.getItem("apiToken");
+    const access_token = LocalStorage.getItem("JSF_TK_A_U_L");
     Api.defaults.headers["Authorization"] = "Bearer " + access_token;
     Api.post("/user/auth/login/validate").then(data => {
       // console.log("deu bom");
@@ -24,8 +25,8 @@ export class LoginService {
     }).catch(err => {
       // console.log("deu ruim");
       // console.log(err);
-      // localStorage.removeItem("apiToken");
-      // localStorage.removeItem("username");
+      // LocalStorage.removeItem("JSF_TK_A_U_L");
+      // LocalStorage.removeItem("JSF_U_N_I");
     });
 
   }

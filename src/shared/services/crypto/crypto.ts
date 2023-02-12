@@ -1,28 +1,27 @@
-import {createCipher} from "crypto";
-const DADOS_CRIPTOGRAFAR = {
-    algoritmo : "aes256",
-    codificacao : "utf8",
-    segredo : "chaves",
-    tipo : "hex"
-};
+import * as crypto  from "crypto-js";
+import {Environment} from "../../environment/index";
 
+export class Cryptograpy {
 
-export class Crypto {
-    // static async encrypted(data) {
-    //     const cipher =  createCipher(DADOS_CRIPTOGRAFAR.ALGORITMO, DADOS_CRIPTOGRAFAR.SEGREDO);
-    //     cipher.update(data);
+    static encrypted(value: string): string {
+        const pwd = Environment.SEGREDO;
 
-        
-    //     return cipher.final(DADOS_CRIPTOGRAFAR.tipo);
-    // }
+        const crypted = crypto.AES.encrypt(value, pwd).toString();
+        // const crypted = cipher.update(value, 'utf8', 'hex');
+        return crypted;
 
-    // static async decrypted(data) {
-    //     const cipher =  createCipher(DADOS_CRIPTOGRAFAR.ALGORITMO, DADOS_CRIPTOGRAFAR.SEGREDO);
-    //     cipher.update(data, DADOS_CRIPTOGRAFAR.TIPO_CRYPTO);
-        
-    //     return decipher.final();
-    // }
-    static void() {
-        return 'void';
     }
+
+    static decrypted(value: string): string {
+        const pwd = Environment.SEGREDO;
+        const bytes  = crypto.AES.decrypt(value, pwd);
+        const originalText = bytes.toString(crypto.enc.Utf8);
+
+        return originalText;
+
+
+    }
+
+
 }
+

@@ -2,6 +2,7 @@ import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { UserService } from "../../../shared/services/api";
 import { CompletedClassService } from "../../../shared/services/api/completedClass/CompletedClass";
+import { LocalStorage } from "../../../shared/services/localStorage";
 
 
 export const DashboardUser = () => {
@@ -11,7 +12,7 @@ export const DashboardUser = () => {
     const [countNotStartedCourse, setNotStartedCourse] = useState(0);
 
     useEffect( () => {
-        const email = localStorage.getItem("username");
+        const email = LocalStorage.getItem("JSF_U_N_I");
         const obj = {
             email
         };
@@ -65,6 +66,9 @@ export const DashboardUser = () => {
         })
     }, [countActiveCourse, countCompletedCourse, countStartedCourse, countNotStartedCourse]);
 
+    const sxGridCarc = {
+      mb: 5,
+    }
   return (
     <>
     <Grid container>
@@ -77,22 +81,23 @@ export const DashboardUser = () => {
 
     <Grid
       container
-      spacing={10}
+      spacing={2}
       sx={{
         height: "100vh",
         width: "100vw",
         display: "flex",
         alignContent: "center",
-        justifyContent: "space-around",
+        justifyContent: "center",
         m: 1,
+        // ml: {xs: -8},
         mt: -10
       }}
       
     >
-      <Grid item xs={6} sm={6} md={6} lg={6} xl={6} >
+      <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={sxGridCarc} >
         <Card
           sx={{
-            width: '75%',
+            width: {xs: 100, md: '90%'},
             height: "100%",
             padding: 2,
             borderRadius: 5,
@@ -125,10 +130,10 @@ export const DashboardUser = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+      <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={sxGridCarc}>
         <Card
           sx={{
-            width: '75%',
+           width: {xs: 100, md: '90%'},
             height: "100%",
             padding: 2,
             borderRadius: 5,
@@ -161,10 +166,10 @@ export const DashboardUser = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+      <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={sxGridCarc}>
         <Card
           sx={{
-            width: '75%',
+           width: {xs: 100, md: '90%'},
             height: "100%",
             padding: 2,
             borderRadius: 5,
@@ -197,10 +202,10 @@ export const DashboardUser = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+      <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={sxGridCarc}>
         <Card
           sx={{
-            width: '75%',
+           width: {xs: 100, md: '90%'},
             height: "100%",
             padding: 2,
             borderRadius: 5,
