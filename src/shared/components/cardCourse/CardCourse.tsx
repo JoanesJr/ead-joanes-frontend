@@ -71,8 +71,8 @@ export const CardCourse = ({title, description, file, id} :ICardCourse) => {
               {description}
             </Typography>
             <Box>
-            <LinearProgress variant="determinate" value={percent}  />
-               {percent} %
+            <LinearProgress variant="determinate" value={percent} />
+               <Typography variant="body2">{percent} %</Typography>
             </Box>
           </CardContent>
           <Box display="flex" alignItems="center" justifyContent="center">
