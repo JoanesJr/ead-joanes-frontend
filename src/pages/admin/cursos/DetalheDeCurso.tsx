@@ -334,8 +334,7 @@ export const DetalheDeCurso: React.FC = () => {
                       sx={{
                         height: 300,
                         width: 350,
-                        maxHeight: { xs: 233, md: 167, lg: 300, xl: 300 },
-                        maxWidth: { xs: 350, md: 250, lg: 350, xl: 350 },
+                        maxWidth: {xs: 250, md: 325},
                         marginTop: {xs: 8, md: 8}
                       }}
                       alt="The house from the offer."
