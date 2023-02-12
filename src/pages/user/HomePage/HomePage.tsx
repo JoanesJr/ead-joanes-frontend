@@ -73,7 +73,7 @@ export const HomePage = () => {
           alignItems="center"
           spacing={3}
         >
-          {courses.map((course) => (
+          {courses.length > 0 && courses.map((course) => (
             <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={course.id}>
               <CardCourse
                 title={course.title}
@@ -83,6 +83,19 @@ export const HomePage = () => {
               />
             </Grid>
           ))}
+          {courses.length == 0 && (
+            <Grid item xs={12} sm={12} md={6} lg={4} xl={3} sx={{
+              display:  'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '50vh',
+              ml: -8
+            }}>
+              <Typography sx={{
+                wordWrap: 'break-word'
+              }} variant="h4">Você não possui cursos atribuidos</Typography>
+            </Grid>
+          )}
         </Grid>
       </Grid>
     );
