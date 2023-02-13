@@ -8,6 +8,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
     "@mui/x-data-grid": "^5.17.18",
+    "@nestjs/mapped-types": "*",
     "@unform/core": "^2.1.6",
     "@unform/web": "^2.1.6",
     "axios": "^1.2.2",
