@@ -23,7 +23,8 @@ import { LocalStorage } from "../../services/localStorage";
 import { UserService } from "../../services/api";
 
 const pages = ["Cursos", "Dashboard"];
-const settings = ["Perfil", "Conta", "Trocar Tema", "Sair"];
+// const settings = ["Perfil", "Conta", "Trocar Tema", "Sair"];
+const settings = ["Trocar Tema", "Sair"];
 
 interface IAppBar {
   children: React.ReactNode;
@@ -132,13 +133,13 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                   <Box
                     component="img"
                     sx={{
-                      height: 40,
-                      width: 40,
-                      maxHeight: { xs: 40, md: 40 },
-                      maxWidth: { xs: 40, md: 40 },
+                      height: 100,
+                      width: 100,
+                      maxHeight: { xs: 100, md: 100 },
+                      maxWidth: { xs: 100, md: 100 },
                     }}
                     alt="The house from the offer."
-                    src="logo192.png"
+                    src="logo 192x192.png"
                   />
                 </Typography>
 
@@ -176,6 +177,14 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                         <Typography textAlign="center">{page}</Typography>
                       </MenuItem>
                     ))}
+                    {isAdmin && (
+                    <MenuItem
+                      onClick={handleCloseNavMenu}
+                      color="secondary"
+                    >
+                       <Typography textAlign="center">Administrador</Typography>
+                    </MenuItem>
+                  )}
                   </Menu>
                 </Box>
                 <Typography
@@ -197,13 +206,13 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                   <Box
                     component="img"
                     sx={{
-                      height: 40,
-                      width: 40,
-                      maxHeight: { xs: 40, md: 40 },
-                      maxWidth: { xs: 40, md: 40 },
+                      height: 100,
+                      width: 100,
+                      maxHeight: { xs: 100, md: 100 },
+                      maxWidth: { xs: 100, md: 100 },
                     }}
                     alt="The house from the offer."
-                    src="logo192.png"
+                    src="logo 192x192.png"
                   />
                 </Typography>
                 <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>
@@ -213,7 +222,7 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                       key={page}
                       onClick={handleCloseNavMenu}
                       color="secondary"
-                      sx={{ my: 2, display: "block", fontWeight: 'bolder' }}
+                      sx={{ my: 2, display: { xs: "none", md: "block" }, fontWeight: 'bolder' }}
                     >
                       {page}
                     </Button>
@@ -222,7 +231,7 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                     <Button
                       onClick={handleCloseNavMenu}
                       color="secondary"
-                      sx={{ my: 2, display: "block", fontWeight: 'bolder' }}
+                      sx={{ my: 2, display: { xs: "none", md: "block" }, fontWeight: 'bolder' }}
                     >
                       Administrador
                     </Button>

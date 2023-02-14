@@ -70,7 +70,7 @@ export const LoginPage = ({type: string = "comum"}) => {
 
   return (
     <Box sx={{
-      backgroundImage: `url('https://img.wallpapic-br.com/i2491-537-811/medium/terra-planeta-mundo-espaco-imagem-de-fundo.jpg')`,
+      backgroundImage: `url('FUNDO-PLANO-VIDA.jpg')`,
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover"
     }}>

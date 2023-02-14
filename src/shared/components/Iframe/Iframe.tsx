@@ -14,7 +14,7 @@ export const IFrame = ({title, file, percentWidth, percentHeight}: IIFrameProps)
         src={file}
         allowFullScreen
         title={title}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
       ></iframe>
     );
 }
