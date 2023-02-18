@@ -61,7 +61,7 @@ const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
   .object()
   .shape({
     title: yup.string().required().min(3),
-    description: yup.string().required().min(5).max(194),
+    description: yup.string().required().min(5).max(160),
     active: yup.boolean().required().default(true),
     type: yup.string().required().default("url"),
     file: yup.string().optional()

@@ -236,7 +236,7 @@ export const NestedList = ({ sections, children, idCourse }: INestedList) => {
           justifyContent="flex-start"
           onClick={handleClickList}
         >
-          <Box>{children}</Box>
+          <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', ml:-4}}>{children}</Box>
         </Grid>
       </Grid>
     </Grid>

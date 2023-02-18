@@ -7,6 +7,8 @@ interface IIFrameProps {
 
 
 export const IFrame = ({title, file, percentWidth, percentHeight}: IIFrameProps) => {
+
+  const teste:any = document.getElementsByTagName('Iframe');
     return (
       <iframe
         width={percentWidth}
@@ -15,6 +17,7 @@ export const IFrame = ({title, file, percentWidth, percentHeight}: IIFrameProps)
         allowFullScreen
         title={title}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
+        id="class"
       ></iframe>
     );
 }

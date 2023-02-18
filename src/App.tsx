@@ -1,5 +1,4 @@
 import { BrowserRouter } from "react-router-dom";
-
 import "./shared/forms/TraducoesYup";
 
 import { AppRoutes } from "./routes";

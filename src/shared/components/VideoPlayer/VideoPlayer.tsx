@@ -84,17 +84,23 @@ export const VideoPlayer = ({
         direction="row"
         alignItems="center"
         justifyContent="start"
-        style={{ padding: 16 }}
+        style={{ padding: 5 }}
       >
         <Grid item>
-          <Box width={width} height={height}>
-            <video
+          <Box sx={{
+            width: '90%',
+            height: '90%',
+            maxWidth: {xs: 900, sm: 800 , md: 800, lg: 800, xl: 1100},
+            maxHeight: {xs: 900, sm: 800, md: 800, lg: 800, xl: 1100},
+            mt: {xs: -1, sm: -1 , md: -10 , lg: -14}
+          }}  height={height}>
+            <video 
               ref={$videoPlayer}
               src={srcVideo}
               poster={srcCap}
               onTimeUpdate={handleTimeUpdate}
-              height={height}
-              width={width}
+              height='100%'
+              width='100%'
             />
           </Box>
 
@@ -128,10 +134,16 @@ export const VideoPlayer = ({
                 onChange={(event) => setSpeed(Number(event.target.value))}
                 size="small"
                 variant="standard"
+                sx={{
+                  background: 'primary.main'
+                }}
               >
                 {[1, 2, 3].map((speed) => (
-                  <MenuItem key={`speedChange_${speed}`} value={speed}>
-                    {speed}
+                  <MenuItem key={`speedChange_${speed}`} value={speed} sx={{
+                    color: 'secondary.main',
+                    background: 'secondary.dark'
+                  }}>
+                    <Typography sx={{color: 'primary.dark'}}>{speed}</Typography>
                   </MenuItem>
                 ))}
               </Select>

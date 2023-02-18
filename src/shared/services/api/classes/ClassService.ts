@@ -95,4 +95,14 @@ export class ClassService {
 
     return classy;
   }
+
+  static async getFileClass(file: string): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
+   
+    const { data } = await Api.get(`/getFile/${file}`);
+    const course = data;
+
+    return course;
+  }
 }

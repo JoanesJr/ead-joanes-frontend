@@ -6,6 +6,7 @@ import { IFrame, NestedList, VideoPlayer } from "../../../shared/components";
 import { Environment } from "../../../shared/environment";
 import { CourseService } from "../../../shared/services/api";
 import { ClassService } from "../../../shared/services/api";
+import ReactVideoPlayer from "../../../shared/components/ReactVideoPlayer/ReactVideoPlayer";
 
 const objData = {
   username: "joanesdejesusjr@gmail.com",
@@ -17,7 +18,7 @@ export const CoursePage = () => {
     const [sections, setSections] = useState([]);
     const [actualSection, setActualSection] = useState();
     const [actualClass, setActualClass] = useState<any>();
-    const [file, setFile] = useState("https://www.youtube.com/watch?v=fD0kN7SemRI");
+    const [file, setFile] = useState("");
     const { id = "1" } = useParams<"id">();
     const { state } = useLocation();
     const theme = useTheme();
@@ -27,14 +28,14 @@ export const CoursePage = () => {
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
   const xlDown = useMediaQuery(theme.breakpoints.down("xl"));
   const xsDown = useMediaQuery(theme.breakpoints.down("xs"));
-  let percent = "70%"
+  let percent: any = 1500
   let percent2 = "100%"
 
   if (xlDown) {
-    percent = "70%";
+    percent = 1000;
   }
   if (lgDown) {
-    percent = "60%";
+    percent = 1000;
   }
   if (mdDown) {
     percent = "80%";
@@ -64,6 +65,7 @@ export const CoursePage = () => {
             if (actualClass.file ) {
               if(actualClass.type == "file") {
                 const pathUrl = `${Environment.URL_BASE}/getFile${actualClass.file.replace(".", "")}`
+                // console.log(pathUrl);
                 setFile(pathUrl);
               } else {
                 setFile(actualClass.file);
@@ -86,33 +88,47 @@ export const CoursePage = () => {
               <>
                 <Grid
                   container
-                    sx={{ height: "100vh", width: "100vw", display: "flex", justifyContent: "center", alignItems: "initial", flexDirection: "collumn" }}
+                    sx={{ height: "80vh", width: "100vw", display: "flex", justifyContent: "center", alignItems: "initial", flexDirection: "collumn" }}
                 >
-                  <Grid item xs={12}>
-                    <Typography variant="h4">{actualClass.title}</Typography>
-                    
-                    <Typography variant="body1" sx={{marginTop: 2}}>
-                      {actualClass.description}
-                    </Typography>
-                    
-                  </Grid>
 
                   <Grid
                     item
 
                     xs={12}
                     display="flex"
-                    justifyContent="space-beetwen"
+                    justifyContent="flex-start"
                     alignItems="flex-start"
-                    sx={{ height: "50%", width: "80%" }}
+                    sx={{ height: "50%", width: "80%", mt: 18}}
                   >
-                    {actualClass && (
+                    {/* {(actualClass && actualClass.type == 'url') && (
                       <>
                       <IFrame title={actualClass.title} file={file} percentWidth={percent} percentHeight={percent2} />
                       
                       </>
+                    )} */}
+
+                    {actualClass && (
+                      <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: {  md: 900, lg: 1100, xl: 1500},
+                        height: { md: 300, lg: 300, xl: 500},
+                      }}>
+                        <ReactVideoPlayer title={actualClass.title} src={file} type={actualClass.type} />
+                      </Box>
+                      
                     )}
+
                   </Grid>
+                  {/* <Grid item xs={12} sx={{mt: 10}}>
+
+                    <Typography variant="h4">Descrição</Typography>
+                    
+                    <Typography variant="caption" sx={{width: '70%'}}>
+                      {actualClass.description}
+                    </Typography>
+                  </Grid> */}
                 </Grid>
               </>
             )}

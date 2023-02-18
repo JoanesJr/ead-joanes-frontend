@@ -8,3 +8,5 @@ export * from "./cardCourse/CardCourse";
 export * from "./nestedList/NestedList";
 export * from "./Iframe/Iframe";
 export * from "./ValideLogin/ValideLogin"
+export * from "./ReactVideoPlayer/ReactVideoPlayer";
+export * from "./ComponentsControllIcons/ControlIcons";

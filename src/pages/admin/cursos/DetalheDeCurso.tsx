@@ -332,9 +332,7 @@ export const DetalheDeCurso: React.FC = () => {
                     <Box
                       component="img"
                       sx={{
-                        height: 300,
-                        width: 350,
-                        maxWidth: {xs: 250, md: 325},
+                        height: 300, maxWidth: {xs: 250, md: 325},
                         marginTop: {xs: 8, md: 8}
                       }}
                       alt="The house from the offer."
