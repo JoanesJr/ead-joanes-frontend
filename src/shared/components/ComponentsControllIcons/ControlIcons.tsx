@@ -97,7 +97,7 @@ const ControlIcons = ({ title, playandpause, playing, rewind, fastForward, mutin
 
 
             {/* Middle Controls */}
-            {showMiddleScreenControlls && (
+            {/* {showMiddleScreenControlls && (
               <Grid container direction='row' alignItems='center' justifyContent='center'>
               <IconButton className='controls__icons' aria-label='reqind' onClick={rewind}>
                 <FastRewind fontSize='large' sx={{color:'secondary.light'}}/>
@@ -119,7 +119,7 @@ const ControlIcons = ({ title, playandpause, playing, rewind, fastForward, mutin
               </IconButton>
             </Grid>
             )}
-            
+             */}
 
             {/* Bottom Controls */}
             <Grid container direction='row' alignItems='center' justifyContent='space-between' style={{padding: 16}}>

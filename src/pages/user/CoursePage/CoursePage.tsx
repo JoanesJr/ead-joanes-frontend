@@ -100,14 +100,14 @@ export const CoursePage = () => {
                     alignItems="flex-start"
                     sx={{ height: "50%", width: "80%", mt: 18}}
                   >
-                    {/* {(actualClass && actualClass.type == 'url') && (
+                    {(actualClass && actualClass.type == 'url') && (
                       <>
                       <IFrame title={actualClass.title} file={file} percentWidth={percent} percentHeight={percent2} />
                       
                       </>
-                    )} */}
+                    )}
 
-                    {actualClass && (
+                    {(actualClass && actualClass.type == 'file') && (
                       <Box sx={{
                         display: 'flex',
                         justifyContent: 'center',
