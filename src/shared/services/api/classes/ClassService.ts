@@ -105,4 +105,35 @@ export class ClassService {
 
     return course;
   }
+
+  static async setAttachment(id: string | number, file: any): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
+   
+    const { data } = await Api.post(`/attachment/${id}`, file);
+    const course = data;
+
+    return course;
+  }
+
+  static async getAttachmentClass(id: string | number): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
+   
+    const { data } = await Api.get(`/attachment/class/${id}`);
+    const course = data;
+
+    return course;
+  }
+
+  static async getAttachmentFile(file: string): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
+   
+    const { data } = await Api.get(`/getFile/${file}`);
+    const course = data;
+
+    return course;
+  }
+
 }

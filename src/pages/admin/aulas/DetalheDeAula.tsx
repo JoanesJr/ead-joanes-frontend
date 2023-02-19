@@ -1,7 +1,21 @@
 import { useEffect, useState, useRef } from "react";
-import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
-import { FerramentasDeDetalhe, MyDropzone, VideoPlayer } from "../../../shared/components";
+import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
+import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
+import ArrowCircleDownTwoToneIcon from '@mui/icons-material/ArrowCircleDownTwoTone';
+
+
+import {
+  FerramentasDeDetalhe,
+  MyDropzone,
+  VideoPlayer,
+} from "../../../shared/components";
 import { LayoutBaseDePagina } from "../../../shared/layouts";
 import { ClassService } from "../../../shared/services/api";
 import { FormHandles } from "@unform/core";
@@ -16,7 +30,8 @@ import {
   Alert,
   Collapse,
   IconButton,
-  useTheme
+  useTheme,
+  Link,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import * as yup from "yup";
@@ -54,7 +69,7 @@ const formValidationSchemaCreate: yup.SchemaOf<IFormDataUpdate> = yup
     description: yup.string().required().min(5).max(194),
     active: yup.boolean().required().default(true),
     type: yup.string().required().default("url"),
-    file: yup.string().optional()
+    file: yup.string().optional(),
   });
 
 const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
@@ -64,30 +79,30 @@ const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
     description: yup.string().required().min(5).max(160),
     active: yup.boolean().required().default(true),
     type: yup.string().required().default("url"),
-    file: yup.string().optional()
+    file: yup.string().optional(),
   });
 
 const statusOptions = [
   {
-    title: 'Ativo',
-    value: true
+    title: "Ativo",
+    value: true,
   },
   {
-    title: 'Inativo',
-    value: false
-  }
+    title: "Inativo",
+    value: false,
+  },
 ];
 
 const typesOptions = [
   {
-    title: 'Url',
-    value: 'url'
+    title: "Url",
+    value: "url",
   },
   {
-    title: 'Arquivo',
-    value: 'file'
-  }
-]
+    title: "Arquivo",
+    value: "file",
+  },
+];
 
 export const DetalheDeAula: React.FC = () => {
   const { id = "novo" } = useParams<"id">();
@@ -95,13 +110,18 @@ export const DetalheDeAula: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const { state } = useLocation();
-  
 
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
   const [image, setImage] = useState("");
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
+  const [attachments, setAttachments] = useState<any[]>([]);
+  const [downloadLink, setDownloadLink] = useState("");
+  const [count, setCount] = useState(0);
+  const [selectedAttachmentsString, setSelectedAttachmentsString] =
+    useState("");
+  const [selectedAttachments, setSelectedAttachments] = useState<File[]>();
   const [viewOnly, setViewOnly] = useState(
     searchParams.get("visualizar") ? true : false
   );
@@ -111,49 +131,63 @@ export const DetalheDeAula: React.FC = () => {
   if (state.class) {
     idClass = state.class[0].id;
   }
-  
+
   const { idSection } = state;
-   
-   const theme = useTheme();
-   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
+  const theme = useTheme();
+  const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
-   const [type, setType] = useState("");
+  const [type, setType] = useState("");
 
   useEffect(() => {
     if (id !== "novo") {
-          setIsLoading(true);
-          if (state.class) {
-            setName(`${state.class[0].title}`);
-            if (type == state.class[0].type || !type) {
-              setType(state.class[0].type);
-              formRef.current?.setData(state.class[0]);
-            }
-            if (state.class[0].file && type == "file") {
-              const pathUrl = `${
-                Environment.URL_BASE
-              }/getFile${state.class[0].file.replace(".", "")}`;
-              setSelectedFileUrl(pathUrl);
-            }
-            if (state.class[0].file && type == "url") {
-              setSelectedFileUrl(state.class[0].file);
-            } 
-          }
-          
-          
-          
-          
-          setIsLoading(false);
+      setIsLoading(true);
+      if (state.class) {
+        setName(`${state.class[0].title}`);
+        if (type == state.class[0].type || !type) {
+          setType(state.class[0].type);
+          formRef.current?.setData(state.class[0]);
+        }
+        if (state.class[0].file && type == "file") {
+          const pathUrl = `${
+            Environment.URL_BASE
+          }/getFile${state.class[0].file.replace(".", "")}`;
+          setSelectedFileUrl(pathUrl);
+        }
+        if (state.class[0].file && type == "url") {
+          setSelectedFileUrl(state.class[0].file);
+        }
 
+        ClassService.getAttachmentClass(state.class[0].id).then(dt => {
+            // setAttachments(dt);
+            const controlledAttachment = [];
+            for (let item of dt) {
+              let fileSplit = item.file.split('.');
+              let url = `${Environment.URL_BASE}/getFile/${item.file.replace('./', '')}`
+              controlledAttachment.push({
+                name: item.name,
+                url: url,
+                extension: fileSplit[fileSplit.length - 1]
+              })
+            }
+
+            setAttachments(controlledAttachment);
+        }).catch(err => {
+          console.log("error");
+          // console.log(err)
+        })
+      }
+
+      setIsLoading(false);
     } else {
-        formRef.current?.setData({
-          title: "",
-          active: true,
-          description: "",
-          type: "url"
-        });
+      formRef.current?.setData({
+        title: "",
+        active: true,
+        description: "",
+        type: "url",
+      });
     }
-  }, [id]);
+  }, [id, selectedAttachments]);
 
   const handleSave = (obj: IFormDataClass) => {
     if (id == "novo") {
@@ -162,29 +196,36 @@ export const DetalheDeAula: React.FC = () => {
         .validate(obj, { abortEarly: false })
         .then((valideObj) => {
           setIsLoading(true);
-          if(type === "url") {
-            valideObj.file = obj.file
+          if (type === "url") {
+            valideObj.file = obj.file;
           }
 
-            ClassService.create(valideObj).then((result) => {
-              // console.log(result)
-              setIsLoading(false);
-              if (result instanceof Error) {
-                alert(result.message);
-              } else {
-                if (selectedFile && type == "file") {
-                  const formData = new FormData();
-                  formData.append("file", selectedFile);
-                  ClassService.updateImage(result.id, formData);
-                }
-                setSuccessAlertOpen(true);
-                setTimeout(() => {
-                  setSuccessAlertOpen(false);
-
-                  navigate(-1);
-                }, 1000);
+          ClassService.create(valideObj).then((result) => {
+            // console.log(result)
+            setIsLoading(false);
+            if (result instanceof Error) {
+              alert(result.message);
+            } else {
+              if (selectedFile && type == "file") {
+                const formData = new FormData();
+                formData.append("file", selectedFile);
+                ClassService.updateImage(result.id, formData);
               }
-            });
+              if (!!selectedAttachments) {
+                for (let i = 0; i < selectedAttachments.length; i++) {
+                  const formData = new FormData();
+                  formData.append("file", selectedAttachments[i]);
+                  ClassService.setAttachment(result.id, formData);
+                }
+              }
+              setSuccessAlertOpen(true);
+              setTimeout(() => {
+                setSuccessAlertOpen(false);
+
+                navigate(-1);
+              }, 1000);
+            }
+          });
         })
         .catch((errors: yup.ValidationError) => {
           const validationErrors: IVFormErrors = {};
@@ -204,8 +245,8 @@ export const DetalheDeAula: React.FC = () => {
         .then((valideObj) => {
           setIsLoading(true);
 
-          if(type == "url") {
-            valideObj.file = obj.file
+          if (type == "url") {
+            valideObj.file = obj.file;
           }
 
           ClassService.updateById(idClass, valideObj).then((result) => {
@@ -219,6 +260,15 @@ export const DetalheDeAula: React.FC = () => {
                 dataImage.append("file", selectedFile);
                 ClassService.updateImage(idClass, dataImage);
               }
+
+              if (!!selectedAttachments) {
+                for (let i = 0; i < selectedAttachments.length; i++) {
+                  const formData = new FormData();
+                  formData.append("file", selectedAttachments[i]);
+                  ClassService.setAttachment(idClass, formData);
+                }
+              }
+
               setSuccessAlertOpen(true);
               setTimeout(() => {
                 setSuccessAlertOpen(false);
@@ -250,6 +300,18 @@ export const DetalheDeAula: React.FC = () => {
         setSuccessAlertOpen(false);
       }, 1000);
     }
+  };
+
+  const onDownload = (obj) => {
+    console.log('oi');
+    console.log(obj);
+    const link = document.createElement("a");
+    link.download = `${obj.url}`;
+    console.log(link)
+    link.href = obj.url;
+    link.target = '_blank';
+    console.log(link)
+    link.click();
   };
 
   return (
@@ -340,16 +402,7 @@ export const DetalheDeAula: React.FC = () => {
             </Grid>
 
             <Grid container item>
-              <Grid
-                container
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={6}
-                xl={6}
-                
-              >
+              <Grid container item xs={12} sm={12} md={12} lg={6} xl={6}>
                 <Grid container item direction="row" spacing={2}>
                   <Grid container item direction="row" spacing={2}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -400,6 +453,27 @@ export const DetalheDeAula: React.FC = () => {
                         />
                       </Grid>
                     )}
+
+                    {!viewOnly && (
+                      <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        xl={12}
+                        sx={{ mt: 5 }}
+                      >
+                        <Typography variant="h5" sx={{ mb: 5 }}>
+                          Adicionar Anexos
+                        </Typography>
+                        <MyDropzone
+                          type="file"
+                          onFileString={setSelectedAttachmentsString}
+                          onFileUploadAttchment={setSelectedAttachments}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -431,10 +505,51 @@ export const DetalheDeAula: React.FC = () => {
                   </Grid>
                 </Grid>
               )}
+
+              {attachments && (
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={6}
+                  xl={6}
+                  marginTop={!lgDown && viewOnly ? -22 : -5}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Box>
+                      {attachments.map( att => (
+                        <Box sx={{display: 'flex'}}>
+                          <AttachFileRoundedIcon sx={{color: 'secondary.main'}} />
+                          <Box sx={{display: 'flex', width: '100%'}}>
+                            <Typography variant="body2">{att.name}</Typography>
+                          </Box>
+                          <Box>
+                            <ArrowCircleDownOutlinedIcon sx={{color: 'secondary.main', ml: 2}} onClick={() =>  {
+                              setDownloadLink(`${att.url}?c=${count}`);
+                              setCount(count + 1)} }
+                              />
+                          </Box>
+                          
+                        </Box>
+                      ) )}
+                    </Box>
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Box>
       </Form>
+
+      <iframe src={downloadLink} style={{display:'none'}}></iframe>
 
       {isLoading && <LinearProgress variant="indeterminate" />}
     </LayoutBaseDePagina>

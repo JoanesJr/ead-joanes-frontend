@@ -10,26 +10,35 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 interface IMyDropzone {
-  type?: "video" | "image";
-  onFileUploaded: (file: File) => void;
-  onFileString: (file: string) => void;
+  type?: "video" | "image" | "file";
+  onFileUploaded?: (file: File) => void;
+  onFileString?: (file: string) => void;
+  onFileUploadAttchment?: (files: File[]) => void
 }
 
 export const MyDropzone = ({
   type = "image",
   onFileUploaded,
   onFileString,
+  onFileUploadAttchment
 }: IMyDropzone) => {
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const onDrop = useCallback(
     (acceptedFiles: any) => {
-      const file = acceptedFiles[0];
+      if (type != 'file') {
+        const file = acceptedFiles[0];
 
-      const fileUrl = URL.createObjectURL(file);
+        const fileUrl = URL.createObjectURL(file);
+  
+        setSelectedFileUrl(fileUrl);
+        onFileString(fileUrl);
+        onFileUploaded(file);
+      } else {
+        const file = acceptedFiles;
 
-      setSelectedFileUrl(fileUrl);
-      onFileString(fileUrl);
-      onFileUploaded(file);
+        onFileUploadAttchment(file);
+      }
+      
       // Do something with the files
     },
     [onFileUploaded]
@@ -62,6 +71,15 @@ export const MyDropzone = ({
         <>
           {selectedFileUrl ? (
             <Typography variant="body1">Imagem selecionado</Typography>
+          ) : (
+            <Typography variant="body1">Arraste aqui</Typography>
+          )}
+        </>
+      )}
+      {type === "file" && (
+        <>
+          {selectedFileUrl ? (
+            <Typography variant="body1">Anexos selecionados</Typography>
           ) : (
             <Typography variant="body1">Arraste aqui</Typography>
           )}
