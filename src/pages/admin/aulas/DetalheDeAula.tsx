@@ -9,6 +9,7 @@ import {
 import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import ArrowCircleDownTwoToneIcon from '@mui/icons-material/ArrowCircleDownTwoTone';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 
 
 import {
@@ -138,6 +139,7 @@ export const DetalheDeAula: React.FC = () => {
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
   const [type, setType] = useState("");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (id !== "novo") {
@@ -146,6 +148,7 @@ export const DetalheDeAula: React.FC = () => {
         setName(`${state.class[0].title}`);
         if (type == state.class[0].type || !type) {
           setType(state.class[0].type);
+          setStatus(state.class[0].active);
           formRef.current?.setData(state.class[0]);
         }
         if (state.class[0].file && type == "file") {
@@ -167,7 +170,8 @@ export const DetalheDeAula: React.FC = () => {
               controlledAttachment.push({
                 name: item.name,
                 url: url,
-                extension: fileSplit[fileSplit.length - 1]
+                extension: fileSplit[fileSplit.length - 1],
+                id: item.id
               })
             }
 
@@ -302,17 +306,16 @@ export const DetalheDeAula: React.FC = () => {
     }
   };
 
-  const onDownload = (obj) => {
-    console.log('oi');
-    console.log(obj);
-    const link = document.createElement("a");
-    link.download = `${obj.url}`;
-    console.log(link)
-    link.href = obj.url;
-    link.target = '_blank';
-    console.log(link)
-    link.click();
-  };
+
+  const removeAttachment = (id: string | number) => {
+    ClassService.removeAttachmentFile(id).then(dt => {
+      // console.log(dt);
+      navigate(0);
+    }).catch(err => {
+      // console.log(err);
+      console.log('error')
+    })
+  }
 
   return (
     <LayoutBaseDePagina
@@ -430,6 +433,7 @@ export const DetalheDeAula: React.FC = () => {
                         label="Status"
                         options={statusOptions}
                         disabled={isLoading || viewOnly}
+                        setValueControl={setStatus}
                       />
                     </Grid>
 
@@ -443,7 +447,7 @@ export const DetalheDeAula: React.FC = () => {
                       </Grid>
                     )}
 
-                    {!viewOnly && type != "file" && (
+                    {type != "file" && (
                       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <VTextField
                           label="Link"
@@ -515,7 +519,7 @@ export const DetalheDeAula: React.FC = () => {
                   md={12}
                   lg={6}
                   xl={6}
-                  marginTop={!lgDown && viewOnly ? -22 : -5}
+                  marginTop={!lgDown && viewOnly ? -22 : 5}
                 >
                   <Grid
                     item
@@ -537,6 +541,13 @@ export const DetalheDeAula: React.FC = () => {
                               setCount(count + 1)} }
                               />
                           </Box>
+                          {!viewOnly && (
+                            <Box>
+                            <HighlightOffRoundedIcon sx={{color: 'secondary.main', ml: 2}} onClick={() =>  {removeAttachment(att.id)}}
+                              />
+                          </Box>
+                          )}
+                          
                           
                         </Box>
                       ) )}

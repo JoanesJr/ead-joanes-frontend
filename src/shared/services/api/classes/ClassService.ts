@@ -136,4 +136,14 @@ export class ClassService {
     return course;
   }
 
+  static async removeAttachmentFile(id: string | number): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
+   
+    const { data } = await Api.delete(`/attachment/${id}`);
+    const course = data;
+
+    return course;
+  }
+
 }
