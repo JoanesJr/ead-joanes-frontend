@@ -72,7 +72,8 @@ export const LoginPage = ({type: string = "comum"}) => {
     <Box sx={{
       backgroundImage: `url('FUNDO-PLANO-VIDA.jpg')`,
       backgroundRepeat: "no-repeat",
-      backgroundSize: "cover"
+      backgroundSize: "cover",
+      height: '100vh'
     }}>
  <Container component="main" maxWidth="xs" >
       <CssBaseline />
