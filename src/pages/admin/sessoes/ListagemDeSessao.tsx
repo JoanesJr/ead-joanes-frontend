@@ -108,10 +108,11 @@ export const ListagemDeSessao  = () => {
           (section: any) => section.id != selectionModel
         );
         setSections(newSections);
-        setSearchParams(idCourse);
+        // setSearchParams(idCourse);
         setSuccessAlertOpen(true);
         setTimeout(() => {
           setSuccessAlertOpen(false);
+          // navigate(0);
         }, 1000);
       }
 

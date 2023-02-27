@@ -138,7 +138,7 @@ export const DetalheDeAula: React.FC = () => {
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const [type, setType] = useState("");
+  const [type, setType] = useState("url");
   const [status, setStatus] = useState("");
 
   useEffect(() => {

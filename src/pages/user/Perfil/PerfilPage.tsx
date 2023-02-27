@@ -75,12 +75,22 @@ export const PerfilPage = () => {
       setErrorPassword(true);
       setErrorMessage("A senha deve ter entre 03 e 12 caracteres");
     } else {
-      setErrorPassword(false);
-      setErrorMessage("");
-      setSuccessAlertOpen(true);
-      setTimeout(() => {
-        setSuccessAlertOpen(false);
-      }, 1000);
+      let obj = {
+        password: password
+      }
+      UserService.updateById(userId, obj).then(dt => {
+        console.log(dt)
+        setErrorPassword(false);
+        setErrorMessage("");
+        setSuccessAlertOpen(true);
+        setTimeout(() => {
+          setSuccessAlertOpen(false);
+        }, 1000);
+      }).catch(err => {
+        setErrorPassword(true);
+        setErrorMessage("A senha deve ter entre 03 e 12 caracteres");
+      })
+     
     }
   };
 
