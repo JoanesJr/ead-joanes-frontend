@@ -9,7 +9,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Environment } from "../../environment";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -143,7 +143,7 @@ const ListSection = ({ id, title, classes, idCourse }: IListSection) => {
     <>
       <ListItemButton onClick={handleClick}>
         <ListItemIcon>
-          <ViewModuleIcon />
+          <ViewModuleIcon sx={{color: 'secondary.main'}} />
         </ListItemIcon>
         <ListItemText primary={title} />
         {open ? <ExpandLess /> : <ExpandMore />}
@@ -206,7 +206,7 @@ export const NestedList = ({ sections, children, idCourse }: INestedList) => {
               aria-labelledby="nested-list-subheader"
               subheader={
                 <ListSubheader component="div" id="nested-list-subheader">
-                  Módulos
+                  {/* <Typography variant="body1" sx={{mt: 2}}>Módulos</Typography> */}
                 </ListSubheader>
               }
             >

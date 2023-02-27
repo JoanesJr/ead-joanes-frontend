@@ -10,4 +10,5 @@ export * from "./admin/login/LoginPage";
 export * from "./user/HomePage/HomePage";
 export * from "./user/CoursePage/CoursePage";
 export * from "./user/Login/LoginPage";
-export * from "./user/Dashboard/DashboardUser"
+export * from "./user/Dashboard/DashboardUser";
+export * from "./user/Perfil/PerfilPage";

@@ -36,6 +36,7 @@ export const Environment = {
   USER_COURSE_PAGE: "/cursos/:id",
   USER_CLASS: "/cursos/:id/aula",
   USER_DASHBOARD: "/dashboard",
+  USER_PERFIL: "/perfil",
 
   // CRYPTO
   ALGORITMO: "aes-256-ctr",

@@ -39,8 +39,8 @@ function AuthProvider({ children }: IAuthProvider) {
             setUsername("");
             setPassword("");
             setAuthenticated(false);
-            LocalStorage.removeItem("JSF_TK_A_U_L");
-            LocalStorage.removeItem("JSF_U_N_I");
+            // LocalStorage.removeItem("JSF_TK_A_U_L");
+            // LocalStorage.removeItem("JSF_U_N_I");
             navigate("/");
         })
         

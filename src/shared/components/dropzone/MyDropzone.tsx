@@ -20,7 +20,7 @@ export const MyDropzone = ({
   type = "image",
   onFileUploaded,
   onFileString,
-  onFileUploadAttchment
+  onFileUploadAttchment = null
 }: IMyDropzone) => {
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const onDrop = useCallback(

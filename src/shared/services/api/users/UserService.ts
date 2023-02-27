@@ -115,4 +115,34 @@ export class UserService {
 
     return userCourse;
   }
+
+  static async getUserTheme(id: string): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
+
+    const { data } = await Api.get(`/user/addTheme/${id}`);
+    const userCourse = data;
+
+    return userCourse;
+  }
+
+  static async updateUserTheme(id: string, body: {theme: 'light' | 'dark'}): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
+
+    const { data } = await Api.patch(`/user/addTheme/${id}`, body);
+    const userCourse = data;
+
+    return userCourse;
+  }
+
+  static async updateImage(id: string, obj: any): Promise<any> {
+    Api.defaults.headers["Authorization"] =
+      "Bearer " + LocalStorage.getItem("JSF_TK_A_U_L");
+   
+    const { data } = await Api.patch(`/user/profile/image/${id}`, obj);
+    const user = data;
+
+    return user;
+  }
 }

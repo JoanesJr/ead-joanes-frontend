@@ -24,7 +24,7 @@ import { UserService } from "../../services/api";
 
 const pages = ["Cursos", "Dashboard"];
 // const settings = ["Perfil", "Conta", "Trocar Tema", "Sair"];
-const settings = ["Trocar Tema", "Sair"];
+const settings = ["Perfil", "Trocar Tema", "Sair"];
 
 interface IAppBar {
   children: React.ReactNode;
@@ -75,11 +75,15 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
           case "trocar tema":
             toggleTheme();
             break;
+          case "perfil":
+            navigate(Environment.USER_PERFIL);
+            break;
         }
         setAnchorElUser(null);
       };
 
       const [isAdmin, setIsAdmin] = useState(false);
+      const [image, setImage] = useState("");
 
       useEffect( () => {
         const email = LocalStorage.getItem("JSF_U_N_I");
@@ -90,13 +94,22 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
         UserService.getByEmail(obj).then (dt => {
           if (dt.admin) {
             setIsAdmin(true);
+            if (dt.file) {
+              if (dt.file) {
+                const pathUrl = `${Environment.URL_BASE}/getFile${dt.file.replace(".", "")}`;
+                setImage(pathUrl);
+                // setSelectedFileUrl(pathUrl)
+              } else {
+                setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI3vvVZ-pOGsyhaNEm9s-tm96lh7OGxJrpPQ&usqp=CAU");
+              }
+            }
           } else {
             setIsAdmin(false);
           }
         }).catch(err => {
           setIsAdmin(false);
         })
-      }, [isAdmin]);
+      }, [isAdmin, image, LocalStorage.getItem("JSF_U_N_I")]);
 
     return (
       <Box
@@ -246,7 +259,7 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
                         alt="Remy Sharp"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI3vvVZ-pOGsyhaNEm9s-tm96lh7OGxJrpPQ&usqp=CAU"
+                        src={image}
                       />
                     </IconButton>
                   </Tooltip>

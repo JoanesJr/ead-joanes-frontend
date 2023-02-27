@@ -1,5 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { CoursePage, DashboardUser, HomePage, LoginPage } from "../pages";
+import { CoursePage, DashboardUser, HomePage, LoginPage, PerfilPage } from "../pages";
 import { ResponsiveAppBar, ValideLogin } from "../shared/components";
 import { Environment } from "../shared/environment";
 
@@ -15,6 +15,16 @@ export const UserAppRoutes = () => {
           <ValideLogin>
             <ResponsiveAppBar navigate={navigate}>
               <HomePage />
+            </ResponsiveAppBar>
+          </ValideLogin>
+        }
+      />
+      <Route
+        path={Environment.USER_PERFIL}
+        element={
+          <ValideLogin>
+            <ResponsiveAppBar navigate={navigate}>
+              <PerfilPage />
             </ResponsiveAppBar>
           </ValideLogin>
         }
