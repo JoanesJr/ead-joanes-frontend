@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { LocalStorage } from "../../../shared/services/localStorage";
 import { UserService } from "../../../shared/services/api";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 export const PerfilPage = () => {
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
@@ -25,6 +26,7 @@ export const PerfilPage = () => {
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [passwordErrorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const username = LocalStorage.getItem("JSF_U_N_I");
@@ -90,6 +92,7 @@ export const PerfilPage = () => {
             setSuccessAlertOpen(true);
             setTimeout( () => {
                 setSuccessAlertOpen(false);
+                navigate(0);
             }, 1000);
         }).catch(err => {
             console.log("error");
