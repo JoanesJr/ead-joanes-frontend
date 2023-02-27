@@ -399,7 +399,7 @@ export const PerfilPage = () => {
             flexDirection: 'column'
           }}
         >
-          <Box>
+          <Box sx={{width: '34%'}}>
             <MyDropzone
               type="image"
               onFileString={setSelectedFileUrl}
