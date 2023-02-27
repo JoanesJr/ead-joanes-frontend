@@ -64,9 +64,9 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
           disableElevation
           variant='contained'
           onClick={aoClicarEmSalvar}
-          startIcon={<Icon>save</Icon>}
+          startIcon={<Icon sx={{ color: 'white' }}>save</Icon>}
         >
-          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden" sx={{color: 'white'}}>
             Salvar
           </Typography>
         </Button>
@@ -82,9 +82,9 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
           disableElevation
           variant='outlined'
           onClick={aoClicarEmSalvarEFechar}
-          startIcon={<Icon>save</Icon>}
+          startIcon={<Icon sx={{ color: 'white' }}>save</Icon>}
         >
-          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden" sx={{color: 'white'}}>
             Salvar e voltar
           </Typography>
         </Button>
@@ -100,9 +100,9 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
           disableElevation
           variant='outlined'
           onClick={aoClicarEmApagar}
-          startIcon={<Icon>delete</Icon>}
+          startIcon={<Icon sx={{ color: 'white' }}>delete</Icon>}
         >
-          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden" sx={{color: 'white'}}>
             Apagar
           </Typography>
         </Button>
@@ -118,9 +118,9 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
           disableElevation
           variant='outlined'
           onClick={aoClicarEmNovo}
-          startIcon={<Icon>add</Icon>}
+          startIcon={<Icon sx={{ color: 'white' }}>add</Icon>}
         >
-          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden" sx={{color: 'white'}}>
             {textoBotaoNovo}
           </Typography>
         </Button>
@@ -145,9 +145,9 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
           disableElevation
           variant='outlined'
           onClick={aoClicarEmVoltar}
-          startIcon={<Icon>arrow_back</Icon>}
+          startIcon={<Icon sx={{ color: 'white' }}>arrow_back</Icon>}
         >
-          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden" sx={{color: 'white'}}>
             Voltar
           </Typography>
         </Button>

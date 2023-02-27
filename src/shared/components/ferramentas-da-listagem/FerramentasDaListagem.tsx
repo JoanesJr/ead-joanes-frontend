@@ -152,9 +152,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   disableElevation
                   variant="contained"
                   onClick={aoClicarEmNovo}
-                  startIcon={<Icon>add</Icon>}
+                  startIcon={<Icon sx={{ color: 'white' }}>add</Icon>}
                 >
-                  {textoBotaoNovo}
+                  <Typography sx={{color: 'white'}}>{textoBotaoNovo}</Typography>
                 </Button>
               )}
               {mostrarBotaoEditar && (
@@ -163,9 +163,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   disableElevation
                   variant="contained"
                   onClick={aoClicarEmEditar}
-                  startIcon={<Icon>edit</Icon>}
+                  startIcon={<Icon sx={{ color: 'white' }}>edit</Icon>}
                 >
-                  Editar
+                  <Typography  sx={{ color: 'white' }}>Editar</Typography>
                 </Button>
               )}
               {mostrarBotaoExcluir && (
@@ -174,7 +174,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   disableElevation
                   variant="contained"
                   onClick={aoClicarEmExcluir}
-                  startIcon={<Icon>delete_forever</Icon>}
+                  startIcon={<Icon sx={{ color: 'white' }}>delete_forever</Icon>}
                 >
                   Excluir
                 </Button>
@@ -185,7 +185,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   disableElevation
                   variant="contained"
                   onClick={aoClicarEmDetalhes}
-                  startIcon={<Icon>info</Icon>}
+                  startIcon={<Icon sx={{ color: 'white' }}>info</Icon>}
                 >
                   Detalhes
                 </Button>
@@ -196,7 +196,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   disableElevation
                   variant="contained"
                   onClick={aoClicaremSessoes}
-                  startIcon={<Icon>notes</Icon>}
+                  startIcon={<Icon sx={{ color: 'white' }}>notes</Icon>}
                 >
                   Sessões
                 </Button>
@@ -207,9 +207,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   disableElevation
                   variant="contained"
                   onClick={aoClicarEmAula}
-                  startIcon={<Icon>notes</Icon>}
+                  startIcon={<Icon sx={{ color: 'white' }}>notes</Icon>}
                 >
-                  Aulas
+                  <Typography sx={{ color: 'white' }}>Aulas</Typography>
                 </Button>
               )}
               {mostrarBotaoAddCourse && (
@@ -218,9 +218,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   disableElevation
                   variant="contained"
                   onClick={aoClicarEmAddCursos}
-                  startIcon={<Icon>addIcon </Icon>}
+                  startIcon={<Icon sx={{ color: 'white' }}>addIcon </Icon>}
                 >
-                  Cursos
+                  <Typography sx={{ color: 'white' }}>Cursos</Typography>
                 </Button>
               )}
               {mostrarBotaoRemoveCourse && (
@@ -229,9 +229,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   disableElevation
                   variant="contained"
                   onClick={aoClicarEmARemoveCursos}
-                  startIcon={<Icon>removeCircleOutlineIcon </Icon>}
+                  startIcon={<Icon sx={{ color: 'white' }}>removeCircleOutlineIcon </Icon>}
                 >
-                  Cursos
+                  <Typography sx={{ color: 'white' }}>Cursos</Typography>
                 </Button>
               )}
 
@@ -255,7 +255,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
               disableElevation
               variant="contained"
               onClick={aoClicarEmVoltar}
-              startIcon={<Icon>arrow_back</Icon>}
+              startIcon={<Icon sx={{ color: 'white' }}>arrow_back</Icon>}
             >
               Voltar
             </Button>
@@ -307,7 +307,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                                 disableElevation
                                 variant="contained"
                                 onClick={aoClicarEmNovo}
-                                startIcon={<Icon>add</Icon>}
+                                startIcon={<Icon sx={{ color: 'white' }}>add</Icon>}
                               >
                                 {textoBotaoNovo}
                               </Button>
@@ -320,7 +320,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                                 disableElevation
                                 variant="contained"
                                 onClick={aoClicarEmEditar}
-                                startIcon={<Icon>edit</Icon>}
+                                startIcon={<Icon sx={{ color: 'white' }}>edit</Icon>}
                               >
                                 Editar
                               </Button>
@@ -333,7 +333,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                                 disableElevation
                                 variant="contained"
                                 onClick={aoClicarEmExcluir}
-                                startIcon={<Icon>delete_forever</Icon>}
+                                startIcon={<Icon sx={{ color: 'white' }}>delete_forever</Icon>}
                               >
                                 Excluir
                               </Button>
@@ -346,7 +346,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                                 disableElevation
                                 variant="contained"
                                 onClick={aoClicarEmDetalhes}
-                                startIcon={<Icon>info</Icon>}
+                                startIcon={<Icon sx={{ color: 'white' }}>info</Icon>}
                               >
                                 Detalhes
                               </Button>
@@ -359,9 +359,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                               disableElevation
                               variant="contained"
                               onClick={aoClicaremSessoes}
-                              startIcon={<Icon>notes</Icon>}
+                              startIcon={<Icon sx={{ color: 'white' }}>notes</Icon>}
                             >
-                              Sessões
+                              <Typography sx={{ color: 'white' }}>Sessões</Typography>
                             </Button>
                           )}
                           </MenuItem>
@@ -372,7 +372,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                                 disableElevation
                                 variant="contained"
                                 onClick={aoClicarEmAula}
-                                startIcon={<Icon>notes</Icon>}
+                                startIcon={<Icon sx={{ color: 'white' }}>notes</Icon>}
                               >
                                 Aulas
                               </Button>
@@ -385,9 +385,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                                 disableElevation
                                 variant="contained"
                                 onClick={aoClicarEmAddCursos}
-                                startIcon={<Icon>addIcon </Icon>}
+                                startIcon={<Icon sx={{ color: 'white' }}>addIcon </Icon>}
                               >
-                                Cursos
+                                <Typography sx={{ color: 'white' }}>Cursos</Typography>
                               </Button>
                             )}
                           </MenuItem>
@@ -398,9 +398,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                                 disableElevation
                                 variant="contained"
                                 onClick={aoClicarEmARemoveCursos}
-                                startIcon={<Icon>removeCircleOutlineIcon </Icon>}
+                                startIcon={<Icon sx={{ color: 'white' }}>removeCircleOutlineIcon </Icon>}
                               >
-                                Cursos
+                                <Typography sx={{ color: 'white' }}>Cursos</Typography>
                               </Button>
                             )}
                           </MenuItem>
