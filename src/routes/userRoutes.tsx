@@ -8,8 +8,8 @@ export const UserAppRoutes = () => {
 
   return (
     <Routes>
-      {/* <Route path={Environment.USER_HOMEPAGE} element={<LoginPage />} /> */}
-      <Route
+      <Route path={Environment.USER_HOMEPAGE} element={<LoginPage />} />
+      {/* <Route
         path={Environment.USER_LOGIN}
         element={
           <ValideLogin>
@@ -18,7 +18,7 @@ export const UserAppRoutes = () => {
             </ResponsiveAppBar>
           </ValideLogin>
         }
-      />
+      /> */}
       <Route
         path={Environment.USER_HOMEPAGE}
         element={
