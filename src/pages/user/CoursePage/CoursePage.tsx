@@ -70,7 +70,7 @@ function SimpleDialog(props: SimpleDialogProps) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Baixa os Anexos</DialogTitle>
+      <DialogTitle>Baixar os Anexos</DialogTitle>
       <List sx={{ pt: 0 }}>
         {attachments.map((att) => (
           <ListItem disableGutters>

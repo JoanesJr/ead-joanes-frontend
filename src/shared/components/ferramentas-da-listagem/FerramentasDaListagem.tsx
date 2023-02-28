@@ -198,7 +198,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   onClick={aoClicaremSessoes}
                   startIcon={<Icon sx={{ color: 'white' }}>notes</Icon>}
                 >
-                  Sessões
+                  <Typography sx={{color: 'white'}}>Sessões</Typography>
                 </Button>
               )}
               {mostrarBotaoAula && (
@@ -241,9 +241,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   disableElevation
                   variant="contained"
                   onClick={aoClicarEmVinculo}
-                  startIcon={<ChevronRightOutlinedIcon />}
+                  startIcon={<ChevronRightOutlinedIcon sx={{color: 'white'}} />}
                 >
-                  {textoBotaoVinculo}
+                  <Typography sx={{color: 'white'}}>{textoBotaoVinculo}</Typography>
                 </Button>
               )}
             </>
@@ -411,9 +411,9 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                               disableElevation
                               variant="contained"
                               onClick={aoClicarEmVinculo}
-                              startIcon={<ChevronRightOutlinedIcon />}
+                              startIcon={<ChevronRightOutlinedIcon sx={{color: 'white'}} />}
                             >
-                              {textoBotaoVinculo}
+                              <Typography sx={{color: 'white'}}>{textoBotaoVinculo}</Typography>
                             </Button>
                           )}
                           </MenuItem>
