@@ -54,7 +54,7 @@ export const DashboardUser = () => {
                 }
 
                 const countNotStartedControll = countActiveCourse - (countCompletedCourse + countStartedControll);
-                console.log(countNotStartedControll);
+                // console.log(countNotStartedControll);
 
                 setCompletedCourse(countCompletedCourseControll);
                 setStartedCourse(countStartedControll);
@@ -74,7 +74,7 @@ export const DashboardUser = () => {
     <Grid container>
         <Grid item xs={12} sx={{display: "flex",
         alignContent: "center",
-        justifyContent: "center"}}>
+        justifyContent: "center", mb: 5}}>
             <Typography variant="h4" color="text.main" sx={{pt: 5, fontWeight: 'bolder'}}>Informações sobre Cursos</Typography>
         </Grid>
     </Grid>
@@ -90,7 +90,7 @@ export const DashboardUser = () => {
         justifyContent: "center",
         m: 1,
         // ml: {xs: -8},
-        mt: -10
+        mt: {xs: -10, sm: 15, md: -10}
       }}
       
     >

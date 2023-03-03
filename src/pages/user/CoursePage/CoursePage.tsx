@@ -216,14 +216,23 @@ export const CoursePage = () => {
                     />
                   </Box>
                   {actualClass && actualClass.type == "url" && (
-                    <>
+                    <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: { md: 900, lg: 1100, xl: 1500 },
+                      height: { md: 300, lg: 300, xl: 500 },
+                      ml: {xs: -8 , sm: 0, md: -5,  lg: -6  ,xl: -9}
+                    }}
+                    >
                       <IFrame
                         title={actualClass.title}
                         file={file}
                         percentWidth={percent}
                         percentHeight={percent2}
                       />
-                    </>
+                    </Box>
                   )}
 
                   {actualClass && actualClass.type == "file" && (

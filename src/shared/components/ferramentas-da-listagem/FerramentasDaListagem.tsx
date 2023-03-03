@@ -187,7 +187,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                   onClick={aoClicarEmDetalhes}
                   startIcon={<Icon sx={{ color: 'white' }}>info</Icon>}
                 >
-                  Detalhes
+                  <Typography  sx={{ color: 'white' }}>Detalhes</Typography>
                 </Button>
               )}
               {mostrarBotaoSessoes && (
@@ -257,7 +257,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
               onClick={aoClicarEmVoltar}
               startIcon={<Icon sx={{ color: 'white' }}>arrow_back</Icon>}
             >
-              Voltar
+              <Typography sx={{color: 'white'}}>Voltar</Typography>
             </Button>
           )}
           {mdDown && (
@@ -348,7 +348,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                                 onClick={aoClicarEmDetalhes}
                                 startIcon={<Icon sx={{ color: 'white' }}>info</Icon>}
                               >
-                                Detalhes
+                                <Typography sx={{ color: 'white' }}>Detalhes</Typography>
                               </Button>
                             )}
                           </MenuItem>
@@ -361,7 +361,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
                               onClick={aoClicaremSessoes}
                               startIcon={<Icon sx={{ color: 'white' }}>notes</Icon>}
                             >
-                              <Typography sx={{ color: 'white' }}>Sessões</Typography>
+                              
                             </Button>
                           )}
                           </MenuItem>

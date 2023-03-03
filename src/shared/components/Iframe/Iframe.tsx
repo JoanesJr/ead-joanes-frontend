@@ -8,11 +8,11 @@ interface IIFrameProps {
 
 export const IFrame = ({title, file, percentWidth, percentHeight}: IIFrameProps) => {
 
-  const teste:any = document.getElementsByTagName('Iframe');
+
     return (
       <iframe
-        width={percentWidth}
-        height={percentHeight}
+        width='100%'
+        height='100%'
         src={file}
         allowFullScreen
         title={title}

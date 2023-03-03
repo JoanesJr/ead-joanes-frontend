@@ -116,7 +116,7 @@ const ListSectionComponent = ({
     <List component="div" disablePadding onClick={handleClick}>
       <ListItemButton sx={{ pl: 4 }}>
         <ListItemIcon>
-          <SchoolIcon />
+          <SchoolIcon sx={{color: 'secondary.main'}} />
         </ListItemIcon>
         <ListItemText primary={title} />
         {!completed && (
@@ -174,14 +174,14 @@ export const NestedList = ({ sections, children, idCourse }: INestedList) => {
   const xsDown = useMediaQuery(theme.breakpoints.down("xs"));
 
   const handleClickList = () => {
-    if (mdDown) {
+    if (lgDown) {
       setListOpen(false);
     }
   }
 
   useEffect(() => {
-    setListOpen(!mdDown);
-  }, [mdDown]);
+    setListOpen(!lgDown);
+  }, [lgDown]);
 
   return (
     <Grid container display="flex" flexDirection="row">
@@ -194,12 +194,12 @@ export const NestedList = ({ sections, children, idCourse }: INestedList) => {
           </Box>
         )}
         {listOpen && (
-          <Grid item xs={4} sm={4} md={4} lg={3} xl={2}>
+          <Grid item xs={4} sm={4} md={4} lg={2} xl={2}>
             <List
               sx={{
                 width: "100%",
                 maxWidth: 300,
-                bgcolor: "background.paper",
+                bgcolor: "#F5F5F5",
                 height: "100vh",
               }}
               component="nav"
@@ -228,7 +228,7 @@ export const NestedList = ({ sections, children, idCourse }: INestedList) => {
           xs={8}
           sm={8}
           md={8}
-          lg={9}
+          lg={10}
           xl={10}
           sx={{ padding: 5 }}
           display="flex"

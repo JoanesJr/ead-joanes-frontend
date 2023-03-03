@@ -226,7 +226,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
         />
       }
     >
-      <Box sx={{ width: "100%", margin: 1 }}>
+      <Box sx={{ width: "100%", margin: 1}}>
         <Collapse in={successAlertOpen}>
           <Alert
             severity="success"
@@ -256,7 +256,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
           display="flex"
           component={Paper}
           variant="outlined"
-          flexDirection="column"
+          flexDirection="column" 
         >
           <Grid container direction="column" padding={2} spacing={2}>
             {isLoading && (
@@ -280,7 +280,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
               spacing={2}
             >
               <Grid container item xs={12} sm={12} md={12} lg={6} xl={6}>
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12} >
                   <VTextField
                     label="Nome"
                     name="name"
@@ -334,7 +334,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
                 xl={6}
                 marginTop={!lgDown && viewOnly ? -22 : 0}
               >
-                <Grid container item direction="row" spacing={2}>
+                <Grid container item direction="row" spacing={2} sx={{mt: 2}}>
                   <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <VTextField
                       fullWidth

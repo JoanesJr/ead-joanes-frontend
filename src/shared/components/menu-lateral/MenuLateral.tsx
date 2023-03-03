@@ -33,7 +33,7 @@ const ListItemLink: React.FC<ListItemLinkProps> = ({to, label, icon, onClick}) =
   return (
     <ListItemButton selected={!!match} onClick={handleClick}>
       <ListItemIcon>
-        <Icon>{icon}</Icon>
+        <Icon sx={{color: 'primary.light'}}>{icon}</Icon>
       </ListItemIcon>
       <ListItemText primary={label} />
     </ListItemButton>
@@ -111,9 +111,9 @@ export const MenuLateral: React.FC<IMenuLateral> = ({ children }) => {
               <List component="nav">
                 <ListItemButton onClick={toggleTheme}>
                   <ListItemIcon>
-                    <Icon>dark_mode</Icon>
+                    <Icon sx={{color: 'primary.light'}}>dark_mode</Icon>
                   </ListItemIcon>
-                  <ListItemText primary="Alternar Tema" />
+                  <ListItemText primary="Alternar Tema"  />
                 </ListItemButton>
               </List>
             </List>

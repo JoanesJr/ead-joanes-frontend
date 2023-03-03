@@ -53,9 +53,13 @@ setValueControl(value);
         onChange={(e) => handleChange(e.target.value)}
         onKeyDown={() => (error ? clearError() : undefined)}
         disabled={disabled}
+        sx={{color: 'secondary.dark',  "& .MuiInputBase-input.Mui-disabled": {
+          WebkitTextFillColor: "#FA7B95",
+        },}}
+        
       >
         {options.map(option => (
-          <MenuItem key={option.title} value={option.value}>{option.title}</MenuItem>
+          <MenuItem key={option.title} value={option.value}  >{option.title}</MenuItem>
         ))}
       </Select>
     </>
