@@ -17,7 +17,7 @@ function Copyright(props: any) {
   return (
     <Typography
       variant="body2"
-      color="primary"
+      color="#FFF"
       align="center"
       {...props}
     >
@@ -90,7 +90,7 @@ export const LoginPage = ({type: string = "comum"}) => {
         <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5" color="primary.main">
+        <Typography component="h1" variant="h5" color="#FFF">
           Login
         </Typography>
         <Box component="form"  noValidate sx={{ mt: 1 }}>
@@ -108,7 +108,7 @@ export const LoginPage = ({type: string = "comum"}) => {
             value={username}
             sx={{ bgcolor: 'secondary.main', color: 'primary.main'}}
             InputLabelProps={{
-              style: {color: '#00B89F'},
+              style: {color: '#FFF'},
             }}
             inputProps={{ style: {color: '#FFF'} }}
             
@@ -128,7 +128,7 @@ export const LoginPage = ({type: string = "comum"}) => {
             value={password}
             sx={{ bgcolor: 'secondary.main'}}
             InputLabelProps={{
-              style: {color: '#00B89F'},
+              style: {color: '#FFF'},
             }}
             inputProps={{ style: {color: '#FFF'} }}
           />
@@ -144,7 +144,7 @@ export const LoginPage = ({type: string = "comum"}) => {
             onClick={handleSubmit}
             sx={{ mt: 3, mb: 2, bgcolor: 'primary.main' }}
           >
-            Entrar
+            <Typography sx={{color: '#FFF'}}>Entrar</Typography>
           </Button>
           <Grid container></Grid>
         </Box>
