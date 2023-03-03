@@ -14,8 +14,8 @@ export const Environment = {
   /**
    * Url base de consultado dos dados dessa aplicação
    */
-  URL_BASE: "http://localhost:4000",
-  // URL_BASE: "https://api-ead-joanes.herokuapp.com",
+  // URL_BASE: "http://localhost:4000",
+  URL_BASE: "https://api-ead-joanes.herokuapp.com",
 
   // Routes - ADMIN
   ADMIN_LOGIN: "/admin/login",
