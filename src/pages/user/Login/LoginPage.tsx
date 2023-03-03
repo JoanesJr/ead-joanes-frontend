@@ -70,7 +70,7 @@ export const LoginPage = ({type: string = "comum"}) => {
 
   return (
     <Box sx={{
-      backgroundImage: `url('FUNDO-PLANO-VIDA.jpg')`,
+      backgroundImage: `url('FUNDO-PLANO-VIDA-NOVO.jpg')`,
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
       height: '100vh'
@@ -108,8 +108,9 @@ export const LoginPage = ({type: string = "comum"}) => {
             value={username}
             sx={{ bgcolor: 'secondary.main', color: 'primary.main'}}
             InputLabelProps={{
-              style: {color: '#c92f34'},
+              style: {color: '#00B89F'},
             }}
+            inputProps={{ style: {color: '#FFF'} }}
             
           />
 
@@ -127,8 +128,9 @@ export const LoginPage = ({type: string = "comum"}) => {
             value={password}
             sx={{ bgcolor: 'secondary.main'}}
             InputLabelProps={{
-              style: {color: '#c92f34'},
+              style: {color: '#00B89F'},
             }}
+            inputProps={{ style: {color: '#FFF'} }}
           />
 
           {(emailError || passwordError ) && (
