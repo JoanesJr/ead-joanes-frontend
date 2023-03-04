@@ -165,7 +165,7 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
                     onClick={handleOpenNavMenu}
                     color="inherit"
                   >
-                    <MenuIcon />
+                    <MenuIcon sx={{color: 'primary.light'}} />
                   </IconButton>
                   <Menu
                     id="menu-appbar"
