@@ -180,7 +180,12 @@ export const NestedList = ({ sections, children, idCourse }: INestedList) => {
   }
 
   useEffect(() => {
-    setListOpen(!lgDown);
+    if (lgDown) {
+      setListOpen(true);
+    } else {
+      setListOpen(!lgDown);
+    }
+    
   }, [lgDown]);
 
   return (

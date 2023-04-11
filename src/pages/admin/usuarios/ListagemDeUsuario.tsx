@@ -184,7 +184,7 @@ export const ListagemDeUsuario  = () => {
           />
         }
       >
-        <Box sx={{ width: "100%", margin: 1 }}>
+        {/* <Box sx={{ width: "100%", margin: 1 }}> */}
           <Collapse in={successAlertOpen}>
             <Alert
               severity="success"
@@ -206,7 +206,7 @@ export const ListagemDeUsuario  = () => {
               Operação realizada com sucesso!
             </Alert>
           </Collapse>
-        </Box>
+        {/* </Box> */}
         <Box
           component={Paper}
           variant="outlined"

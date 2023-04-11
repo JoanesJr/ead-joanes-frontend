@@ -339,7 +339,7 @@ export const DetalheDeAula: React.FC = () => {
         />
       }
     >
-      <Box sx={{ width: "100%", margin: 1 }}>
+      {/* <Box sx={{ width: "100%", margin: 1 }}> */}
         <Collapse in={successAlertOpen}>
           <Alert
             severity="success"
@@ -361,7 +361,7 @@ export const DetalheDeAula: React.FC = () => {
             Operação realizada com sucesso!
           </Alert>
         </Collapse>
-      </Box>
+      {/* </Box> */}
 
       <Form ref={formRef} onSubmit={handleSave}>
         <Box

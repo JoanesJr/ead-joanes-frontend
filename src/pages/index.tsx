@@ -12,3 +12,4 @@ export * from "./user/CoursePage/CoursePage";
 export * from "./user/Login/LoginPage";
 export * from "./user/Dashboard/DashboardUser";
 export * from "./user/Perfil/PerfilPage";
+export * from "./user/BuyPage/BuyPage"

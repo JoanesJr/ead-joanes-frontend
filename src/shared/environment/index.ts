@@ -1,3 +1,5 @@
+
+
 export const Environment = {
   /**
    * Define a quantidade de linhas a ser carregada por padrão nas listagens
@@ -14,8 +16,8 @@ export const Environment = {
   /**
    * Url base de consultado dos dados dessa aplicação
    */
-  // URL_BASE: "http://localhost:4000",
-  URL_BASE: "https://api-ead-joanes.herokuapp.com",
+  URL_BASE: "http://localhost:4000",
+  // URL_BASE: "https://api-ead-joanes.herokuapp.com",
 
   // Routes - ADMIN
   ADMIN_LOGIN: "/admin/login",
@@ -37,11 +39,12 @@ export const Environment = {
   USER_CLASS: "/cursos/:id/aula",
   USER_DASHBOARD: "/dashboard",
   USER_PERFIL: "/perfil",
+  USER_BUY: '/cursos/comprar',
 
   // CRYPTO
   ALGORITMO: "aes-256-ctr",
   SEGREDO: "b5066a7795a65b555c652af8e164d1f2",
   TIPO_CRYPTO: "hex",
-  CODIFICACAO_CRYPTO: "uft-8"
+  CODIFICACAO_CRYPTO: "uft-8",
 
 };

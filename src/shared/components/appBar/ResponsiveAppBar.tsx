@@ -22,7 +22,7 @@ import { Context, useAppThemeContext } from "../../contexts";
 import { LocalStorage } from "../../services/localStorage";
 import { UserService } from "../../services/api";
 
-const pages = ["Cursos", "Dashboard"];
+const pages = ["Cursos", "Dashboard", "Comprar"];
 // const settings = ["Perfil", "Conta", "Trocar Tema", "Sair"];
 const settings = ["Perfil", "Trocar Tema", "Sair"];
 
@@ -60,6 +60,9 @@ export const ResponsiveAppBar = ({children, navigate}: IAppBar) => {
             break;
           case "administrador":
             navigate(Environment.ADMIN_CURSOS);
+            break;
+          case "comprar":
+            navigate(Environment.USER_BUY);
             break;
           
         }

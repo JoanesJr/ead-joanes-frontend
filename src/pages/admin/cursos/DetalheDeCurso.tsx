@@ -25,6 +25,7 @@ import { Environment } from "../../../shared/environment";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ImageList from "@mui/material/ImageList";
 
+
 interface IFormDataCreate {
   title: string;
   active: boolean;
@@ -40,6 +41,7 @@ const formValidationSchemaCreate: yup.SchemaOf<IFormDataCreate> = yup
   .shape({
     title: yup.string().required().min(3),
     active: yup.boolean().required().default(true),
+    value: yup.number().default(null)
   });
 
 const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
@@ -47,6 +49,7 @@ const formValidationSchemaUpdate: yup.SchemaOf<IFormDataUpdate> = yup
   .shape({
     title: yup.string().required().min(3),
     active: yup.boolean().required().default(true),
+    value: yup.number().default(null)
   });
 
 const statusOptions = [
@@ -73,11 +76,11 @@ export const DetalheDeCurso: React.FC = () => {
   const [viewOnly, setViewOnly] = useState(
     searchParams.get("visualizar") ? true : false
   );
-   
-   const theme = useTheme();
-   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
-   const [selectedFileUrl, setSelectedFileUrl] = useState("");
-   const [selectedFile, setSelectedFile] = useState<File>();
+
+  const theme = useTheme();
+  const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
+  const [selectedFileUrl, setSelectedFileUrl] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File>();
 
   useEffect(() => {
     if (id !== "novo") {
@@ -85,6 +88,7 @@ export const DetalheDeCurso: React.FC = () => {
 
       CourseService.getById(id).then((result) => {
         setIsLoading(false);
+
 
         if (result instanceof Error) {
           alert(result.message);
@@ -95,30 +99,31 @@ export const DetalheDeCurso: React.FC = () => {
             const pathUrl = `${Environment.URL_BASE}/getFile${result.file.replace(".", "")}`
             setImage(pathUrl);
             setSelectedFileUrl(pathUrl)
-          }else {
+          } else {
             setImage(
               "https://images.tcdn.com.br/img/img_prod/852394/curso_online_meu_primeiro_huawei_iniciacao_para_roteador_de_borda_huawei_297_1_8178f580feb2beae96a9365e3ab6ff85.png"
             );
           }
-          
+
           formRef.current?.setData(result);
-          
+
         }
       });
     } else {
-        formRef.current?.setData({
-          title: "",
-          active: true
-        });
+      formRef.current?.setData({
+        title: "",
+        active: true
+      });
     }
   }, [id]);
 
   const handleSave = (obj: IFormDataCreate | IFormDataUpdate) => {
-    if(id == 'novo') {
+    if (id == 'novo') {
       formValidationSchemaCreate
-      .validate(obj, { abortEarly: false })
-      .then((valideObj) => {
-        setIsLoading(true);
+        .validate(obj, { abortEarly: false })
+        .then((valideObj) => {
+          console.log(valideObj)
+          setIsLoading(true);
           CourseService.create(valideObj).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
@@ -129,24 +134,24 @@ export const DetalheDeCurso: React.FC = () => {
                 formData.append("file", selectedFile);
                 CourseService.updateImage(result.id, formData);
               }
-               setSuccessAlertOpen(true);
-               setTimeout(() => {
-                 setSuccessAlertOpen(false);
-                 navigate(Environment.ADMIN_CURSOS);
-               }, 1000);
+              setSuccessAlertOpen(true);
+              setTimeout(() => {
+                setSuccessAlertOpen(false);
+                navigate(Environment.ADMIN_CURSOS);
+              }, 1000);
             }
           })
-      }).catch((errors: yup.ValidationError) => {
-        const validationErrors: IVFormErrors = {}
+        }).catch((errors: yup.ValidationError) => {
+          const validationErrors: IVFormErrors = {}
 
-        errors.inner.forEach(error => {
-          if (!error.path) return;
-          
-          validationErrors[error.path] = error.message;
-        })
+          errors.inner.forEach(error => {
+            if (!error.path) return;
 
-        formRef.current?.setErrors(validationErrors);
-      });
+            validationErrors[error.path] = error.message;
+          })
+
+          formRef.current?.setErrors(validationErrors);
+        });
     } else {
       formValidationSchemaUpdate
         .validate(obj, { abortEarly: false })
@@ -164,10 +169,10 @@ export const DetalheDeCurso: React.FC = () => {
                 formData.append("file", selectedFile);
                 CourseService.updateImage(result.id, formData);
               }
-               setSuccessAlertOpen(true);
-               setTimeout(() => {
-                 setSuccessAlertOpen(false);
-               }, 1000);
+              setSuccessAlertOpen(true);
+              setTimeout(() => {
+                setSuccessAlertOpen(false);
+              }, 1000);
             }
           });
         })
@@ -197,7 +202,7 @@ export const DetalheDeCurso: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      title={id === "novo" ? "Novo usuário" : name}
+      title={id === "novo" ? "Novo Curso" : name}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo="Nova"
@@ -211,29 +216,30 @@ export const DetalheDeCurso: React.FC = () => {
         />
       }
     >
-      <Box sx={{ width: "100%", margin: 1 }}>
-        <Collapse in={successAlertOpen}>
-          <Alert
-            severity="success"
-            variant="standard"
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setSuccessAlertOpen(false);
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-            sx={{ mb: 2 }}
-          >
-            Operação realizada com sucesso!
-          </Alert>
-        </Collapse>
-      </Box>
+      {/* <Box sx={{ width: "100%", margin: 1 }}> */}
+      <Collapse in={successAlertOpen}>
+        <Alert
+          severity="success"
+          variant="standard"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setSuccessAlertOpen(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Operação realizada com sucesso!
+        </Alert>
+      </Collapse>
+      {/* </Box> */}
+
 
       <Form ref={formRef} onSubmit={handleSave}>
         <Box
@@ -275,6 +281,18 @@ export const DetalheDeCurso: React.FC = () => {
                 </Grid>
               </Grid>
 
+              <Grid container item xs={12} sm={12} md={12} lg={6} xl={6}>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <VTextField
+                    label="Valor"
+                    name="value"
+                    type="number"
+                    fullWidth
+                    disabled={isLoading || viewOnly}
+                  />
+                </Grid>
+              </Grid>
+
             </Grid>
 
             <Grid container item>
@@ -286,7 +304,7 @@ export const DetalheDeCurso: React.FC = () => {
                 md={12}
                 lg={6}
                 xl={6}
-                // marginTop={!lgDown && viewOnly ? -22 : 0}
+              // marginTop={!lgDown && viewOnly ? -22 : 0}
               >
                 <Grid container item direction="row" spacing={2}>
                   <Grid container item direction="row" spacing={2}>
@@ -332,8 +350,8 @@ export const DetalheDeCurso: React.FC = () => {
                     <Box
                       component="img"
                       sx={{
-                        height: 300, maxWidth: {xs: 250, md: 325},
-                        marginTop: {xs: 8, md: 8}
+                        height: 300, maxWidth: { xs: 250, md: 325 },
+                        marginTop: { xs: 8, md: 8 }
                       }}
                       alt="The house from the offer."
                       src={selectedFileUrl}

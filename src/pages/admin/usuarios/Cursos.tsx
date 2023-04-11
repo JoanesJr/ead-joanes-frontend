@@ -196,7 +196,7 @@ export const Cursos = () => {
         />
       }
     >
-      <Box sx={{ width: "100%", margin: 1 }}>
+      {/* <Box sx={{ width: "100%", margin: 1 }}> */}
         <Collapse in={successAlertOpen}>
           <Alert
             severity="success"
@@ -218,7 +218,7 @@ export const Cursos = () => {
             {alertMessage}
           </Alert>
         </Collapse>
-      </Box>
+      {/* </Box> */}
       <Box
         component={Paper}
         variant="outlined"

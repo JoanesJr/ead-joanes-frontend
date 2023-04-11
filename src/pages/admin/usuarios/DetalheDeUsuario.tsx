@@ -212,7 +212,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      title={id === "novo" ? "Novo Curso" : name}
+      title={id === "novo" ? "Novo Usuário" : name}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo="Nova"
@@ -226,7 +226,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
         />
       }
     >
-      <Box sx={{ width: "100%", margin: 1}}>
+      {/* <Box sx={{ width: "100%", margin: 1}}> */}
         <Collapse in={successAlertOpen}>
           <Alert
             severity="success"
@@ -248,7 +248,7 @@ export const DetalheDePessoasUsuario: React.FC = () => {
             Operação realizada com sucesso!
           </Alert>
         </Collapse>
-      </Box>
+      {/* </Box> */}
 
       <Form ref={formRef} onSubmit={handleSave}>
         <Box

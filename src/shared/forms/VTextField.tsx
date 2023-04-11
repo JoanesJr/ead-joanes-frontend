@@ -31,7 +31,7 @@ export const VTextField: React.FC<TVTextFieldProps> = ({ name, type, ...rest }) 
       value={value}
       onChange={(e) => setValue(e.target.value)}
       onKeyDown={() => (error ? clearError() : undefined)}
-      inputProps={{ style: {color: '#00B89F'} }}
+      inputProps={{ style: {color: '#00B89F' } }}
       sx={{
         "& .MuiInputBase-input.Mui-disabled": {
           WebkitTextFillColor: "#FA7B95",
